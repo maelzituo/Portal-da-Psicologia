@@ -87,7 +87,9 @@
     }
 
     // 4. Seek não-bloqueante no pipeline de mídia
-    if (!isSeeking && Math.abs(video.currentTime - smoothTime) > 0.015) {
+    // Eco Mode: Aumenta o limite de busca (seek) no mobile para poupar o decodificador
+    const seekThreshold = window.innerWidth <= 768 ? 0.08 : 0.015;
+    if (!isSeeking && Math.abs(video.currentTime - smoothTime) > seekThreshold) {
       isSeeking = true;
       video.currentTime = smoothTime;
     }
@@ -114,14 +116,7 @@
       }
     }
 
-    // Header Discreto e Transparente no Hero
-    if (header) {
-      if (p > 0.04 && p < 0.88) {
-        header.classList.add('hero-dimmed');
-      } else {
-        header.classList.remove('hero-dimmed');
-      }
-    }
+    // A lógica de ocultação do header foi removida para uma transição suave
 
     // FASE 1: Introdução (0% a 20%)
     if (p < 0.20) {
@@ -129,7 +124,6 @@
       if (lastVideoState !== 1) {
         video.style.opacity = '0.35';
         video.style.transform = 'translate3d(0,0,0) scale(1.02)';
-        video.style.filter = 'blur(2px)';
         lastVideoState = 1;
       }
       hideMoments();
@@ -140,7 +134,6 @@
       if (lastVideoState !== 2) {
         video.style.opacity = '0.75';
         video.style.transform = 'translate3d(0,0,0) scale(1.01)';
-        video.style.filter = 'blur(1px)';
         lastVideoState = 2;
       }
       hideMoments();
@@ -151,7 +144,6 @@
       if (lastVideoState !== 3) {
         video.style.opacity = '1';
         video.style.transform = 'translate3d(0,0,0) scale(1)';
-        video.style.filter = 'none';
         lastVideoState = 3;
       }
 
@@ -165,9 +157,8 @@
       setActiveLayer(ctaStage);
       hideMoments();
       if (lastVideoState !== 4) {
-        video.style.opacity = '0.4';
+        video.style.opacity = '0.25';
         video.style.transform = 'translate3d(0,0,0) scale(0.98)';
-        video.style.filter = 'blur(4px) brightness(0.75)';
         lastVideoState = 4;
       }
     }

@@ -393,10 +393,32 @@
   .cinematic-moment {
     font-size: 0.78rem;
     padding: 0.55rem 1rem;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(30, 48, 40, 0.95);
+  }
+
+  .hero-cta-stage {
+    padding: 2.2rem 1.4rem;
+    width: 92%;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(23, 36, 30, 0.98);
   }
 
   .moment-1 { top: 15%; left: 5%; }
   .moment-2 { top: 22%; right: 5%; }
   .moment-3 { bottom: 18%; left: 5%; }
   .moment-4 { bottom: 12%; right: 5%; }
+
+  /* Eco Mode: Desabilitar animações caras e sombras pesadas no Hero para poupar bateria/GPU */
+  .moment-dot {
+    animation: none;
+    box-shadow: none;
+    background-color: var(--gold-primary);
+  }
+
+  .phase-headline {
+    text-shadow: none;
+  }
 }

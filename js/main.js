@@ -13,17 +13,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileClose = document.getElementById('mobile-drawer-close');
   const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
-  // --- Controle da Barra de Navegação no Scroll ---
+  // --- Controle da Barra de Navegação no Scroll (Otimizado Eco Mode) ---
+  let isHeaderTicking = false;
+
   function handleHeaderScroll() {
     if (!header) return;
-    if (window.scrollY > 60) {
-      header.classList.add('scrolled');
+    const nextSection = document.getElementById('sobre');
+    let shouldBeScrolled = false;
+    
+    if (nextSection) {
+      // O GSAP cria um "pin-spacer" que altera completamente o offsetTop.
+      // Usar getBoundingClientRect() é a forma perfeita e absoluta de saber
+      // a distância real da próxima seção em relação ao viewport.
+      // Dentro de um rAF (sem forçar repaints prévios), isso custa zero performance.
+      const rect = nextSection.getBoundingClientRect();
+      
+      // Quando a seção 'sobre' estiver a 100px de tocar o topo da tela
+      // O header começa a sua transição suave (0.45s) de crossfade
+      shouldBeScrolled = rect.top <= 100; 
     } else {
-      header.classList.remove('scrolled');
+      shouldBeScrolled = window.scrollY > 60;
+    }
+
+    if (shouldBeScrolled) {
+      if (!header.classList.contains('scrolled')) header.classList.add('scrolled');
+    } else {
+      if (header.classList.contains('scrolled')) header.classList.remove('scrolled');
     }
   }
 
-  window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+  // Throttle via requestAnimationFrame para performance matemática no mobile
+  window.addEventListener('scroll', () => {
+    if (!isHeaderTicking) {
+      window.requestAnimationFrame(() => {
+        handleHeaderScroll();
+        isHeaderTicking = false;
+      });
+      isHeaderTicking = true;
+    }
+  }, { passive: true });
+
   handleHeaderScroll();
 
   // --- Menu Mobile Drawer ---
