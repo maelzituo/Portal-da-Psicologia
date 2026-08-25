@@ -1,0 +1,6 @@
+{
+  "name": "Portal da Psicologia",
+  "description": "Centro de atendimento psicológico, psicoterapia e desenvolvimento humano.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

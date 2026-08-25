@@ -10,7 +10,7 @@
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
-  background-color: #06080C;
+  background-color: #17241E;
   z-index: 10;
 }
 
@@ -43,19 +43,22 @@
   object-fit: cover;
   object-position: center 46%;
   pointer-events: none;
-  opacity: 0.2;
-  transform: scale(1.02);
-  transition: opacity 0.4s ease-out, filter 0.4s ease-out, transform 0.4s ease-out;
+  opacity: 0.35;
+  transform: translate3d(0, 0, 0) scale(1.02);
+  transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+              filter 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: opacity, filter, transform;
+  backface-visibility: hidden;
 }
 
-/* Vinheta Cinemática */
+/* Vinheta Cinemática com Transição Aveludada para a Próxima Seção */
 .hero-vignette {
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(ellipse at center, transparent 35%, rgba(6, 8, 12, 0.45) 75%, rgba(6, 8, 12, 0.95) 100%),
-    linear-gradient(to bottom, rgba(6, 8, 12, 0.7) 0%, transparent 20%, transparent 80%, #06080C 100%);
+    radial-gradient(ellipse at center, transparent 30%, rgba(23, 36, 30, 0.45) 70%, rgba(23, 36, 30, 0.95) 100%),
+    linear-gradient(to bottom, rgba(23, 36, 30, 0.75) 0%, transparent 20%, transparent 75%, #F9F8F5 100%);
   pointer-events: none;
   z-index: 2;
 }
@@ -72,44 +75,68 @@
   padding: 2rem;
 }
 
-/* Fases Tipográficas */
+/* Fases Tipográficas com Animação de Entrada Poética */
 .phase-layer {
   position: absolute;
   width: 100%;
-  max-width: 900px;
+  max-width: 960px;
   text-align: center;
   padding: 0 1.5rem;
   opacity: 0;
-  transform: translateY(20px) scale(0.98);
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              visibility 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 
 .phase-layer.active {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  visibility: visible;
   pointer-events: auto;
-}
-
-.phase-headline {
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
-  font-weight: 300;
-  line-height: 1.18;
-  color: var(--text-pure);
-  letter-spacing: -0.03em;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9);
 }
 
 .phase-tag {
   display: inline-block;
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   text-transform: uppercase;
-  letter-spacing: 0.25em;
-  color: var(--gold-primary);
+  letter-spacing: 0.26em;
+  color: var(--gold-light);
   margin-bottom: 1.6rem;
-  font-weight: 500;
-  opacity: 0.9;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-12px);
+  filter: blur(3px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.08s,
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.08s,
+              filter 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+}
+
+.phase-layer.active .phase-tag {
+  opacity: 0.95;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.phase-headline {
+  font-size: clamp(2.3rem, 4.8vw, 4.2rem);
+  font-weight: 400;
+  line-height: 1.22;
+  color: #FAF9F6;
+  letter-spacing: -0.025em;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  transform: translateY(24px) scale(0.98);
+  filter: blur(6px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
+              filter 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+
+.phase-layer.active .phase-headline {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
 }
 
 /* Momentos Sincronizados */
@@ -122,61 +149,72 @@
 
 .cinematic-moment {
   position: absolute;
-  padding: 0.75rem 1.5rem;
-  background: rgba(14, 18, 26, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
+  padding: 0.85rem 1.65rem;
+  background: rgba(23, 36, 30, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(197, 168, 128, 0.38);
   border-radius: var(--radius-pill);
-  color: var(--text-pure);
-  font-size: 0.88rem;
-  font-weight: 400;
-  letter-spacing: 0.06em;
+  color: #FAF9F6;
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(18px) scale(0.96);
+  filter: blur(4px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), 
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  gap: 0.75rem;
+  box-shadow: 0 12px 35px rgba(10, 20, 16, 0.45);
 }
 
 .cinematic-moment.active {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+  filter: blur(0);
 }
 
 .moment-dot {
-  width: 5px;
-  height: 5px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background-color: var(--gold-primary);
-  box-shadow: 0 0 8px var(--gold-primary);
+  box-shadow: 0 0 10px var(--gold-glow);
+  animation: pulseDot 2.8s ease-in-out infinite;
 }
 
-.moment-1 { top: 22%; left: 10%; }
-.moment-2 { top: 28%; right: 10%; }
-.moment-3 { bottom: 24%; left: 12%; }
-.moment-4 { bottom: 18%; right: 12%; }
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 14px var(--gold-primary); }
+}
+
+.moment-1 { top: 22%; left: 8%; }
+.moment-2 { top: 28%; right: 8%; }
+.moment-3 { bottom: 24%; left: 10%; }
+.moment-4 { bottom: 18%; right: 10%; }
 
 /* CTA Final do Hero */
 .hero-cta-stage {
   position: absolute;
   width: 100%;
-  max-width: 760px;
+  max-width: 780px;
   text-align: center;
-  padding: 3.5rem 2.5rem;
-  background: radial-gradient(circle at center, rgba(14, 18, 26, 0.92) 0%, rgba(6, 8, 12, 0.97) 100%);
-  border: 1px solid var(--glass-border);
+  padding: 3.8rem 2.8rem;
+  background: radial-gradient(circle at center, rgba(30, 48, 40, 0.96) 0%, rgba(20, 32, 27, 0.98) 100%);
+  border: 1px solid rgba(197, 168, 128, 0.4);
   border-radius: var(--radius-lg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px var(--gold-glow-soft);
+  box-shadow: 0 25px 60px rgba(10, 20, 16, 0.6), 0 0 35px var(--gold-glow-soft);
   opacity: 0;
-  transform: scale(0.96) translateY(20px);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0.95) translateY(24px);
+  filter: blur(6px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), 
+              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.75s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
   z-index: 8;
 }
@@ -184,23 +222,24 @@
 .hero-cta-stage.active {
   opacity: 1;
   transform: scale(1) translateY(0);
+  filter: blur(0);
   pointer-events: auto;
 }
 
 .hero-cta-title {
   font-size: clamp(2.2rem, 4vw, 3.2rem);
-  font-weight: 400;
-  color: var(--text-pure);
+  font-weight: 500;
+  color: #FAF9F6;
   margin-bottom: 1.2rem;
   letter-spacing: -0.03em;
 }
 
 .hero-cta-desc {
   font-size: 1.1rem;
-  color: var(--text-secondary);
-  max-width: 540px;
+  color: #D1DCD6;
+  max-width: 580px;
   margin: 0 auto 2.5rem;
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 .hero-cta-buttons {
@@ -209,6 +248,29 @@
   justify-content: center;
   gap: 1.2rem;
   flex-wrap: wrap;
+}
+
+.hero-cta-buttons .btn-primary {
+  background: linear-gradient(135deg, #C5A880 0%, #8F7249 100%);
+  color: #17241E;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.hero-cta-buttons .btn-primary:hover {
+  background: linear-gradient(135deg, #FAF9F6 0%, #C5A880 100%);
+  color: #121D18;
+}
+
+.hero-cta-buttons .btn-secondary {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FAF9F6;
+}
+
+.hero-cta-buttons .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #FFFFFF;
 }
 
 /* Indicador de Scroll */
@@ -235,7 +297,7 @@
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.22em;
-  color: var(--text-muted);
+  color: #A2B5AC;
   font-weight: 500;
 }
 
@@ -254,7 +316,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: #FFFFFF;
+  background: #FAF9F6;
   animation: scrollDrop 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
@@ -270,7 +332,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-deep);
+  background-color: #17241E;
   z-index: 3;
   transition: opacity 0.4s ease-out;
 }
@@ -283,7 +345,7 @@
 .loading-spinner {
   width: 32px;
   height: 32px;
-  border: 2px solid rgba(223, 202, 157, 0.15);
+  border: 2px solid rgba(181, 149, 103, 0.25);
   border-top-color: var(--gold-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;

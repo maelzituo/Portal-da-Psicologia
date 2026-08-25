@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     revealObserver.observe(el);
   });
 
-  // --- Manipulação do Formulário de Contato / Agendamento ---
+  // --- Manipulação do Formulário de Agendamento Online & Encaminhamento WhatsApp ---
   const bookingForm = document.getElementById('concierge-booking-form');
   if (bookingForm) {
     bookingForm.addEventListener('submit', (e) => {
@@ -111,30 +111,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const nameInput = document.getElementById('client-name');
       const phoneInput = document.getElementById('client-phone');
-      const submitBtn = bookingForm.querySelector('button[type="submit"]');
+      const demandInput = document.getElementById('client-demand');
+      const shiftInput = document.getElementById('client-shift');
+      const submitBtn = document.getElementById('btn-submit-booking') || bookingForm.querySelector('button[type="submit"]');
 
       const name = nameInput ? nameInput.value.trim() : '';
       const phone = phoneInput ? phoneInput.value.trim() : '';
+      const demand = demandInput ? demandInput.value : 'Psicoterapia Individual';
+      const shift = shiftInput ? shiftInput.value : 'Horário Flexível';
 
       if (!name || !phone) {
-        alert('Por favor, preencha os campos obrigatórios.');
+        alert('Por favor, preencha seu nome e WhatsApp para prosseguir.');
         return;
       }
+
+      // Monta a mensagem personalizada e ética para o WhatsApp
+      const message = `🌿 *Solicitação de Agendamento - Portal da Psicologia*
+
+Olá! Gostaria de agendar uma consulta psicológica online.
+
+👤 *Nome:* ${name}
+📱 *WhatsApp:* ${phone}
+🎯 *Motivo / Objetivo:* ${demand}
+⏰ *Período Preferencial:* ${shift}
+💻 *Modalidade:* Atendimento 100% Online
+
+Aguardo informações sobre horários disponíveis. Obrigado(a)!`;
+
+      // Codifica para a URL do WhatsApp
+      const clinicWhatsAppNumber = '5511999999999'; // Número da clínica configurável
+      const whatsappUrl = `https://wa.me/${clinicWhatsAppNumber}?text=${encodeURIComponent(message)}`;
 
       if (submitBtn) {
         const originalContent = submitBtn.innerHTML;
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span>Solicitação enviada com sucesso!</span>';
-        submitBtn.style.background = 'linear-gradient(135deg, #DFCA9D, #B39A68)';
-        submitBtn.style.color = '#07090D';
+        submitBtn.innerHTML = '<span>Redirecionando para o WhatsApp...</span>';
+        submitBtn.style.background = 'linear-gradient(135deg, #25D366, #1DA851)';
+        submitBtn.style.color = '#FFFFFF';
 
+        // Abre o WhatsApp com a mensagem pré-preenchida
         setTimeout(() => {
-          submitBtn.innerHTML = originalContent;
-          submitBtn.disabled = false;
-          submitBtn.style.background = '';
-          submitBtn.style.color = '';
-          bookingForm.reset();
-        }, 3000);
+          window.open(whatsappUrl, '_blank');
+
+          submitBtn.innerHTML = '<span>Solicitação Aberta no WhatsApp!</span>';
+
+          setTimeout(() => {
+            submitBtn.innerHTML = originalContent;
+            submitBtn.disabled = false;
+            submitBtn.style.background = '';
+            submitBtn.style.color = '';
+            bookingForm.reset();
+          }, 3500);
+        }, 600);
+      } else {
+        window.open(whatsappUrl, '_blank');
+        bookingForm.reset();
       }
     });
   }

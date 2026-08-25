@@ -1,0 +1,15 @@
+{
+  "name": "portal-da-psicologia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portal da Psicologia — Centro de atendimento psicológico e psicoterapia",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "echo 'No build step required for static site'",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
