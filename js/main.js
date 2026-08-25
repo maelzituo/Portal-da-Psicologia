@@ -86,8 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.style.transform = 'translate3d(0, 0, 0)';
         observer.unobserve(entry.target);
+        
+        setTimeout(() => {
+          entry.target.style.willChange = 'auto';
+        }, 1000); // clear after transition
       }
     });
   }, observerOptions);
@@ -98,7 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   animatedElements.forEach((el, index) => {
     el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
+    el.style.transform = 'translate3d(0, 24px, 0)';
+    el.style.willChange = 'opacity, transform';
     el.style.transition = `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${index % 3 * 0.1}s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${index % 3 * 0.1}s`;
     revealObserver.observe(el);
   });

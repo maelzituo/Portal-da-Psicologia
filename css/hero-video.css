@@ -61,6 +61,8 @@
     linear-gradient(to bottom, rgba(23, 36, 30, 0.75) 0%, transparent 20%, transparent 75%, #F9F8F5 100%);
   pointer-events: none;
   z-index: 2;
+  transform: translateZ(0); /* Hardware acceleration */
+  backface-visibility: hidden;
 }
 
 /* Camadas Narrativas */
@@ -87,7 +89,9 @@
   visibility: hidden;
   transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
               visibility 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
+  will-change: opacity, transform, visibility;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .phase-layer.active {
@@ -160,7 +164,7 @@
   font-weight: 500;
   letter-spacing: 0.04em;
   opacity: 0;
-  transform: translateY(18px) scale(0.96);
+  transform: translateY(18px) scale(0.96) translateZ(0);
   filter: blur(4px);
   transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), 
               transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
@@ -169,11 +173,13 @@
   align-items: center;
   gap: 0.75rem;
   box-shadow: 0 12px 35px rgba(10, 20, 16, 0.45);
+  will-change: opacity, transform, filter;
+  backface-visibility: hidden;
 }
 
 .cinematic-moment.active {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0) scale(1) translateZ(0);
   filter: blur(0);
 }
 
@@ -210,18 +216,20 @@
   -webkit-backdrop-filter: var(--glass-blur);
   box-shadow: 0 25px 60px rgba(10, 20, 16, 0.6), 0 0 35px var(--gold-glow-soft);
   opacity: 0;
-  transform: scale(0.95) translateY(24px);
+  transform: scale(0.95) translateY(24px) translateZ(0);
   filter: blur(6px);
   transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), 
               transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
               filter 0.75s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
   z-index: 8;
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
 }
 
 .hero-cta-stage.active {
   opacity: 1;
-  transform: scale(1) translateY(0);
+  transform: scale(1) translateY(0) translateZ(0);
   filter: blur(0);
   pointer-events: auto;
 }

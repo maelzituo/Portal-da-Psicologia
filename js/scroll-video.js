@@ -49,6 +49,8 @@
   let isSeeking = false;
   let lastActiveLayer = null;
   let rafId = null;
+  let lastVideoState = -1;
+  let lastVisualsProgress = -1;
 
   // Render Loop contínuo a 60/120 FPS
   function smoothRenderLoop() {
@@ -65,6 +67,12 @@
       currentProgress += progressDiff * 0.16;
     } else {
       currentProgress = targetProgress;
+    }
+
+    // Se o progresso da tela mal mudou, podemos evitar atualizar o DOM (somente seek do video ainda pode rodar)
+    const isVisualProgressChanged = Math.abs(currentProgress - lastVisualsProgress) > 0.001;
+    if (isVisualProgressChanged) {
+       lastVisualsProgress = currentProgress;
     }
 
     // 2. Cálculo do tempo alvo do vídeo
@@ -85,7 +93,9 @@
     }
 
     // 5. Atualização visual fluida das camadas
-    updateVisuals(currentProgress);
+    if (isVisualProgressChanged) {
+       updateVisuals(currentProgress);
+    }
 
     rafId = requestAnimationFrame(smoothRenderLoop);
   }
@@ -116,25 +126,34 @@
     // FASE 1: Introdução (0% a 20%)
     if (p < 0.20) {
       setActiveLayer(phase1);
-      video.style.opacity = '0.35';
-      video.style.transform = 'scale(1.02)';
-      video.style.filter = 'blur(2px)';
+      if (lastVideoState !== 1) {
+        video.style.opacity = '0.35';
+        video.style.transform = 'translate3d(0,0,0) scale(1.02)';
+        video.style.filter = 'blur(2px)';
+        lastVideoState = 1;
+      }
       hideMoments();
     }
     // FASE 2: Posicionamento (20% a 36%)
     else if (p >= 0.20 && p < 0.36) {
       setActiveLayer(phase2);
-      video.style.opacity = '0.75';
-      video.style.transform = 'scale(1.01)';
-      video.style.filter = 'blur(1px)';
+      if (lastVideoState !== 2) {
+        video.style.opacity = '0.75';
+        video.style.transform = 'translate3d(0,0,0) scale(1.01)';
+        video.style.filter = 'blur(1px)';
+        lastVideoState = 2;
+      }
       hideMoments();
     }
     // FASE 3 & 4: Protagonismo do Vídeo + Momentos Sutis (36% a 86%)
     else if (p >= 0.36 && p < 0.86) {
       setActiveLayer(null);
-      video.style.opacity = '1';
-      video.style.transform = 'scale(1)';
-      video.style.filter = 'none';
+      if (lastVideoState !== 3) {
+        video.style.opacity = '1';
+        video.style.transform = 'translate3d(0,0,0) scale(1)';
+        video.style.filter = 'none';
+        lastVideoState = 3;
+      }
 
       toggleMoment(moment1, p >= 0.39 && p < 0.50);
       toggleMoment(moment2, p >= 0.51 && p < 0.62);
@@ -145,9 +164,12 @@
     else if (p >= 0.86) {
       setActiveLayer(ctaStage);
       hideMoments();
-      video.style.opacity = '0.4';
-      video.style.transform = 'scale(0.98)';
-      video.style.filter = 'blur(4px) brightness(0.75)';
+      if (lastVideoState !== 4) {
+        video.style.opacity = '0.4';
+        video.style.transform = 'translate3d(0,0,0) scale(0.98)';
+        video.style.filter = 'blur(4px) brightness(0.75)';
+        lastVideoState = 4;
+      }
     }
   }
 
