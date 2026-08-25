@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Portal da Psicologia — Clínica de Psicologia</title>
+  <meta name="description" content="Portal da Psicologia — Centro de atendimento psicológico, psicoterapia e desenvolvimento humano.">
+  <meta name="theme-color" content="#07090D">
+
+  <!-- Favicon Sutil -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='%2307090D' stroke='%23DFCA9D' stroke-width='4'/><circle cx='50' cy='50' r='12' fill='%23DFCA9D'/></svg>">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hero-video.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       1. NAVEGAÇÃO FIXA & MINIMALISTA
+       ======================================================================== -->
+  <header class="site-header" id="site-header">
+    <div class="container nav-container">
+      <a href="#hero-scroll-section" class="brand-logo" aria-label="Portal da Psicologia">
+        <span class="brand-symbol"></span>
+        <span class="brand-text">Portal da Psicologia</span>
+      </a>
+
+      <nav aria-label="Navegação Principal">
+        <ul class="nav-menu">
+          <li><a href="#sobre" class="nav-link">Clínica</a></li>
+          <li><a href="#especialidades" class="nav-link">Especialidades</a></li>
+          <li><a href="#equipe" class="nav-link">Equipe</a></li>
+          <li><a href="#contato" class="nav-link">Contato</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-cta">
+        <a href="#contato" class="btn btn-nav">Agendar consulta</a>
+      </div>
+
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Abrir menu de navegação">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Menu Mobile -->
+  <div class="mobile-nav-overlay" id="mobile-overlay"></div>
+  <aside class="mobile-nav-drawer" id="mobile-drawer" aria-label="Menu móvel">
+    <button class="mobile-drawer-close" id="mobile-drawer-close" aria-label="Fechar menu">✕</button>
+    <div>
+      <div class="brand-logo" style="margin-bottom: 3.5rem;">
+        <span class="brand-symbol"></span>
+        <span class="brand-text">Portal da Psicologia</span>
+      </div>
+      <ul class="mobile-nav-links">
+        <li><a href="#sobre" class="mobile-nav-link">Clínica</a></li>
+        <li><a href="#especialidades" class="mobile-nav-link">Especialidades</a></li>
+        <li><a href="#equipe" class="mobile-nav-link">Equipe</a></li>
+        <li><a href="#contato" class="mobile-nav-link">Contato</a></li>
+      </ul>
+    </div>
+    <div>
+      <a href="#contato" class="btn btn-primary" style="width: 100%;">Agendar Consulta</a>
+    </div>
+  </aside>
+
+  <main>
+    <!-- ========================================================================
+         2. HERO CINEMÁTICO CONTROLADO POR SCROLL (GSAP PINNED)
+         Narrativa: ENTRADA → INTRODUÇÃO → IDENTIDADE → VÍDEO NO SCROLL → ÚLTIMO FRAME → CTA
+         ======================================================================== -->
+    <section class="hero-scroll-section" id="hero-scroll-section" aria-label="Apresentação Cinematográfica da Clínica">
+      <div class="hero-sticky-viewport" id="hero-sticky-viewport">
+        
+        <!-- Elemento de Vídeo Central -->
+        <div class="hero-video-wrapper">
+          <video 
+            id="hero-video" 
+            class="hero-video" 
+            src="public/video/clinica.mp4"
+            muted 
+            playsinline 
+            webkit-playsinline 
+            preload="auto" 
+            disablepictureinpicture 
+            disableremoteplayback
+            aria-hidden="true">
+            <source src="public/video/clinica.mp4" type="video/mp4">
+            <source src="video/clinica.mp4" type="video/mp4">
+            Seu navegador não suporta a exibição deste vídeo.
+          </video>
+        </div>
+
+        <!-- Vinheta Sutil de Integração -->
+        <div class="hero-vignette"></div>
+
+        <!-- Indicador de Carregamento -->
+        <div class="video-loading-state" id="video-loading">
+          <div class="loading-spinner"></div>
+        </div>
+
+        <!-- CAMADAS NARRATIVAS CONTROLADAS PELO SCROLL -->
+        <div class="hero-narrative-stage">
+          
+          <!-- FASE 1: INTRODUÇÃO -->
+          <div class="phase-layer active" id="phase-1-text">
+            <span class="phase-tag">Portal da Psicologia</span>
+            <h1 class="phase-headline">Cuidar de você é olhar além.</h1>
+          </div>
+
+          <!-- FASE 2: POSICIONAMENTO DA CLÍNICA -->
+          <div class="phase-layer" id="phase-2-text">
+            <h2 class="phase-headline">Tecnologia, precisão e cuidado em cada detalhe.</h2>
+          </div>
+
+          <!-- FASE 4: MOMENTOS SUTIS SINCRONIZADOS -->
+          <div class="hero-moments-wrapper" aria-hidden="true">
+            <div class="cinematic-moment moment-1" id="moment-1">
+              <span class="moment-dot"></span>
+              <span>Precisão</span>
+            </div>
+            <div class="cinematic-moment moment-2" id="moment-2">
+              <span class="moment-dot"></span>
+              <span>Tecnologia</span>
+            </div>
+            <div class="cinematic-moment moment-3" id="moment-3">
+              <span class="moment-dot"></span>
+              <span>Cuidado</span>
+            </div>
+            <div class="cinematic-moment moment-4" id="moment-4">
+              <span class="moment-dot"></span>
+              <span>Uma experiência pensada para você</span>
+            </div>
+          </div>
+
+          <!-- FASE 5 & CTA FINAL DO HERO -->
+          <div class="hero-cta-stage" id="hero-cta-stage">
+            <h2 class="hero-cta-title">Seu cuidado começa aqui.</h2>
+            <p class="hero-cta-desc">
+              Conheça uma experiência de atendimento que combina tecnologia, precisão e cuidado em cada detalhe.
+            </p>
+            <div class="hero-cta-buttons">
+              <a href="#contato" class="btn btn-primary">Agende sua consulta</a>
+              <a href="#sobre" class="btn btn-secondary">Conheça a clínica</a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Indicador de Scroll -->
+        <div class="scroll-indicator" id="scroll-indicator">
+          <span class="scroll-indicator-text">Role para avançar</span>
+          <div class="scroll-indicator-line"></div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ========================================================================
+         3. SOBRE A CLÍNICA
+         ======================================================================== -->
+    <section class="section-padding" id="sobre">
+      <div class="container">
+        <div class="about-grid">
+          
+          <div class="about-text-content">
+            <span class="section-tag">A Clínica</span>
+            <h2 class="section-title">Um espaço dedicado à <em>saúde mental</em> e ao acolhimento singular.</h2>
+            <div class="about-paragraphs">
+              <p class="about-text-lead">
+                O <strong>Portal da Psicologia</strong> oferece um ambiente estruturado para o cuidado psicológico com foco na individualidade de cada paciente.
+              </p>
+              <p>
+                Nossa atuação é orientada pelo compromisso ético, pela escuta qualificada e pelo respeito ao tempo e à história de cada pessoa, promovendo clareza, autoconhecimento e bem-estar emocional.
+              </p>
+            </div>
+          </div>
+
+          <!-- Estrutura Institucional da Clínica -->
+          <div class="about-visual-card">
+            <div class="quote-mark">“</div>
+            <p class="quote-body">
+              O autoconhecimento e o cuidado com a mente são os fundamentos para uma vida equilibrada, consciente e plena.
+            </p>
+            <div class="quote-author">
+              <div class="brand-symbol"></div>
+              <div class="quote-author-info">
+                <h4>Portal da Psicologia</h4>
+                <span>Clínica de Psicologia</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================================
+         4. ESPECIALIDADES
+         ======================================================================== -->
+    <section class="section-padding" id="especialidades" style="background-color: var(--bg-abyss);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Atendimento</span>
+          <h2 class="section-title">Especialidades e abordagens clínicas.</h2>
+          <p class="section-subtitle">
+            Áreas de atendimento preparadas para atender diferentes necessidades e fases da vida.
+          </p>
+        </div>
+
+        <div class="specialties-grid">
+          
+          <article class="specialty-card">
+            <div class="specialty-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <h3 class="specialty-name">Psicoterapia Individual</h3>
+            <p class="specialty-desc">
+              Espaço reservado para o autoconhecimento, resolução de conflitos internos, desenvolvimento emocional e superação de desafios pessoais.
+            </p>
+            <span class="specialty-meta">Adultos e Jovens</span>
+          </article>
+
+          <article class="specialty-card">
+            <div class="specialty-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </div>
+            <h3 class="specialty-name">Avaliação Psicológica</h3>
+            <p class="specialty-desc">
+              Investigação e compreensão aprofundada de processos cognitivos, emocionais e comportamentais para orientação diagnóstica e terapêutica.
+            </p>
+            <span class="specialty-meta">Diagnóstico &amp; Orientação</span>
+          </article>
+
+          <article class="specialty-card">
+            <div class="specialty-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+            </div>
+            <h3 class="specialty-name">Ansiedade &amp; Regulação Emocional</h3>
+            <p class="specialty-desc">
+              Acompanhamento focado na identificação de gatilhos, manejo do estresse, ansiedade e fortalecimento da estabilidade emocional.
+            </p>
+            <span class="specialty-meta">Manejo &amp; Equilíbrio</span>
+          </article>
+
+          <article class="specialty-card">
+            <div class="specialty-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3 class="specialty-name">Terapia de Casal &amp; Relações</h3>
+            <p class="specialty-desc">
+              Mediação de diálogos, compreensão das dinâmicas relacionais e desenvolvimento de novas formas de comunicação e convivência.
+            </p>
+            <span class="specialty-meta">Vínculo &amp; Comunicação</span>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================================
+         5. DIFERENCIAIS
+         ======================================================================== -->
+    <section class="section-padding" id="diferenciais">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Diferenciais</span>
+          <h2 class="section-title">Compromisso com a <em>qualidade do atendimento.</em></h2>
+        </div>
+
+        <div class="differentials-list">
+          <div class="differential-row">
+            <div class="diff-index">01</div>
+            <div class="diff-title">Atendimento Personalizado</div>
+            <div class="diff-desc">Planejamento cuidadoso de cada processo terapêutico, respeitando as necessidades e objetivos individuais de cada paciente.</div>
+          </div>
+
+          <div class="differential-row">
+            <div class="diff-index">02</div>
+            <div class="diff-title">Sigilo &amp; Ética Profissional</div>
+            <div class="diff-desc">Rigoroso cumprimento do sigilo profissional e das diretrizes éticas estabelecidas pelo Conselho de Psicologia.</div>
+          </div>
+
+          <div class="differential-row">
+            <div class="diff-index">03</div>
+            <div class="diff-title">Ambiente Seguro &amp; Acolhedor</div>
+            <div class="diff-desc">Espaço planejado para proporcionar tranquilidade, privacidade e conforto durante as sessões presenciais ou remotas.</div>
+          </div>
+
+          <div class="differential-row">
+            <div class="diff-index">04</div>
+            <div class="diff-title">Modalidades Flexíveis</div>
+            <div class="diff-desc">Opções de atendimento presencial em consultório ou atendimento online seguro, adaptando-se à sua rotina.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================================
+         6. EQUIPE
+         ======================================================================== -->
+    <section class="section-padding" id="equipe" style="background-color: var(--bg-abyss);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Corpo Clínico</span>
+          <h2 class="section-title">Profissionais dedicados ao seu <em>desenvolvimento.</em></h2>
+          <p class="section-subtitle">
+            Estrutura preparada para a apresentação dos psicólogos e especialistas da clínica.
+          </p>
+        </div>
+
+        <div class="team-grid">
+          
+          <div class="team-card">
+            <div class="team-photo-wrap">
+              <div class="team-avatar-placeholder">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+            </div>
+            <div class="team-info">
+              <div class="team-role">Psicologia Clínica</div>
+              <h3 class="team-name">[Nome do Profissional]</h3>
+              <div class="team-crp">Psicólogo(a) • CRP Ativo</div>
+              <p class="team-bio">
+                Atendimento clínico individual focado no acolhimento, desenvolvimento de autonomia e promoção da saúde mental.
+              </p>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-photo-wrap">
+              <div class="team-avatar-placeholder">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+            </div>
+            <div class="team-info">
+              <div class="team-role">Psicoterapia &amp; Avaliação</div>
+              <h3 class="team-name">[Nome do Profissional]</h3>
+              <div class="team-crp">Psicólogo(a) • CRP Ativo</div>
+              <p class="team-bio">
+                Atuação em avaliação psicológica e acompanhamento terapêutico estruturado para diferentes demandas clínicas.
+              </p>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-photo-wrap">
+              <div class="team-avatar-placeholder">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+            </div>
+            <div class="team-info">
+              <div class="team-role">Relações &amp; Desenvolvimento</div>
+              <h3 class="team-name">[Nome do Profissional]</h3>
+              <div class="team-crp">Psicólogo(a) • CRP Ativo</div>
+              <p class="team-bio">
+                Acompanhamento voltado para relações interpessoais, dinâmicas familiares e fortalecimento de vínculos afetivos.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================================
+         7. CONTATO & AGENDAMENTO
+         ======================================================================== -->
+    <section class="section-padding" id="contato">
+      <div class="container">
+        <div class="contact-wrapper">
+          <div class="contact-grid">
+            
+            <!-- Informações de Atendimento -->
+            <div>
+              <span class="section-tag">Atendimento</span>
+              <h2 class="section-title">Agende sua <em>consulta.</em></h2>
+              <p class="section-subtitle" style="font-size: 1.05rem;">
+                Entre em contato para obter informações sobre horários disponíveis e modalidades de atendimento.
+              </p>
+
+              <div class="contact-info-list">
+                <div class="contact-info-item">
+                  <div class="contact-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  </div>
+                  <div class="contact-info-content">
+                    <h5>Telefone / WhatsApp</h5>
+                    <p><a href="#contato">[Telefone / WhatsApp da Clínica]</a></p>
+                  </div>
+                </div>
+
+                <div class="contact-info-item">
+                  <div class="contact-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                  </div>
+                  <div class="contact-info-content">
+                    <h5>E-mail</h5>
+                    <p><a href="#contato">[contato@portaldapsicologia.com.br]</a></p>
+                  </div>
+                </div>
+
+                <div class="contact-info-item">
+                  <div class="contact-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  </div>
+                  <div class="contact-info-content">
+                    <h5>Localização</h5>
+                    <p>[Endereço da Clínica / Atendimento Presencial e Online]</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Formulário Neutro de Contato -->
+            <div>
+              <form class="contact-form" id="concierge-booking-form">
+                <div class="form-group">
+                  <label class="form-label" for="client-name">Nome</label>
+                  <input class="form-input" type="text" id="client-name" name="name" placeholder="Seu nome completo" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="client-phone">Telefone / WhatsApp</label>
+                  <input class="form-input" type="tel" id="client-phone" name="phone" placeholder="(00) 00000-0000" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="client-mode">Modalidade de Atendimento</label>
+                  <select class="form-select" id="client-mode" name="mode">
+                    <option value="Presencial">Atendimento Presencial</option>
+                    <option value="Online">Atendimento Online</option>
+                    <option value="A definir">A definir / Desejo orientações</option>
+                  </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.8rem;">
+                  <span>Enviar Solicitação</span>
+                </button>
+
+                <div class="form-note">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  <span>As informações enviadas são tratadas com total confidencialidade.</span>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       8. RODAPÉ INSTITUCIONAL
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <span class="brand-symbol"></span>
+            <span class="brand-text">Portal da Psicologia</span>
+          </div>
+          <p>
+            Clínica dedicada à promoção da saúde mental, psicoterapia e cuidado individualizado.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Navegação</h4>
+          <ul class="footer-links">
+            <li><a href="#sobre">Clínica</a></li>
+            <li><a href="#especialidades">Especialidades</a></li>
+            <li><a href="#equipe">Equipe</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Atendimento</h4>
+          <ul class="footer-links">
+            <li><a href="#especialidades">Psicoterapia Individual</a></li>
+            <li><a href="#especialidades">Avaliação Psicológica</a></li>
+            <li><a href="#especialidades">Ansiedade &amp; Emoções</a></li>
+            <li><a href="#especialidades">Terapia de Casal</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Institucional</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+            Atendimento em conformidade com as diretrizes do Conselho de Psicologia.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © 2026 Portal da Psicologia. Todos os direitos reservados.
+        </div>
+        <div>
+          Portal da Psicologia
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- GSAP & ScrollTrigger (Local com Fallback CDN Automático) -->
+  <script src="js/gsap.min.js"></script>
+  <script src="js/ScrollTrigger.min.js"></script>
+  <script>
+    if (typeof gsap === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"><\/script>');
+    }
+  </script>
+  <script>
+    if (typeof ScrollTrigger === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- Scripts do Projeto -->
+  <script src="js/scroll-video.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

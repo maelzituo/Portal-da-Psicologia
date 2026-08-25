@@ -1,0 +1,332 @@
+/* ==========================================================================
+   HERO VIDEO CINEMÁTICO - GSAP SCROLLTRIGGER ENGINE
+   Pinning Nativo via GSAP + Scrubbing Fluido de currentTime
+   ========================================================================== */
+
+/* Seção Principal do Hero (Pinada pelo GSAP) */
+.hero-scroll-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: #06080C;
+  z-index: 10;
+}
+
+/* Viewport Interna */
+.hero-sticky-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Wrapper do Vídeo */
+.hero-video-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 46%;
+  pointer-events: none;
+  opacity: 0.2;
+  transform: scale(1.02);
+  transition: opacity 0.4s ease-out, filter 0.4s ease-out, transform 0.4s ease-out;
+  will-change: opacity, filter, transform;
+}
+
+/* Vinheta Cinemática */
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at center, transparent 35%, rgba(6, 8, 12, 0.45) 75%, rgba(6, 8, 12, 0.95) 100%),
+    linear-gradient(to bottom, rgba(6, 8, 12, 0.7) 0%, transparent 20%, transparent 80%, #06080C 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Camadas Narrativas */
+.hero-narrative-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  padding: 2rem;
+}
+
+/* Fases Tipográficas */
+.phase-layer {
+  position: absolute;
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+  padding: 0 1.5rem;
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.phase-layer.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.phase-headline {
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 300;
+  line-height: 1.18;
+  color: var(--text-pure);
+  letter-spacing: -0.03em;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9);
+}
+
+.phase-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--gold-primary);
+  margin-bottom: 1.6rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* Momentos Sincronizados */
+.hero-moments-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.cinematic-moment {
+  position: absolute;
+  padding: 0.75rem 1.5rem;
+  background: rgba(14, 18, 26, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  color: var(--text-pure);
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.cinematic-moment.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.moment-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--gold-primary);
+  box-shadow: 0 0 8px var(--gold-primary);
+}
+
+.moment-1 { top: 22%; left: 10%; }
+.moment-2 { top: 28%; right: 10%; }
+.moment-3 { bottom: 24%; left: 12%; }
+.moment-4 { bottom: 18%; right: 12%; }
+
+/* CTA Final do Hero */
+.hero-cta-stage {
+  position: absolute;
+  width: 100%;
+  max-width: 760px;
+  text-align: center;
+  padding: 3.5rem 2.5rem;
+  background: radial-gradient(circle at center, rgba(14, 18, 26, 0.92) 0%, rgba(6, 8, 12, 0.97) 100%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px var(--gold-glow-soft);
+  opacity: 0;
+  transform: scale(0.96) translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 8;
+}
+
+.hero-cta-stage.active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+
+.hero-cta-title {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 400;
+  color: var(--text-pure);
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.03em;
+}
+
+.hero-cta-desc {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 540px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.65;
+}
+
+.hero-cta-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+/* Indicador de Scroll */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.4s ease-out;
+}
+
+.scroll-indicator.hidden {
+  opacity: 0;
+}
+
+.scroll-indicator-text {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.scroll-indicator-line {
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(to bottom, var(--gold-primary), transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-indicator-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF;
+  animation: scrollDrop 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes scrollDrop {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* Loading Spinner */
+.video-loading-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-deep);
+  z-index: 3;
+  transition: opacity 0.4s ease-out;
+}
+
+.video-loading-state.loaded {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(223, 202, 157, 0.15);
+  border-top-color: var(--gold-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .moment-1 { top: 18%; left: 6%; }
+  .moment-2 { top: 24%; right: 6%; }
+  .moment-3 { bottom: 20%; left: 6%; }
+  .moment-4 { bottom: 15%; right: 6%; }
+}
+
+@media (max-width: 768px) {
+  .hero-video {
+    object-position: center 48%;
+  }
+
+  .hero-cta-stage {
+    padding: 2.2rem 1.4rem;
+    width: 92%;
+  }
+
+  .hero-cta-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-cta-buttons .btn {
+    width: 100%;
+  }
+
+  .cinematic-moment {
+    font-size: 0.78rem;
+    padding: 0.55rem 1rem;
+  }
+
+  .moment-1 { top: 15%; left: 5%; }
+  .moment-2 { top: 22%; right: 5%; }
+  .moment-3 { bottom: 18%; left: 5%; }
+  .moment-4 { bottom: 12%; right: 5%; }
+}
