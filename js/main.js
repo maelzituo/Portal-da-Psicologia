@@ -204,3 +204,45 @@ Aguardo informações sobre horários disponíveis. Obrigado(a)!`;
     });
   }
 });
+
+/**
+ * ==========================================================================
+ * DARK MODE - LOGIC (SINCRONIZADO E ACESSÍVEL)
+ * ==========================================================================
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  const themeToggles = document.querySelectorAll('.theme-toggle');
+  
+  function updateThemeUI(theme) {
+    const isDark = theme === 'dark';
+    themeToggles.forEach(toggle => {
+      toggle.setAttribute('aria-label', isDark ? 'Alternar para Modo Claro' : 'Alternar para Modo Escuro');
+      toggle.setAttribute('title', isDark ? 'Ativar Modo Claro' : 'Ativar Modo Escuro');
+    });
+  }
+
+  const initialTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  updateThemeUI(initialTheme);
+
+  themeToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const root = document.documentElement;
+      const currentTheme = root.getAttribute('data-theme') || 'light';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      root.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeUI(newTheme);
+    });
+  });
+
+  // Listener para mudanças na preferência do sistema, se o usuário não tiver forçado um tema
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+      const newTheme = e.matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      updateThemeUI(newTheme);
+    }
+  });
+});

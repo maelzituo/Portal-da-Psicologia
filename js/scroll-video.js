@@ -1,7 +1,7 @@
 /**
- * PORTAL DA PSICOLOGIA - ULTRA-SMOOTH GSAP SCROLL ENGINE
- * Motor de Interpolação Contínua (Cinematic Rendering)
- * Arquitetura reconstruída para fluidez máxima, sem depender do `seeked`.
+ * PORTAL DA PSICOLOGIA - CINEMATIC HIGH-PERFORMANCE VIDEO SCROLL ENGINE
+ * Arquitetura de Interpolação Exponencial Independente de FPS + Fila de Decodificação Hardware
+ * Fluidez de 60/120Hz com zero travamento do decodificador de vídeo.
  */
 (function () {
   'use strict';
@@ -26,7 +26,7 @@
 
   if (!section || !video) return;
 
-  // Forçar estado de reprodução
+  // Configuração inicial do elemento de mídia para performance máxima
   video.pause();
   video.currentTime = 0;
   video.muted = true;
@@ -35,6 +35,12 @@
   let isInitialized = false;
   let targetProgress = 0;
   let smoothProgress = 0;
+  let velocity = 0; // Velocidade inercial contínua (momentum líquido)
+  
+  // Pipeline de decodificação de hardware não bloqueante
+  let isDecoderSeeking = false;
+  let pendingTargetTime = null;
+  let lastSeekTimestamp = 0;
   
   let rafId = null;
   let lastTime = performance.now();
@@ -42,69 +48,123 @@
   let lastVideoState = -1;
   let lastActiveLayer = null;
 
-  // O threshold diz o quão pequena a diferença de tempo precisa ser para ignorar o seek
-  // Threshold reduzido para alta precisão, mas com margem para evitar processamento inútil
-  const seekThreshold = 0.005; 
+  // Epsilon para seeks insignificantes (evita sobrecarga no demuxer)
+  const MIN_SEEK_DELTA = 0.002;
 
+  /**
+   * Envia o comando de seek para a GPU/decodificador sem sobrecarregar a fila
+   */
+  function dispatchVideoSeek(targetTime) {
+    if (!video || isNaN(video.duration)) return;
+
+    // Se o decodificador já estiver processando um frame, armazena como pendente
+    if (isDecoderSeeking || video.seeking) {
+      pendingTargetTime = targetTime;
+      return;
+    }
+
+    const current = video.currentTime;
+    const delta = Math.abs(current - targetTime);
+
+    if (delta > MIN_SEEK_DELTA) {
+      isDecoderSeeking = true;
+      lastSeekTimestamp = performance.now();
+      
+      // Se houver suporte a fastSeek para saltos muito grandes, utiliza-o; caso contrário, busca de alta precisão
+      if (typeof video.fastSeek === 'function' && delta > 0.5) {
+        video.fastSeek(targetTime);
+      } else {
+        video.currentTime = targetTime;
+      }
+    }
+  }
+
+  // Notificação do navegador assim que o frame foi decodificado e renderizado
+  video.addEventListener('seeked', () => {
+    isDecoderSeeking = false;
+    if (pendingTargetTime !== null) {
+      const nextTime = pendingTargetTime;
+      pendingTargetTime = null;
+      if (Math.abs(video.currentTime - nextTime) > MIN_SEEK_DELTA) {
+        dispatchVideoSeek(nextTime);
+      }
+    }
+  }, { passive: true });
+
+  /**
+   * Loop Principal de Renderização Hidrodinâmica (Liquid Physics Engine)
+   * Simula a mecânica de fluidos: Força de Tensão Superficial + Arrasto Viscoso Crítico
+   * Proporciona sensação aveludada e orgânica de "água em movimento".
+   */
   function smoothRenderLoop(time) {
     if (!video || !video.duration) {
       rafId = requestAnimationFrame(smoothRenderLoop);
       return;
     }
 
-    // 1. Delta Time (Independência de Frame Rate: 60hz, 120hz, 144hz)
-    // Limitado a 50ms para evitar pulos gigantes se o usuário trocar de aba
-    const dt = Math.min(time - lastTime, 50); 
+    // 1. Delta Time preciso (em segundos) com teto seguro de 50ms
+    const deltaMs = Math.min(time - lastTime, 50);
+    const dt = deltaMs / 1000;
     lastTime = time;
 
-    // 2. Interpolação Adaptativa (Lerp Damping)
-    const progressDiff = targetProgress - smoothProgress;
-    const absDiff = Math.abs(progressDiff);
-    
-    // Fator de suavização varia com a velocidade: 
-    // Movimentos grandes/rápidos convergem mais rápido (evita atraso "borrachudo")
-    // Movimentos pequenos/lentos têm mais amortecimento (evita micro-stutter)
-    let lerpFactor;
-    if (absDiff > 0.05) {
-      lerpFactor = 0.08 * (dt / 16.666);
-    } else {
-      lerpFactor = 0.04 * (dt / 16.666);
-    }
-    
-    // Atualização com proteção contra overshoot/infinitesimal
-    if (absDiff > 0.0001) {
-      smoothProgress += progressDiff * lerpFactor;
-    } else {
+    // 2. Modelo Físico de Fluido (Viscous Liquid Inertia)
+    // - Tensão elástica suave (atrai para o ponto de rolagem)
+    // - Coeficiente de viscosidade líquida (dissipa energia sem paradas bruscas)
+    const displacement = targetProgress - smoothProgress;
+    const absDisplacement = Math.abs(displacement);
+
+    // Parâmetros de viscosidade hidrodinâmica calibrados para maciez extrema
+    const liquidTension = 32.0;    // Força de atração fluida
+    const liquidViscosity = 11.2;  // Arrasto viscoso amortecido
+
+    // Equação diferencial de 2ª ordem: m*x'' + c*x' + k*x = 0
+    const springForce = displacement * liquidTension;
+    const dampingForce = -velocity * liquidViscosity;
+    const acceleration = springForce + dampingForce;
+
+    velocity += acceleration * dt;
+    smoothProgress += velocity * dt;
+
+    // Estabilização de repouso em equilíbrio estático
+    if (absDisplacement < 0.00002 && Math.abs(velocity) < 0.0001) {
       smoothProgress = targetProgress;
+      velocity = 0;
     }
 
-    // 3. Atualização do Vídeo (Sem lock de isSeeking)
-    // Calculamos o tempo exato com base no smoothProgress
+    // 3. Watchdog de Decodificação de Hardware
+    // Caso o evento `seeked` atrase por mais de 50ms, libera a fila
+    if (isDecoderSeeking && (time - lastSeekTimestamp > 50)) {
+      isDecoderSeeking = false;
+      if (pendingTargetTime !== null) {
+        const nextTime = pendingTargetTime;
+        pendingTargetTime = null;
+        dispatchVideoSeek(nextTime);
+      }
+    }
+
+    // 4. Cálculo do Tempo do Vídeo e Envio ao Decodificador
     const duration = video.duration;
-    const targetTime = Math.max(0, Math.min(duration - 0.01, smoothProgress * duration));
+    const boundedProgress = Math.max(0, Math.min(1, smoothProgress));
+    const targetTime = Math.max(0, Math.min(duration - 0.005, boundedProgress * duration));
     
-    // Somente envia o comando se a diferença for maior que o threshold
-    // Ao removermos o evento `seeked`, deixamos o pipeline nativo do navegador 
-    // gerenciar os frames descartados silenciosamente, garantindo a atualização visual sem travar o JS.
-    const timeError = Math.abs(targetTime - video.currentTime);
-    if (timeError > seekThreshold) {
-      video.currentTime = targetTime;
-    }
+    dispatchVideoSeek(targetTime);
 
-    // 4. Atualização das Camadas Visuais (Apenas quando necessário)
-    const isVisualProgressChanged = Math.abs(smoothProgress - lastVisualsProgress) > 0.001;
-    if (isVisualProgressChanged) {
-       lastVisualsProgress = smoothProgress;
-       updateVisuals(smoothProgress);
+    // 5. Atualização Otimizada dos Estados Visuais
+    if (Math.abs(smoothProgress - lastVisualsProgress) > 0.0006) {
+      lastVisualsProgress = smoothProgress;
+      updateVisuals(smoothProgress);
     }
 
     rafId = requestAnimationFrame(smoothRenderLoop);
   }
 
+  /**
+   * Atualização das Camadas de Texto e Opacidade com Transições Suaves
+   */
   function updateVisuals(p) {
-    // Oculta o indicador de scroll ao descer
+    // Oculta o indicador de rolagem após os primeiros momentos
     if (scrollIndicator) {
-      if (p > 0.02) scrollIndicator.classList.add('hidden');
+      if (p > 0.015) scrollIndicator.classList.add('hidden');
       else scrollIndicator.classList.remove('hidden');
     }
 
@@ -113,41 +173,37 @@
       setActiveLayer(phase1);
       if (lastVideoState !== 1) {
         video.style.opacity = '0.35';
-        video.style.transform = 'translate3d(0,0,0) scale(1.02)';
         lastVideoState = 1;
       }
       hideMoments();
     }
-    // FASE 2: Posicionamento (20% a 36%)
+    // FASE 2: Posicionamento e Reflexão (20% a 36%)
     else if (p >= 0.20 && p < 0.36) {
       setActiveLayer(phase2);
       if (lastVideoState !== 2) {
         video.style.opacity = '0.75';
-        video.style.transform = 'translate3d(0,0,0) scale(1.01)';
         lastVideoState = 2;
       }
       hideMoments();
     }
-    // FASE 3 & 4: Protagonismo e Momentos (36% a 86%)
+    // FASE 3 & 4: Protagonismo Total do Vídeo & Momentos (36% a 86%)
     else if (p >= 0.36 && p < 0.86) {
       setActiveLayer(null);
       if (lastVideoState !== 3) {
         video.style.opacity = '1';
-        video.style.transform = 'translate3d(0,0,0) scale(1)';
         lastVideoState = 3;
       }
-      toggleMoment(moment1, p >= 0.39 && p < 0.50);
-      toggleMoment(moment2, p >= 0.51 && p < 0.62);
-      toggleMoment(moment3, p >= 0.63 && p < 0.74);
-      toggleMoment(moment4, p >= 0.75 && p < 0.85);
+      toggleMoment(moment1, p >= 0.38 && p < 0.50);
+      toggleMoment(moment2, p >= 0.50 && p < 0.62);
+      toggleMoment(moment3, p >= 0.62 && p < 0.74);
+      toggleMoment(moment4, p >= 0.74 && p < 0.85);
     }
-    // FASE 5: Encerramento do Hero & CTA (86% a 100%)
+    // FASE 5: Conclusão & Chamada para Ação (86% a 100%)
     else if (p >= 0.86) {
       setActiveLayer(ctaStage);
       hideMoments();
       if (lastVideoState !== 4) {
         video.style.opacity = '0.25';
-        video.style.transform = 'translate3d(0,0,0) scale(0.98)';
         lastVideoState = 4;
       }
     }
@@ -178,6 +234,9 @@
     });
   }
 
+  /**
+   * Inicialização Integrada com o ScrollTrigger
+   */
   function initUnifiedHeroScroll() {
     if (isInitialized) return;
     
@@ -190,8 +249,8 @@
     
     video.currentTime = 0;
 
-    // Distância de scroll estendida para garantir tempo físico pro vídeo reproduzir
-    const scrollDistance = window.innerWidth <= 768 ? "+=3000" : "+=4200";
+    // Distância de rolagem equilibrada para ritmo cinematográfico ideal
+    const scrollDistance = window.innerWidth <= 768 ? "+=2800" : "+=3800";
 
     ScrollTrigger.create({
       trigger: section,
@@ -199,10 +258,10 @@
       end: scrollDistance,
       pin: true,
       pinSpacing: true,
-      // Usamos scrub: true (sem delay em segundos) para capturar o raw progress do usuário,
-      // delegando TODA a suavização matemática para o nosso requestAnimationFrame (dt).
-      scrub: true, 
+      scrub: true,
       anticipatePin: 1,
+      fastScrollEnd: true,
+      preventOverlaps: true,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         targetProgress = self.progress;
@@ -217,7 +276,7 @@
     ScrollTrigger.refresh();
   }
 
-  // Bind Seguro de Inicialização
+  // Eventos para garantir que o vídeo esteja pronto antes de ativar o pinning
   if (video.readyState >= 1 && video.duration > 0) {
     initUnifiedHeroScroll();
   } else {
@@ -229,7 +288,7 @@
     
     setTimeout(() => {
       if (!isInitialized && video.duration > 0) initUnifiedHeroScroll();
-    }, 300);
+    }, 250);
   }
 
   window.addEventListener('resize', () => {
