@@ -14,12 +14,14 @@
   }
 
   /**
-   * 1. GERENCIADOR DO VÍDEO MOBILE
-   * Inicia o vídeo em autoplay suave, loop contínuo, muted e playsinline.
-   * Não pausa, não reseta e não depende do scroll.
+   * 1. GERENCIADOR DO VÍDEO MOBILE COM AUTO-PLAY ROBUSTO & ECO PERFORMANCE
+   * - Inicia em autoplay contínuo, muted e playsinline.
+   * - Desbloqueia reprodução caso haja bloqueio de economia de bateria.
+   * - IntersectionObserver para pausar o vídeo fora da tela (preserva 100% de CPU/GPU nas outras seções).
    */
   function initMobileVideoExperience() {
     const video = document.getElementById('hero-video');
+    const heroSection = document.getElementById('hero-scroll-section');
     const loadingState = document.getElementById('video-loading');
 
     if (!video) return;
@@ -28,53 +30,74 @@
     video.muted = true;
     video.defaultMuted = true;
     video.playsInline = true;
-    video.setAttribute('playsinline', '');
-    video.setAttribute('webkit-playsinline', '');
     video.loop = true;
     video.autoplay = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.setAttribute('muted', '');
+    video.setAttribute('autoplay', '');
+    video.setAttribute('loop', '');
 
-    function playVideoSmoothly() {
-      if (video.paused) {
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            // Em caso de restrição severa de autoplay com economia de energia, 
-            // tenta reproduzir no primeiro toque do usuário
-            const handleFirstTouch = () => {
-              video.play().catch(() => {});
-              document.removeEventListener('touchstart', handleFirstTouch);
-            };
-            document.addEventListener('touchstart', handleFirstTouch, { once: true, passive: true });
-          });
-        }
-      }
-      if (loadingState) {
-        loadingState.classList.add('loaded');
-      }
-    }
-
-    if (video.readyState >= 2) {
-      playVideoSmoothly();
-    } else {
-      video.addEventListener('canplay', playVideoSmoothly, { once: true });
-      video.addEventListener('loadeddata', playVideoSmoothly, { once: true });
-    }
-
-    // Tratamento de erro com fallback elegante
-    video.addEventListener('error', () => {
-      if (loadingState) loadingState.classList.add('loaded');
-      const container = document.getElementById('hero-video-container');
-      if (container) {
-        container.style.backgroundColor = 'var(--color-background-secondary)';
-      }
-    }, { once: true });
-
-    // Garante remoção do spinner após timeout de segurança
-    setTimeout(() => {
+    function removeLoadingSpinner() {
       if (loadingState && !loadingState.classList.contains('loaded')) {
         loadingState.classList.add('loaded');
       }
-    }, 1200);
+    }
+
+    function attemptPlay() {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            removeLoadingSpinner();
+          })
+          .catch(() => {
+            // Em caso de restrição do navegador (ex: modo de economia de energia),
+            // desbloqueia na primeira interação touch ou scroll do usuário
+            const unlockPlayback = () => {
+              video.play().then(removeLoadingSpinner).catch(() => {});
+              ['touchstart', 'touchend', 'click', 'scroll', 'pointerdown'].forEach(evt => {
+                window.removeEventListener(evt, unlockPlayback);
+              });
+            };
+
+            ['touchstart', 'touchend', 'click', 'scroll', 'pointerdown'].forEach(evt => {
+              window.addEventListener(evt, unlockPlayback, { once: true, passive: true });
+            });
+          });
+      }
+    }
+
+    // Tenta reprodução imediata
+    attemptPlay();
+
+    // Eventos de prontidão de mídia para garantir início instantâneo
+    video.addEventListener('loadedmetadata', attemptPlay, { once: true });
+    video.addEventListener('loadeddata', attemptPlay, { once: true });
+    video.addEventListener('canplay', attemptPlay, { once: true });
+    video.addEventListener('playing', removeLoadingSpinner, { once: true });
+
+    // Fallback de segurança para remoção do spinner
+    setTimeout(removeLoadingSpinner, 800);
+
+    // ECO PERFORMANCE: Pausa o vídeo quando o Hero sair da tela para manter 60 FPS no scroll das outras seções
+    if ('IntersectionObserver' in window && heroSection) {
+      const heroObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (video.paused) {
+              video.play().catch(() => {});
+            }
+          } else {
+            if (!video.paused) {
+              video.pause();
+            }
+          }
+        });
+      }, { threshold: 0.05 });
+
+      heroObserver.observe(heroSection);
+    }
   }
 
   /**

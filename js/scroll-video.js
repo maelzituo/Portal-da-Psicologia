@@ -26,7 +26,22 @@
 
   if (!section || !video) return;
 
-  // Configuração inicial do elemento de mídia para performance máxima
+  function isDesktopScreen() {
+    return window.innerWidth >= 768;
+  }
+
+  // Se estiver em mobile (< 768px), não interfere no vídeo (o mobile-experience.js gerencia)
+  if (!isDesktopScreen()) {
+    // Permite que o listener de resize ative se o usuário expandir para desktop
+    window.addEventListener('resize', () => {
+      if (isDesktopScreen() && !isInitialized) {
+        initUnifiedHeroScroll();
+      }
+    }, { passive: true });
+    return;
+  }
+
+  // Configuração inicial do elemento de mídia para performance máxima (apenas desktop)
   video.pause();
   video.currentTime = 0;
   video.muted = true;
