@@ -1,30 +1,21 @@
 /**
  * PORTAL DA PSICOLOGIA - ULTRA-SMOOTH GSAP SCROLL ENGINE
- * Motor de Interpolação Contínua em 60/120 FPS
- * - Kinetic Inertia via GSAP ScrollTrigger
- * - Damped Exponential Lerp para video.currentTime
- * - Transições Visuais Aveludadas sem quebras de frame
+ * Motor de Interpolação Contínua (Cinematic Rendering)
+ * Arquitetura reconstruída para fluidez máxima, sem depender do `seeked`.
  */
-
 (function () {
   'use strict';
 
-  // 1. Verificação do GSAP e ScrollTrigger
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-    console.error('[Portal da Psicologia] GSAP ou ScrollTrigger não carregados no documento.');
+    console.error('[Portal da Psicologia] GSAP ou ScrollTrigger não carregados.');
     return;
   }
 
-  // 2. Registro do Plugin
   gsap.registerPlugin(ScrollTrigger);
 
-  // Elementos do DOM
   const section = document.getElementById('hero-scroll-section');
   const video = document.getElementById('hero-video');
-  const loadingState = document.getElementById('video-loading');
   const scrollIndicator = document.getElementById('scroll-indicator');
-  const header = document.querySelector('.site-header');
-
   const phase1 = document.getElementById('phase-1-text');
   const phase2 = document.getElementById('phase-2-text');
   const moment1 = document.getElementById('moment-1');
@@ -35,7 +26,7 @@
 
   if (!section || !video) return;
 
-  // Estado inicial rigoroso do vídeo
+  // Forçar estado de reprodução
   video.pause();
   video.currentTime = 0;
   video.muted = true;
@@ -43,80 +34,79 @@
 
   let isInitialized = false;
   let targetProgress = 0;
-  let currentProgress = 0;
-  let targetTime = 0;
-  let smoothTime = 0;
-  let isSeeking = false;
-  let lastActiveLayer = null;
+  let smoothProgress = 0;
+  
   let rafId = null;
-  let lastVideoState = -1;
+  let lastTime = performance.now();
   let lastVisualsProgress = -1;
+  let lastVideoState = -1;
+  let lastActiveLayer = null;
 
-  // Render Loop contínuo a 60/120 FPS
-  function smoothRenderLoop() {
+  // O threshold diz o quão pequena a diferença de tempo precisa ser para ignorar o seek
+  // Threshold reduzido para alta precisão, mas com margem para evitar processamento inútil
+  const seekThreshold = 0.005; 
+
+  function smoothRenderLoop(time) {
     if (!video || !video.duration) {
       rafId = requestAnimationFrame(smoothRenderLoop);
       return;
     }
 
+    // 1. Delta Time (Independência de Frame Rate: 60hz, 120hz, 144hz)
+    // Limitado a 50ms para evitar pulos gigantes se o usuário trocar de aba
+    const dt = Math.min(time - lastTime, 50); 
+    lastTime = time;
+
+    // 2. Interpolação Adaptativa (Lerp Damping)
+    const progressDiff = targetProgress - smoothProgress;
+    const absDiff = Math.abs(progressDiff);
+    
+    // Fator de suavização varia com a velocidade: 
+    // Movimentos grandes/rápidos convergem mais rápido (evita atraso "borrachudo")
+    // Movimentos pequenos/lentos têm mais amortecimento (evita micro-stutter)
+    let lerpFactor;
+    if (absDiff > 0.05) {
+      lerpFactor = 0.08 * (dt / 16.666);
+    } else {
+      lerpFactor = 0.04 * (dt / 16.666);
+    }
+    
+    // Atualização com proteção contra overshoot/infinitesimal
+    if (absDiff > 0.0001) {
+      smoothProgress += progressDiff * lerpFactor;
+    } else {
+      smoothProgress = targetProgress;
+    }
+
+    // 3. Atualização do Vídeo (Sem lock de isSeeking)
+    // Calculamos o tempo exato com base no smoothProgress
     const duration = video.duration;
-
-    // 1. Interpolação suave do progresso (Lerp Damping)
-    const progressDiff = targetProgress - currentProgress;
-    if (Math.abs(progressDiff) > 0.0001) {
-      currentProgress += progressDiff * 0.16;
-    } else {
-      currentProgress = targetProgress;
+    const targetTime = Math.max(0, Math.min(duration - 0.01, smoothProgress * duration));
+    
+    // Somente envia o comando se a diferença for maior que o threshold
+    // Ao removermos o evento `seeked`, deixamos o pipeline nativo do navegador 
+    // gerenciar os frames descartados silenciosamente, garantindo a atualização visual sem travar o JS.
+    const timeError = Math.abs(targetTime - video.currentTime);
+    if (timeError > seekThreshold) {
+      video.currentTime = targetTime;
     }
 
-    // Se o progresso da tela mal mudou, podemos evitar atualizar o DOM (somente seek do video ainda pode rodar)
-    const isVisualProgressChanged = Math.abs(currentProgress - lastVisualsProgress) > 0.001;
+    // 4. Atualização das Camadas Visuais (Apenas quando necessário)
+    const isVisualProgressChanged = Math.abs(smoothProgress - lastVisualsProgress) > 0.001;
     if (isVisualProgressChanged) {
-       lastVisualsProgress = currentProgress;
-    }
-
-    // 2. Cálculo do tempo alvo do vídeo
-    targetTime = Math.max(0, Math.min(duration - 0.04, currentProgress * duration));
-
-    // 3. Interpolação suave do tempo do vídeo
-    const timeDiff = targetTime - smoothTime;
-    if (Math.abs(timeDiff) > 0.002) {
-      smoothTime += timeDiff * 0.22;
-    } else {
-      smoothTime = targetTime;
-    }
-
-    // 4. Seek não-bloqueante no pipeline de mídia
-    // Eco Mode: Aumenta o limite de busca (seek) no mobile para poupar o decodificador
-    const seekThreshold = window.innerWidth <= 768 ? 0.08 : 0.015;
-    if (!isSeeking && Math.abs(video.currentTime - smoothTime) > seekThreshold) {
-      isSeeking = true;
-      video.currentTime = smoothTime;
-    }
-
-    // 5. Atualização visual fluida das camadas
-    if (isVisualProgressChanged) {
-       updateVisuals(currentProgress);
+       lastVisualsProgress = smoothProgress;
+       updateVisuals(smoothProgress);
     }
 
     rafId = requestAnimationFrame(smoothRenderLoop);
   }
 
-  video.addEventListener('seeked', () => {
-    isSeeking = false;
-  });
-
   function updateVisuals(p) {
-    // Indicador de Scroll
+    // Oculta o indicador de scroll ao descer
     if (scrollIndicator) {
-      if (p > 0.02) {
-        scrollIndicator.classList.add('hidden');
-      } else {
-        scrollIndicator.classList.remove('hidden');
-      }
+      if (p > 0.02) scrollIndicator.classList.add('hidden');
+      else scrollIndicator.classList.remove('hidden');
     }
-
-    // A lógica de ocultação do header foi removida para uma transição suave
 
     // FASE 1: Introdução (0% a 20%)
     if (p < 0.20) {
@@ -138,7 +128,7 @@
       }
       hideMoments();
     }
-    // FASE 3 & 4: Protagonismo do Vídeo + Momentos Sutis (36% a 86%)
+    // FASE 3 & 4: Protagonismo e Momentos (36% a 86%)
     else if (p >= 0.36 && p < 0.86) {
       setActiveLayer(null);
       if (lastVideoState !== 3) {
@@ -146,7 +136,6 @@
         video.style.transform = 'translate3d(0,0,0) scale(1)';
         lastVideoState = 3;
       }
-
       toggleMoment(moment1, p >= 0.39 && p < 0.50);
       toggleMoment(moment2, p >= 0.51 && p < 0.62);
       toggleMoment(moment3, p >= 0.63 && p < 0.74);
@@ -167,14 +156,10 @@
   function setActiveLayer(active) {
     if (lastActiveLayer === active) return;
     lastActiveLayer = active;
-
     [phase1, phase2, ctaStage].forEach(layer => {
       if (!layer) return;
-      if (layer === active) {
-        layer.classList.add('active');
-      } else {
-        layer.classList.remove('active');
-      }
+      if (layer === active) layer.classList.add('active');
+      else layer.classList.remove('active');
     });
   }
 
@@ -195,32 +180,28 @@
 
   function initUnifiedHeroScroll() {
     if (isInitialized) return;
-
+    
     const duration = video.duration;
-    if (!duration || isNaN(duration) || duration <= 0) {
-      return;
-    }
-
+    if (!duration || isNaN(duration) || duration <= 0) return;
+    
     isInitialized = true;
-
-    // Remove loading state
-    if (loadingState) {
-      loadingState.classList.add('loaded');
-    }
-
+    const loadingState = document.getElementById('video-loading');
+    if (loadingState) loadingState.classList.add('loaded');
+    
     video.currentTime = 0;
 
-    // Distância confortável de scroll para suavidade cinematográfica
+    // Distância de scroll estendida para garantir tempo físico pro vídeo reproduzir
     const scrollDistance = window.innerWidth <= 768 ? "+=3000" : "+=4200";
 
-    // ScrollTrigger com Scrub Suavizado
     ScrollTrigger.create({
       trigger: section,
       start: "top top",
       end: scrollDistance,
       pin: true,
       pinSpacing: true,
-      scrub: 1.0, // Kinetic inertia natural e fluida
+      // Usamos scrub: true (sem delay em segundos) para capturar o raw progress do usuário,
+      // delegando TODA a suavização matemática para o nosso requestAnimationFrame (dt).
+      scrub: true, 
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
@@ -228,34 +209,31 @@
       }
     });
 
-    // Inicia o render loop a 60/120 FPS
     if (!rafId) {
+      lastTime = performance.now();
       rafId = requestAnimationFrame(smoothRenderLoop);
     }
-
+    
     ScrollTrigger.refresh();
   }
 
-  // Inicialização Segura
+  // Bind Seguro de Inicialização
   if (video.readyState >= 1 && video.duration > 0) {
     initUnifiedHeroScroll();
   } else {
     video.addEventListener('loadedmetadata', initUnifiedHeroScroll, { once: true });
     video.addEventListener('loadeddata', initUnifiedHeroScroll, { once: true });
     video.addEventListener('canplay', initUnifiedHeroScroll, { once: true });
-
-    try {
-      video.load();
-    } catch (e) {}
-
+    
+    try { video.load(); } catch (e) {}
+    
     setTimeout(() => {
-      if (!isInitialized && video.duration > 0) {
-        initUnifiedHeroScroll();
-      }
+      if (!isInitialized && video.duration > 0) initUnifiedHeroScroll();
     }, 300);
   }
 
   window.addEventListener('resize', () => {
     ScrollTrigger.refresh();
-  });
+  }, { passive: true });
+
 })();
