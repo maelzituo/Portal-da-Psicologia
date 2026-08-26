@@ -21,16 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextSection = document.getElementById('sobre');
     let shouldBeScrolled = false;
     
-    if (nextSection) {
-      // O GSAP cria um "pin-spacer" que altera completamente o offsetTop.
-      // Usar getBoundingClientRect() é a forma perfeita e absoluta de saber
-      // a distância real da próxima seção em relação ao viewport.
-      // Dentro de um rAF (sem forçar repaints prévios), isso custa zero performance.
+    if (window.innerWidth < 768) {
+      // No mobile, a transição para glassmorphism ocorre logo após o início do scroll
+      shouldBeScrolled = window.scrollY > 40;
+    } else if (nextSection) {
+      // No desktop, calcula a aproximação da seção sobre após o pinning do hero
       const rect = nextSection.getBoundingClientRect();
-      
-      // Quando a seção 'sobre' estiver a 100px de tocar o topo da tela
-      // O header começa a sua transição suave (0.45s) de crossfade
-      shouldBeScrolled = rect.top <= 100; 
+      shouldBeScrolled = rect.top <= 100;
     } else {
       shouldBeScrolled = window.scrollY > 60;
     }

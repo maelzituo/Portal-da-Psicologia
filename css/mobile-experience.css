@@ -1,0 +1,606 @@
+/**
+ * PORTAL DA PSICOLOGIA - EXPERIÊNCIA MOBILE CINEMÁTICA & NARRATIVA EM CAPÍTULOS
+ * Desenvolvido especificamente para telas touch (< 768px).
+ * Performance máxima (60-120 FPS), aceleração por GPU, tipografia fluida clamp(),
+ * microinterações táteis e storytelling por IntersectionObserver.
+ */
+
+@media (max-width: 767.98px) {
+  
+  /* ==========================================================================
+     1. HERO MOBILE CINEMÁTICO - VÍDEO EM LOOP CONTÍNUO (SEM SCRUB / PINNING)
+     Experiência rica, cinematográfica e de alto contraste com o vídeo em evidência
+     ========================================================================== */
+  #hero-scroll-section {
+    position: relative !important;
+    height: auto !important;
+    min-height: 100svh !important;
+    min-height: 100dvh !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    background-color: #0F1A15 !important;
+  }
+
+  #hero-sticky-viewport {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    height: auto !important;
+    min-height: 100svh !important;
+    min-height: 100dvh !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 5.5rem 1.4rem 3.5rem 1.4rem !important;
+    overflow: hidden !important;
+    contain: layout style;
+  }
+
+  /* Vídeo Mobile em Background Contínuo e Suave - Alta Visibilidade e Riqueza Visual */
+  #hero-video-container {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    background-color: #0E1813 !important;
+  }
+
+  #hero-video {
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    opacity: 0.68 !important;
+    filter: brightness(0.95) contrast(1.06) saturate(1.05) !important;
+    transition: opacity 0.8s ease, filter 0.35s ease !important;
+    transform: translateZ(0);
+    will-change: auto;
+  }
+
+  [data-theme="dark"] #hero-video {
+    opacity: 0.58 !important;
+    filter: brightness(0.9) contrast(1.05) !important;
+  }
+
+  /* Overlay com Vinheta Cinematográfica Esmeralda Profunda - Mantém o vídeo nítido no centro e atmosfera imersiva sem faixas esbranquiçadas */
+  .hero-vignette {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 2 !important;
+    background: linear-gradient(
+      180deg, 
+      rgba(11, 19, 15, 0.75) 0%, 
+      rgba(11, 19, 15, 0.20) 35%, 
+      rgba(11, 19, 15, 0.60) 72%, 
+      rgba(11, 19, 15, 0.92) 100%
+    ) !important;
+    pointer-events: none !important;
+    transition: background 0.35s ease !important;
+  }
+
+  [data-theme="dark"] .hero-vignette {
+    background: linear-gradient(
+      180deg, 
+      rgba(10, 15, 13, 0.80) 0%, 
+      rgba(10, 15, 13, 0.25) 35%, 
+      rgba(10, 15, 13, 0.70) 72%, 
+      rgba(10, 15, 13, 0.96) 100%
+    ) !important;
+  }
+
+  /* Palco Narrativo do Hero no Mobile */
+  .hero-narrative-stage {
+    position: relative !important;
+    z-index: 4 !important;
+    width: 100% !important;
+    max-width: 520px !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 1.4rem !important;
+  }
+
+  /* Desativação dos momentos espalhados pelo canvas no mobile */
+  .hero-moments-wrapper,
+  #phase-2-text {
+    display: none !important;
+  }
+
+  /* Capítulo 1: Abertura Hero Mobile */
+  #phase-1-text {
+    position: relative !important;
+    inset: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    filter: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .phase-headline {
+    font-family: var(--font-display) !important;
+    font-size: clamp(1.85rem, 6.2vw, 2.35rem) !important;
+    font-weight: 500 !important;
+    line-height: 1.25 !important;
+    color: #FAF9F6 !important;
+    letter-spacing: -0.025em !important;
+    margin-bottom: 0.85rem !important;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55) !important;
+    transition: color 0.35s ease !important;
+  }
+
+  [data-theme="dark"] .phase-headline {
+    color: var(--text-pure) !important;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55) !important;
+  }
+
+  /* Badges de Capítulo e Tags com Acabamento Refinado */
+  .chapter-pill,
+  .phase-tag {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    color: #E2CDAA !important;
+    background: rgba(197, 168, 128, 0.16) !important;
+    border: 1px solid rgba(197, 168, 128, 0.38) !important;
+    padding: 0.4rem 0.95rem !important;
+    border-radius: var(--radius-pill) !important;
+    margin-bottom: 0.9rem !important;
+    font-weight: 600 !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
+    transition: color 0.35s ease, background-color 0.35s ease, border-color 0.35s ease !important;
+  }
+
+  [data-theme="dark"] .chapter-pill,
+  [data-theme="dark"] .phase-tag {
+    color: var(--gold-light) !important;
+    background: rgba(212, 190, 155, 0.12) !important;
+    border-color: rgba(212, 190, 155, 0.28) !important;
+  }
+
+  /* Apresentação do CTA e Introdução no Hero Mobile */
+  #hero-cta-stage {
+    position: relative !important;
+    inset: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    filter: none !important;
+    pointer-events: auto !important;
+    width: 100% !important;
+    padding: 1.4rem 1rem 0.5rem 1rem !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    margin: 0 !important;
+  }
+
+  #hero-cta-stage .phase-tag,
+  #hero-cta-stage .hero-cta-title {
+    display: none !important;
+  }
+
+  .hero-cta-desc {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    filter: none !important;
+    font-size: 0.98rem !important;
+    line-height: 1.65 !important;
+    color: #DEE8E3 !important;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5) !important;
+    margin: 0 auto 1.6rem !important;
+    max-width: 420px !important;
+    transition: color 0.35s ease !important;
+  }
+
+  [data-theme="dark"] .hero-cta-desc {
+    color: var(--text-secondary) !important;
+  }
+
+  .hero-cta-buttons {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    filter: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.85rem !important;
+    width: 100% !important;
+    max-width: 340px !important;
+    margin: 0 auto !important;
+  }
+
+  /* ==========================================================================
+     HEADER MOBILE ADAPTATIVO
+     ========================================================================== */
+  .site-header {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    background-color: transparent !important;
+    border-bottom: 1px solid transparent !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
+  }
+
+  /* Logo e botões no topo do hero com visibilidade perfeita */
+  .site-header:not(.scrolled) .brand-text {
+    color: #FAF9F6 !important;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .site-header:not(.scrolled) .mobile-menu-btn {
+    color: #FAF9F6 !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+
+  .site-header:not(.scrolled) .theme-toggle {
+    color: #FAF9F6 !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+
+  .site-header.scrolled {
+    background-color: var(--header-scrolled-bg) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+    border-bottom: 1px solid var(--header-scrolled-border) !important;
+    box-shadow: var(--header-scrolled-shadow) !important;
+  }
+
+  .hero-cta-buttons .btn {
+    width: 100% !important;
+    min-height: 48px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.95rem !important;
+    border-radius: var(--radius-pill) !important;
+    padding: 0.85rem 1.6rem !important;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.2s ease !important;
+  }
+
+  /* Botão Primário: Dourado Radiante de Alto Contraste & Sofisticação */
+  .hero-cta-buttons .btn-primary {
+    background: linear-gradient(135deg, #C5A880 0%, #A88758 100%) !important;
+    color: #0E1813 !important;
+    font-weight: 600 !important;
+    border: 1px solid rgba(255, 245, 225, 0.5) !important;
+    box-shadow: 0 4px 18px rgba(197, 168, 128, 0.35), 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  [data-theme="dark"] .hero-cta-buttons .btn-primary {
+    background: linear-gradient(135deg, #C5A880 0%, #A88758 100%) !important;
+    color: #0E1813 !important;
+    font-weight: 600 !important;
+    border-color: rgba(255, 245, 225, 0.5) !important;
+    box-shadow: 0 4px 20px rgba(197, 168, 128, 0.4), 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  /* Botão Secundário: Vidro Fosco Cristalino com Borda Nítida */
+  .hero-cta-buttons .btn-secondary {
+    background: rgba(255, 255, 255, 0.10) !important;
+    color: #FAF9F6 !important;
+    font-weight: 500 !important;
+    border: 1px solid rgba(255, 255, 255, 0.28) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.22) !important;
+  }
+
+  [data-theme="dark"] .hero-cta-buttons .btn-secondary {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #FAF9F6 !important;
+    font-weight: 500 !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+
+  .hero-cta-buttons .btn:active {
+    transform: scale(0.965) !important;
+  }
+
+  /* Micro Chips de Pilares no Hero Mobile */
+  .mobile-hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+    width: 100%;
+  }
+
+  .mobile-hero-chip {
+    font-size: 0.74rem;
+    color: #FAF9F6;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-pill);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+    transition: color 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
+  }
+
+  [data-theme="dark"] .mobile-hero-chip {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .mobile-hero-chip span.dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--gold-primary);
+  }
+
+  /* Indicador de Scroll Suave */
+  .scroll-indicator {
+    position: absolute !important;
+    bottom: 1.2rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+    opacity: 0.82 !important;
+    pointer-events: none !important;
+    z-index: 5 !important;
+    transition: opacity 0.3s ease !important;
+  }
+
+  .scroll-indicator-text {
+    font-size: 0.65rem !important;
+    letter-spacing: 0.2em !important;
+    text-transform: uppercase !important;
+    color: rgba(250, 249, 246, 0.75) !important;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5) !important;
+    font-weight: 500 !important;
+    transition: color 0.35s ease !important;
+  }
+
+  [data-theme="dark"] .scroll-indicator-text {
+    color: rgba(250, 249, 246, 0.75) !important;
+  }
+
+  .scroll-indicator-line {
+    width: 1px !important;
+    height: 22px !important;
+    background: linear-gradient(to bottom, #C5A880, transparent) !important;
+  }
+
+
+  /* ==========================================================================
+     2. SISTEMA DE STORYTELLING POR CAPÍTULOS (INTERSECTION OBSERVER)
+     ========================================================================== */
+  .mobile-chapter-section {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(0.985);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+    contain: layout style;
+  }
+
+  .mobile-chapter-section.chapter-revealed {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  /* Badges de Capítulo Cinematográficas */
+  .chapter-marker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gold-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .chapter-marker::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 1px;
+    background-color: var(--gold-primary);
+  }
+
+  /* Espaçamento e Respiração Confortável entre Seções Mobile */
+  .section-padding {
+    padding-top: 4.5rem !important;
+    padding-bottom: 4.5rem !important;
+  }
+
+  /* ==========================================================================
+     3. TIPOGRAFIA RESPONSIVA CLAMP() & HIERARQUIA VISUAL MOBILE
+     ========================================================================== */
+  .section-title {
+    font-size: clamp(1.65rem, 5.8vw, 2.15rem) !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.02em !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .section-subtitle {
+    font-size: clamp(0.92rem, 3.8vw, 1.05rem) !important;
+    line-height: 1.65 !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .about-text-lead {
+    font-size: 1.05rem !important;
+    line-height: 1.65 !important;
+  }
+
+  /* ==========================================================================
+     4. CARDS & MICROINTERAÇÕES TOUCH-FIRST
+     ========================================================================== */
+  /* Cards de Especialidades */
+  .specialties-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+
+  .specialty-card {
+    padding: 1.5rem 1.35rem !important;
+    border-radius: var(--radius-md) !important;
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--color-border) !important;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                box-shadow 0.2s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .specialty-card:active {
+    transform: scale(0.98) !important;
+    border-color: rgba(197, 168, 128, 0.45) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  /* Diferenciais em Lista Limpa e Confortável */
+  .differentials-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.85rem !important;
+  }
+
+  .differential-row {
+    padding: 1.35rem 1.2rem !important;
+    border-radius: var(--radius-md) !important;
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--color-border) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+
+  .diff-index {
+    font-size: 0.82rem !important;
+    color: var(--gold-primary) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.1em !important;
+  }
+
+  .diff-title {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+  }
+
+  .diff-desc {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    color: var(--text-secondary) !important;
+  }
+
+  /* Cards de Equipe */
+  .team-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+  }
+
+  .team-card {
+    border-radius: var(--radius-md) !important;
+    overflow: hidden !important;
+  }
+
+  /* Área de Contato e Formulário Mobile */
+  .contact-wrapper {
+    border-radius: var(--radius-lg) !important;
+    padding: 2rem 1.25rem !important;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    min-height: 48px !important;
+    font-size: 16px !important; /* Previne zoom indesejado no iOS */
+    padding: 0.75rem 1rem !important;
+    border-radius: var(--radius-sm) !important;
+  }
+
+  .form-btn-submit {
+    min-height: 50px !important;
+    font-size: 1rem !important;
+    border-radius: var(--radius-pill) !important;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .form-btn-submit:active {
+    transform: scale(0.97) !important;
+  }
+
+  /* Botão Flutuante do WhatsApp */
+  .floating-whatsapp-btn {
+    bottom: 1.25rem !important;
+    right: 1.25rem !important;
+    width: 52px !important;
+    height: 52px !important;
+  }
+
+  .floating-whatsapp-btn:active .whatsapp-btn-inner {
+    transform: scale(0.92) !important;
+  }
+
+  /* ==========================================================================
+     5. ACESSIBILIDADE (PREFERS-REDUCED-MOTION)
+     ========================================================================== */
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-chapter-section {
+      transition: opacity 0.35s ease !important;
+      transform: none !important;
+    }
+
+    .hero-cta-buttons .btn,
+    .specialty-card,
+    .form-btn-submit {
+      transition: none !important;
+      transform: none !important;
+    }
+
+    #hero-video {
+      transition: none !important;
+    }
+  }
+}

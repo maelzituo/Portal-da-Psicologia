@@ -113,16 +113,17 @@
   font-weight: 600;
   opacity: 0;
   transform: translateY(-12px);
-  filter: blur(3px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.08s,
-              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.08s,
-              filter 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+  filter: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s,
+              transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
 }
 
 .phase-layer.active .phase-tag {
   opacity: 0.95;
   transform: translateY(0);
-  filter: blur(0);
+  filter: none;
 }
 
 .phase-headline {
@@ -205,55 +206,55 @@
 .moment-3 { bottom: 24%; left: 10%; }
 .moment-4 { bottom: 18%; right: 10%; }
 
-/* CTA Final do Hero - Entrada Fluida e Etérea (Liquid Bloom Effect) */
+/* CTA Final do Hero - Otimizado para Máxima Performance e Fluidez */
 .hero-cta-stage {
   position: absolute;
   width: 100%;
-  max-width: 800px;
+  max-width: 760px;
   text-align: center;
-  padding: 3.8rem 2.8rem;
-  background: radial-gradient(circle at 50% 30%, rgba(28, 44, 37, 0.88) 0%, rgba(14, 22, 18, 0.94) 100%);
-  border: 1px solid rgba(197, 168, 128, 0.3);
+  padding: 3.2rem 2.4rem;
+  background: rgba(18, 28, 23, 0.94);
+  border: 1px solid rgba(197, 168, 128, 0.35);
   border-radius: var(--radius-lg);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  box-shadow: 0 30px 70px rgba(8, 14, 12, 0.55), 0 0 45px rgba(197, 168, 128, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 50px rgba(5, 12, 10, 0.5), 0 0 30px rgba(197, 168, 128, 0.08);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(22px) scale(0.975) translateZ(0);
-  filter: blur(8px);
-  transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 1.05s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.95s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(0, 16px, 0);
+  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+              visibility 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   pointer-events: none;
   z-index: 8;
-  will-change: transform, opacity, filter, visibility;
+  will-change: transform, opacity;
   backface-visibility: hidden;
+  contain: layout style;
 }
 
 .hero-cta-stage.active {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0) scale(1) translateZ(0);
-  filter: blur(0);
+  transform: translate3d(0, 0, 0);
   pointer-events: auto;
 }
 
-/* Micro-Animações Escalonadas e Líquidas para os Filhos do CTA */
+/* Transições Rápidas, Aceleradas por GPU para os Elementos Internos do CTA */
 .hero-cta-stage .phase-tag {
   opacity: 0;
-  transform: translateY(-8px);
-  filter: blur(4px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
-              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+  transform: translate3d(0, -6px, 0);
+  filter: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) 0.04s,
+              transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) 0.04s;
+  will-change: transform, opacity;
 }
 
 .hero-cta-stage.active .phase-tag {
-  opacity: 0.95;
-  transform: translateY(0);
-  filter: blur(0);
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: none;
 }
 
 .hero-cta-title {
@@ -263,37 +264,33 @@
   margin-bottom: 1.2rem;
   letter-spacing: -0.03em;
   opacity: 0;
-  transform: translateY(14px);
-  filter: blur(6px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
-              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
-              filter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+  transform: translate3d(0, 10px, 0);
+  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.08s,
+              transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.08s;
+  will-change: transform, opacity;
 }
 
 .hero-cta-stage.active .hero-cta-title {
   opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .hero-cta-desc {
   font-size: 1.1rem;
   color: #D1DCD6;
   max-width: 580px;
-  margin: 0 auto 2.5rem;
+  margin: 0 auto 2.2rem;
   line-height: 1.7;
   opacity: 0;
-  transform: translateY(12px);
-  filter: blur(4px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.32s,
-              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.32s,
-              filter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.32s;
+  transform: translate3d(0, 8px, 0);
+  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s,
+              transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s;
+  will-change: transform, opacity;
 }
 
 .hero-cta-stage.active .hero-cta-desc {
   opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .hero-cta-buttons {
@@ -303,17 +300,15 @@
   gap: 1.2rem;
   flex-wrap: wrap;
   opacity: 0;
-  transform: translateY(10px);
-  filter: blur(4px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.44s,
-              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.44s,
-              filter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.44s;
+  transform: translate3d(0, 8px, 0);
+  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.16s,
+              transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.16s;
+  will-change: transform, opacity;
 }
 
 .hero-cta-stage.active .hero-cta-buttons {
   opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .hero-cta-buttons .btn-primary {

@@ -234,10 +234,20 @@
     });
   }
 
+  // Verifica se estamos em tela desktop
+  function isDesktopScreen() {
+    return window.innerWidth >= 768;
+  }
+
   /**
-   * Inicialização Integrada com o ScrollTrigger
+   * Inicialização Integrada com o ScrollTrigger (Exclusivo Desktop >= 768px)
    */
   function initUnifiedHeroScroll() {
+    if (!isDesktopScreen()) {
+      // No mobile (< 768px), o scroll-video.js não interfere: o mobile-experience.js assume o controle
+      return;
+    }
+
     if (isInitialized) return;
     
     const duration = video.duration;
@@ -247,12 +257,14 @@
     const loadingState = document.getElementById('video-loading');
     if (loadingState) loadingState.classList.add('loaded');
     
+    video.pause();
     video.currentTime = 0;
 
-    // Distância de rolagem equilibrada para ritmo cinematográfico ideal
-    const scrollDistance = window.innerWidth <= 768 ? "+=2800" : "+=3800";
+    // Distância de rolagem cinematográfica no desktop
+    const scrollDistance = "+=3800";
 
     ScrollTrigger.create({
+      id: "desktop-hero-scroll",
       trigger: section,
       start: "top top",
       end: scrollDistance,
@@ -276,23 +288,45 @@
     ScrollTrigger.refresh();
   }
 
-  // Eventos para garantir que o vídeo esteja pronto antes de ativar o pinning
-  if (video.readyState >= 1 && video.duration > 0) {
-    initUnifiedHeroScroll();
-  } else {
-    video.addEventListener('loadedmetadata', initUnifiedHeroScroll, { once: true });
-    video.addEventListener('loadeddata', initUnifiedHeroScroll, { once: true });
-    video.addEventListener('canplay', initUnifiedHeroScroll, { once: true });
-    
-    try { video.load(); } catch (e) {}
-    
-    setTimeout(() => {
-      if (!isInitialized && video.duration > 0) initUnifiedHeroScroll();
-    }, 250);
+  // Eventos para garantir que o vídeo esteja pronto antes de ativar o pinning no desktop
+  if (isDesktopScreen()) {
+    if (video.readyState >= 1 && video.duration > 0) {
+      initUnifiedHeroScroll();
+    } else {
+      video.addEventListener('loadedmetadata', initUnifiedHeroScroll, { once: true });
+      video.addEventListener('loadeddata', initUnifiedHeroScroll, { once: true });
+      video.addEventListener('canplay', initUnifiedHeroScroll, { once: true });
+      
+      try { video.load(); } catch (e) {}
+      
+      setTimeout(() => {
+        if (!isInitialized && video.duration > 0 && isDesktopScreen()) initUnifiedHeroScroll();
+      }, 250);
+    }
   }
 
+  let resizeDebounce = null;
   window.addEventListener('resize', () => {
-    ScrollTrigger.refresh();
+    clearTimeout(resizeDebounce);
+    resizeDebounce = setTimeout(() => {
+      if (isDesktopScreen()) {
+        if (!isInitialized) {
+          initUnifiedHeroScroll();
+        } else {
+          ScrollTrigger.refresh();
+        }
+      } else {
+        const trigger = ScrollTrigger.getById("desktop-hero-scroll");
+        if (trigger) {
+          trigger.kill(true);
+          isInitialized = false;
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
+        }
+      }
+    }, 150);
   }, { passive: true });
 
 })();
