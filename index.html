@@ -8,18 +8,29 @@
   <meta name="description" content="Portal da Psicologia — Centro de atendimento psicológico, psicoterapia e desenvolvimento humano.">
   <meta name="theme-color" content="#F9F8F5">
 
+  <!-- Otimização Crítica de Fontes: Preconnect + Preload + Font Display Swap (Sem @import bloqueante no CSS) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="public/video/clinica-keyframe.mp4" as="video" type="video/mp4">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600&display=swap">
+  </noscript>
 
   <!-- Favicon Sutil -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='%232C4A3E' stroke='%23C5A880' stroke-width='4'/><circle cx='50' cy='50' r='12' fill='%23C5A880'/></svg>">
 
-  <!-- Estilos -->
-  <link rel="stylesheet" href="css/style.css?v=2.0">
-  <link rel="stylesheet" href="css/hero-video.css?v=2.0">
-  <link rel="stylesheet" href="css/mobile-experience.css?v=2.0">
-  <!-- Lógica de Inicialização do Tema (Previne Flash of Incorrect Theme) -->
+  <!-- Preload Crítico dos Primeiros Frames WebP (Canvas Scrub Ultra-Fluido e Instantâneo no Desktop) -->
+  <link rel="preload" href="public/frames-webp/f_0001.webp" as="image" type="image/webp">
+  <link rel="preload" href="public/frames-webp/f_0002.webp" as="image" type="image/webp">
+  <link rel="preload" href="public/frames-webp/f_0003.webp" as="image" type="image/webp">
+
+  <!-- Estilos Críticos -->
+  <link rel="stylesheet" href="css/style.css?v=3.0">
+  <link rel="stylesheet" href="css/hero-video.css?v=3.0">
+  <link rel="stylesheet" href="css/mobile-experience.css?v=3.0">
+
+  <!-- Lógica de Inicialização do Tema e Detecção Rápida de Performance (Previne Flash of Unstyled/Incorrect Content) -->
   <script>
     (function() {
       const storedTheme = localStorage.getItem("theme");
@@ -31,12 +42,13 @@
       }
     })();
   </script>
-
+  <!-- Performance & Eco Manager Early Hook -->
+  <script src="js/performance-manager.js?v=3.0"></script>
 </head>
 <body>
 
   <!-- ========================================================================
-       1. NAVEGAÇÃO FIXA & MINIMALISTA
+       1. NAVEGAÇÃO FIXA & MINIMALISTA (Surge suavemente após a experiência do Hero)
        ======================================================================== -->
   <header class="site-header" id="site-header">
     <div class="container nav-container">
@@ -105,22 +117,28 @@
     <section class="hero-scroll-section" id="hero-scroll-section" aria-label="Apresentação Cinematográfica da Clínica">
       <div class="hero-sticky-viewport" id="hero-sticky-viewport">
         
-        <!-- Elemento de Vídeo Central -->
+        <!-- Elemento Visual Central: Canvas Ultra-Fluido para Desktop (Apple-style) & Vídeo Autoplay para Mobile -->
         <div class="hero-video-wrapper">
+          <canvas 
+            id="hero-canvas" 
+            class="hero-canvas" 
+            width="1280" 
+            height="720"
+            aria-hidden="true"></canvas>
           <video 
             id="hero-video" 
             class="hero-video" 
-            src="public/video/clinica-keyframe.mp4"
+            src="public/video/clinica.mp4"
             autoplay
             loop
             muted 
             playsinline 
             webkit-playsinline 
-            preload="auto" 
+            preload="metadata" 
             disablepictureinpicture 
             disableremoteplayback
             aria-hidden="true">
-            <source src="public/video/clinica-keyframe.mp4" type="video/mp4">
+            <source src="public/video/clinica.mp4" type="video/mp4">
             Seu navegador não suporta a exibição deste vídeo.
           </video>
         </div>
@@ -427,7 +445,7 @@
                   </div>
                   <div class="contact-info-content">
                     <h5>WhatsApp Direto</h5>
-                    <p><a href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20o%20atendimento%20psicol%C3%B3gico%20online." target="_blank" rel="noopener noreferrer" id="contact-whatsapp-link">(11) 99999-9999</a></p>
+                    <p><a href="https://wa.me/51993617100?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20o%20atendimento%20psicol%C3%B3gico%20online." target="_blank" rel="noopener noreferrer" id="contact-whatsapp-link">(51) 99361-7100</a></p>
                   </div>
                 </div>
 
@@ -564,8 +582,8 @@
     </div>
   </footer>
 
-  <!-- Botão Flutuante do WhatsApp -->
-  <a href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20o%20atendimento%20psicol%C3%B3gico%20online." 
+  <!-- Botão Flutuante do WhatsApp (Aceleração por Hardware e Renderização Fluida) -->
+  <a href="https://wa.me/51993617100?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20o%20atendimento%20psicol%C3%B3gico%20online." 
      class="floating-whatsapp-btn" 
      id="floating-whatsapp-btn"
      target="_blank" 
@@ -578,23 +596,13 @@
     <span class="whatsapp-btn-tooltip">Atendimento Online</span>
   </a>
 
-  <!-- GSAP & ScrollTrigger (Local com Fallback CDN Automático) -->
-  <script src="js/gsap.min.js"></script>
-  <script src="js/ScrollTrigger.min.js"></script>
-  <script>
-    if (typeof gsap === 'undefined') {
-      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"><\/script>');
-    }
-  </script>
-  <script>
-    if (typeof ScrollTrigger === 'undefined') {
-      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"><\/script>');
-    }
-  </script>
+  <!-- GSAP & ScrollTrigger (Carregamento Otimizado para Desktop) -->
+  <script src="js/gsap.min.js" defer></script>
+  <script src="js/ScrollTrigger.min.js" defer></script>
 
-  <!-- Scripts do Projeto -->
-  <script src="js/scroll-video.js?v=2.0"></script>
-  <script src="js/mobile-experience.js?v=2.0"></script>
-  <script src="js/main.js?v=2.0"></script>
+  <!-- Scripts Modulares do Projeto (Com Defer para Maximizar FCP e Reduzir TBT) -->
+  <script src="js/scroll-video.js?v=3.0" defer></script>
+  <script src="js/mobile-experience.js?v=3.0" defer></script>
+  <script src="js/main.js?v=3.0" defer></script>
 </body>
 </html>

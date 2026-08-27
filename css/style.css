@@ -1,9 +1,8 @@
 /* ==========================================================================
    PORTAL DA PSICOLOGIA - DESIGN SYSTEM UI/UX PRO MAX
    Estética: Dark Luxury Editorial • Minimalismo Nobre • Precisão & Alta Fluidez
+   Otimizado para 60-120 FPS em dispositivos de baixo custo (Android 2GB RAM / CPUs modestas)
    ========================================================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
   /* ==========================================================================
@@ -245,7 +244,7 @@ body::before {
     radial-gradient(circle at 85% 70%, rgba(159, 184, 170, 0.04) 0%, transparent 50%);
 }
 
-/* Micro-granulação sutil (Noise Texture) */
+/* Micro-granulação sutil (Noise Texture) - Somente em telas desktop de alta performance */
 body::after {
   content: '';
   position: fixed;
@@ -259,13 +258,49 @@ body::after {
   opacity: 0.5;
   transform: translateZ(0);
   backface-visibility: hidden;
-  will-change: transform;
 }
 
-@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+@media (max-width: 1024px), (prefers-reduced-motion: reduce) {
   body::after {
-    display: none;
+    display: none !important;
   }
+}
+
+.perf-eco-active body::after,
+.perf-tier-low body::after {
+  display: none !important;
+}
+
+/* --- Otimização de Render Pipeline: CSS Containment & Content Visibility --- */
+#sobre,
+#especialidades,
+#diferenciais,
+#equipe,
+#contato,
+.site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 700px;
+  contain: layout style paint;
+}
+
+/* Modo Eco & Low-End Devices: Eliminação de Jank e Quedas de FPS */
+.perf-eco-active .site-header.scrolled,
+.perf-tier-low .site-header.scrolled {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background-color: rgba(249, 248, 245, 0.98) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="dark"].perf-eco-active .site-header.scrolled,
+[data-theme="dark"].perf-tier-low .site-header.scrolled {
+  background-color: rgba(13, 17, 15, 0.98) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+.perf-eco-active *,
+.perf-tier-low * {
+  text-shadow: none !important;
 }
 
 /* --- Tipografia Editorial --- */

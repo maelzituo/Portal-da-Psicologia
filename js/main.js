@@ -1,58 +1,68 @@
 /**
  * PORTAL DA PSICOLOGIA - INTERAÇÕES GLOBAIS & EXPERIÊNCIA DO USUÁRIO
+ * Otimizado para Core Web Vitals, INP, LCP e 60-120 FPS em CPUs móveis de baixo custo
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
-  // --- Elementos de Navegação ---
+  // --- Cache de Elementos do DOM ---
   const header = document.querySelector('.site-header');
+  const sobreSection = document.getElementById('sobre');
+  const heroSection = document.getElementById('hero-scroll-section');
   const mobileToggle = document.getElementById('mobile-toggle');
   const mobileDrawer = document.getElementById('mobile-drawer');
   const mobileOverlay = document.getElementById('mobile-overlay');
   const mobileClose = document.getElementById('mobile-drawer-close');
   const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  const isEcoMode = document.documentElement.classList.contains('perf-tier-low') || window.innerWidth < 768;
 
-  // --- Controle da Barra de Navegação no Scroll (Otimizado Eco Mode) ---
-  let isHeaderTicking = false;
+  // --- 1. CONTROLE DE NAVEGAÇÃO APÓS O HERO (ZERO-CPU OBSERVER & SCROLL SYNC) ---
+  if (header) {
+    const updateHeaderVisibility = () => {
+      if (!sobreSection) return;
+      const rect = sobreSection.getBoundingClientRect();
+      
+      // O header só se torna visível quando o usuário ultrapassa a experiência do Hero
+      // (isto é, quando o topo da seção #sobre atinge ou ultrapassa a área visível superior)
+      if (rect.top <= 80) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    };
 
-  function handleHeaderScroll() {
-    if (!header) return;
-    const nextSection = document.getElementById('sobre');
-    let shouldBeScrolled = false;
-    
-    if (window.innerWidth < 768) {
-      // No mobile, a transição para glassmorphism ocorre logo após o início do scroll
-      shouldBeScrolled = window.scrollY > 40;
-    } else if (nextSection) {
-      // No desktop, calcula a aproximação da seção sobre após o pinning do hero
-      const rect = nextSection.getBoundingClientRect();
-      shouldBeScrolled = rect.top <= 100;
-    } else {
-      shouldBeScrolled = window.scrollY > 60;
+    if ('IntersectionObserver' in window && sobreSection) {
+      const headerObserver = new IntersectionObserver((entries) => {
+        entries.forEach(() => {
+          updateHeaderVisibility();
+        });
+      }, {
+        threshold: [0, 0.05, 0.1, 0.25, 0.5],
+        rootMargin: '0px 0px 0px 0px'
+      });
+
+      headerObserver.observe(sobreSection);
+      if (heroSection) headerObserver.observe(heroSection);
     }
 
-    if (shouldBeScrolled) {
-      if (!header.classList.contains('scrolled')) header.classList.add('scrolled');
-    } else {
-      if (header.classList.contains('scrolled')) header.classList.remove('scrolled');
-    }
+    // Listener desacoplado via requestAnimationFrame para resposta imediata
+    let isHeaderTicking = false;
+    window.addEventListener('scroll', () => {
+      if (!isHeaderTicking) {
+        requestAnimationFrame(() => {
+          updateHeaderVisibility();
+          isHeaderTicking = false;
+        });
+        isHeaderTicking = true;
+      }
+    }, { passive: true });
+
+    // Verificação inicial no carregamento da página
+    updateHeaderVisibility();
   }
 
-  // Throttle via requestAnimationFrame para performance matemática no mobile
-  window.addEventListener('scroll', () => {
-    if (!isHeaderTicking) {
-      window.requestAnimationFrame(() => {
-        handleHeaderScroll();
-        isHeaderTicking = false;
-      });
-      isHeaderTicking = true;
-    }
-  }, { passive: true });
-
-  handleHeaderScroll();
-
-  // --- Menu Mobile Drawer ---
+  // --- 2. MENU MOBILE DRAWER (GPU TRANSLATE) ---
   function openMobileMenu() {
     if (mobileDrawer && mobileOverlay) {
       mobileDrawer.classList.add('open');
@@ -69,19 +79,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  if (mobileToggle) mobileToggle.addEventListener('click', openMobileMenu);
-  if (mobileClose) mobileClose.addEventListener('click', closeMobileMenu);
-  if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
+  if (mobileToggle) mobileToggle.addEventListener('click', openMobileMenu, { passive: true });
+  if (mobileClose) mobileClose.addEventListener('click', closeMobileMenu, { passive: true });
+  if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu, { passive: true });
 
   mobileNavLinks.forEach(link => {
-    link.addEventListener('click', closeMobileMenu);
+    link.addEventListener('click', closeMobileMenu, { passive: true });
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeMobileMenu();
-  });
+  }, { passive: true });
 
-  // --- Scroll Suave para Âncoras ---
+  // --- 3. SCROLL SUAVE PARA ÂNCORAS COM PRESERVAÇÃO DE MAIN THREAD ---
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -102,10 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- Revelação Gradual com IntersectionObserver ---
+  // --- 4. REVELAÇÃO PROGRESSIVA EFICIENTE COM INTERSECTION OBSERVER ---
   const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -40px 0px'
+    threshold: isEcoMode ? 0.05 : 0.15,
+    rootMargin: '0px 0px -30px 0px'
   };
 
   const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -115,9 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
         entry.target.style.transform = 'translate3d(0, 0, 0)';
         observer.unobserve(entry.target);
         
+        // Remove willChange para liberar buffers de GPU
         setTimeout(() => {
           entry.target.style.willChange = 'auto';
-        }, 1000); // clear after transition
+        }, 600);
       }
     });
   }, observerOptions);
@@ -128,13 +139,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   animatedElements.forEach((el, index) => {
     el.style.opacity = '0';
-    el.style.transform = 'translate3d(0, 24px, 0)';
-    el.style.willChange = 'opacity, transform';
-    el.style.transition = `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${index % 3 * 0.1}s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${index % 3 * 0.1}s`;
+    el.style.transform = 'translate3d(0, 18px, 0)';
+    if (!isEcoMode) {
+      el.style.willChange = 'opacity, transform';
+    }
+    el.style.transition = `opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${Math.min(index % 3 * 0.08, 0.2)}s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${Math.min(index % 3 * 0.08, 0.2)}s`;
     revealObserver.observe(el);
   });
 
-  // --- Manipulação do Formulário de Agendamento Online & Encaminhamento WhatsApp ---
+  // --- 5. MANIPULAÇÃO DO FORMULÁRIO DE AGENDAMENTO VIA WHATSAPP ---
   const bookingForm = document.getElementById('concierge-booking-form');
   if (bookingForm) {
     bookingForm.addEventListener('submit', (e) => {
@@ -152,11 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const shift = shiftInput ? shiftInput.value : 'Horário Flexível';
 
       if (!name || !phone) {
-        alert('Por favor, preencha seu nome e WhatsApp para prosseguir.');
         return;
       }
 
-      // Monta a mensagem personalizada e ética para o WhatsApp
+      // Mensagem personalizada e ética para o WhatsApp
       const message = `🌿 *Solicitação de Agendamento - Portal da Psicologia*
 
 Olá! Gostaria de agendar uma consulta psicológica online.
@@ -169,8 +181,7 @@ Olá! Gostaria de agendar uma consulta psicológica online.
 
 Aguardo informações sobre horários disponíveis. Obrigado(a)!`;
 
-      // Codifica para a URL do WhatsApp
-      const clinicWhatsAppNumber = '5511999999999'; // Número da clínica configurável
+      const clinicWhatsAppNumber = '51993617100';
       const whatsappUrl = `https://wa.me/${clinicWhatsAppNumber}?text=${encodeURIComponent(message)}`;
 
       if (submitBtn) {
@@ -180,10 +191,8 @@ Aguardo informações sobre horários disponíveis. Obrigado(a)!`;
         submitBtn.style.background = 'linear-gradient(135deg, #25D366, #1DA851)';
         submitBtn.style.color = '#FFFFFF';
 
-        // Abre o WhatsApp com a mensagem pré-preenchida
         setTimeout(() => {
           window.open(whatsappUrl, '_blank');
-
           submitBtn.innerHTML = '<span>Solicitação Aberta no WhatsApp!</span>';
 
           setTimeout(() => {
@@ -192,8 +201,8 @@ Aguardo informações sobre horários disponíveis. Obrigado(a)!`;
             submitBtn.style.background = '';
             submitBtn.style.color = '';
             bookingForm.reset();
-          }, 3500);
-        }, 600);
+          }, 3000);
+        }, 400);
       } else {
         window.open(whatsappUrl, '_blank');
         bookingForm.reset();
@@ -234,12 +243,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Listener para mudanças na preferência do sistema, se o usuário não tiver forçado um tema
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    if (!localStorage.getItem('theme')) {
-      const newTheme = e.matches ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', newTheme);
-      updateThemeUI(newTheme);
-    }
-  });
+  // Listener para mudanças na preferência do sistema
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateThemeUI(newTheme);
+      }
+    });
+  }
 });
