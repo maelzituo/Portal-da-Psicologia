@@ -1,0 +1,7 @@
+# robots.txt for Portal da Psicologia
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://ais-pre-q5udmzuzxrro3xelwa4c6x-653081478330.us-east1.run.app/sitemap.xml
+Sitemap: /sitemap.xml

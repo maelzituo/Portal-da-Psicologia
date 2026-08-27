@@ -43,21 +43,12 @@
 
     if (!section || !canvas) return;
 
-    // Se estiver em mobile (< 768px), o mobile-experience.js assume o controle
-    if (!isDesktopScreen()) {
-      window.addEventListener('resize', onWindowResize, { passive: true });
-      return;
-    }
-
-    // Contexto 2D otimizado com alpha falso para rendering direto de alta velocidade
-    const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
-    if (!ctx) return;
-
-    // Repositório de imagens em memória
+    // Repositório de imagens em memória e variáveis de estado (sempre inicializadas no topo do escopo)
     const images = new Array(TOTAL_FRAMES + 1);
     const loadedStatus = new Uint8Array(TOTAL_FRAMES + 1);
     let lastRenderedIndex = -1;
     let isInitialized = false;
+    let ctx = null;
 
     let targetProgress = 0;
     let smoothProgress = 0;
@@ -66,6 +57,13 @@
     let lastTime = performance.now();
     let lastActiveLayer = null;
     let lastOpacityValue = -1;
+
+    function get2DContext() {
+      if (!ctx && canvas) {
+        ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
+      }
+      return ctx;
+    }
 
     /**
      * Ajuste de Resolução Interna do Canvas para Nitidez Retina (HiDPI)
@@ -112,7 +110,8 @@
     }
 
     function drawActualImage(img) {
-      if (!ctx || !canvas || !img) return;
+      const context = get2DContext();
+      if (!context || !canvas || !img) return;
 
       const cw = canvas.width;
       const ch = canvas.height;
@@ -137,7 +136,7 @@
         drawY = 0;
       }
 
-      ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+      context.drawImage(img, drawX, drawY, drawWidth, drawHeight);
     }
 
     /**

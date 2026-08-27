@@ -18,6 +18,21 @@ app.use(express.static(path.join(__dirname), {
   }
 }));
 
+// Explicit clean routes
+app.get('/politica-de-privacidade', (req, res) => {
+  res.sendFile(path.join(__dirname, 'politica-de-privacidade.html'));
+});
+
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain');
+  res.sendFile(path.join(__dirname, 'robots.txt'));
+});
+
+app.get('/sitemap.xml', (req, res) => {
+  res.type('application/xml');
+  res.sendFile(path.join(__dirname, 'sitemap.xml'));
+});
+
 // Route fallback
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
