@@ -169,19 +169,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Mensagem personalizada e ética para o WhatsApp
-      const message = `🌿 *Solicitação de Agendamento - Portal da Psicologia*
+      const message = `*Solicitação de Agendamento - Portal da Psicologia*
 
 Olá! Gostaria de agendar uma consulta psicológica online.
 
-👤 *Nome:* ${name}
-📱 *WhatsApp:* ${phone}
-🎯 *Motivo / Objetivo:* ${demand}
-⏰ *Período Preferencial:* ${shift}
-💻 *Modalidade:* Atendimento 100% Online
+- *Nome:* ${name}
+- *WhatsApp:* ${phone}
+- *Motivo / Objetivo:* ${demand}
+- *Período Preferencial:* ${shift}
+- *Modalidade:* Atendimento 100% Online
 
 Aguardo informações sobre horários disponíveis. Obrigado(a)!`;
 
-      const clinicWhatsAppNumber = '51993617100';
+      const clinicWhatsAppNumber = '5551993617100';
       const whatsappUrl = `https://wa.me/${clinicWhatsAppNumber}?text=${encodeURIComponent(message)}`;
 
       if (submitBtn) {
