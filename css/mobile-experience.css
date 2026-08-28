@@ -244,45 +244,8 @@
   }
 
   /* ==========================================================================
-     HEADER MOBILE ADAPTATIVO
+     (HEADER MOBILE overrides removed to match desktop hidden-by-default behavior)
      ========================================================================== */
-  .site-header {
-    transform: translateY(0) !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    background-color: transparent !important;
-    border-bottom: 1px solid transparent !important;
-    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
-  }
-
-  /* Logo e botões no topo do hero com visibilidade perfeita */
-  .site-header:not(.scrolled) .brand-text {
-    color: #FAF9F6 !important;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4) !important;
-  }
-
-  .site-header:not(.scrolled) .mobile-menu-btn {
-    color: #FAF9F6 !important;
-    background: rgba(255, 255, 255, 0.12) !important;
-    border: 1px solid rgba(255, 255, 255, 0.22) !important;
-    backdrop-filter: blur(8px) !important;
-  }
-
-  .site-header:not(.scrolled) .theme-toggle {
-    color: #FAF9F6 !important;
-    background: rgba(255, 255, 255, 0.12) !important;
-    border: 1px solid rgba(255, 255, 255, 0.22) !important;
-    backdrop-filter: blur(8px) !important;
-  }
-
-  .site-header.scrolled {
-    background-color: var(--header-scrolled-bg) !important;
-    backdrop-filter: var(--glass-blur) !important;
-    -webkit-backdrop-filter: var(--glass-blur) !important;
-    border-bottom: 1px solid var(--header-scrolled-border) !important;
-    box-shadow: var(--header-scrolled-shadow) !important;
-  }
 
   .hero-cta-buttons .btn {
     width: 100% !important;
