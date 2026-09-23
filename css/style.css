@@ -276,6 +276,7 @@ body::after {
 #especialidades,
 #diferenciais,
 #equipe,
+#faq,
 #contato,
 .site-footer {
   content-visibility: auto;
@@ -1516,6 +1517,12 @@ button {
   transition: all 0.3s ease;
 }
 
+.whatsapp-btn-inner svg {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
 .floating-whatsapp-btn:hover .whatsapp-btn-inner {
   box-shadow: 0 12px 30px rgba(29, 168, 81, 0.55), 0 4px 10px rgba(0, 0, 0, 0.16);
   background: linear-gradient(145deg, #38EA78 0%, #20B357 100%);
@@ -1634,6 +1641,11 @@ button {
     right: 1.5rem;
     width: 54px;
     height: 54px;
+  }
+
+  .floating-whatsapp-btn .whatsapp-btn-inner svg {
+    width: 27px;
+    height: 27px;
   }
   
   .whatsapp-btn-tooltip {

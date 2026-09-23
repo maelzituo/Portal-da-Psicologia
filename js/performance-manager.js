@@ -1,9 +1,9 @@
 /**
- * PORTAL DA PSICOLOGIA - HIGH-EFFICIENCY PERFORMANCE & ECO MANAGER
- * Arquitetura de telemetria adaptativa para hardware fraco (Android de entrada, pouca RAM e CPU modesta)
- * - Monitoramento contínuo de FPS e Frame Timing
- * - Detecção heurística de hardware (CPU Cores, RAM, GPU Tier, Conexão, Bateria)
- * - Degradação graciosa automática de efeitos gráficos pesados (Backdrop-filter, Blur, Multi-shadows)
+ * PORTAL DA PSICOLOGIA - PERFORMANCE & ECO MANAGER
+ * Arquitetura de telemetria adaptativa para hardware móvel e baixo consumo de energia.
+ * - Monitoramento de taxa de quadros (FPS) e frame budget de 16.6ms.
+ * - Detecção heurística de hardware (RAM, CPU Cores, GPU, Bateria, Conexão).
+ * - Degradação graciosa e eliminação de repaints desnecessários em dispositivos modestos.
  */
 
 (function () {
@@ -57,7 +57,7 @@
         isLowEnd = true;
       }
 
-      // 1.5 Viewport Mobile (< 768px) com tela touch
+      // 1.5 Viewport Mobile (< 768px) com pouca RAM
       const isMobile = window.innerWidth < 768 || ('ontouchstart' in window && window.innerWidth < 1024);
 
       if (isLowEnd || (isMobile && memory <= 4)) {
@@ -78,7 +78,6 @@
 
     /**
      * 2. MONITORAMENTO DE FPS EM TEMPO REAL
-     * Amostra a taxa de quadros e aciona degradação graciosa caso ocorram quedas contínuas de FPS
      */
     startFpsMonitoring() {
       let frames = 0;
@@ -95,19 +94,18 @@
           frames = 0;
           startTime = now;
 
-          // Se detectar FPS persistentemente baixo (< 38 FPS por 3 amostragens consecutivas)
-          if (this.fps < 38) {
+          // Se detectar FPS persistentemente baixo (< 36 FPS por 3 amostragens consecutivas)
+          if (this.fps < 36) {
             this.lowFpsCounter++;
             if (this.lowFpsCounter >= 3 && this.tier !== 'low') {
               this.setTier('low');
               document.documentElement.classList.add('perf-eco-active');
               this.isEcoMode = true;
             }
-          } else if (this.fps >= 52) {
+          } else if (this.fps >= 50) {
             this.lowFpsCounter = Math.max(0, this.lowFpsCounter - 1);
           }
 
-          // Notifica observadores registrados
           this.notifySubscribers();
         }
 
@@ -124,7 +122,6 @@
       if ('getBattery' in navigator) {
         navigator.getBattery().then((battery) => {
           const checkBattery = () => {
-            // Se a bateria estiver <= 20% e não estiver carregando, ativa modo Eco
             if (battery.level <= 0.20 && !battery.charging) {
               this.setTier('low');
               document.documentElement.classList.add('perf-eco-active');
@@ -148,29 +145,45 @@
       this.notifySubscribers();
     }
 
-    subscribe(callback) {
-      if (typeof callback === 'function') {
-        this.callbacks.add(callback);
-        callback({ fps: this.fps, tier: this.tier, isEco: this.isEcoMode });
+    /**
+     * Agenda tarefas leves para momentos ociosos da CPU
+     */
+    scheduleIdle(task) {
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(task, { timeout: 1000 });
+      } else {
+        setTimeout(task, 16);
       }
     }
 
-    unsubscribe(callback) {
-      this.callbacks.delete(callback);
+    /**
+     * Remove will-change de um elemento após término de animação para liberar VRAM/GPU
+     */
+    cleanupWillChange(element, delayMs = 600) {
+      if (!element) return;
+      setTimeout(() => {
+        element.style.willChange = 'auto';
+      }, delayMs);
+    }
+
+    onTierChange(callback) {
+      if (typeof callback === 'function') {
+        this.callbacks.add(callback);
+      }
+      return () => this.callbacks.delete(callback);
     }
 
     notifySubscribers() {
-      const state = { fps: this.fps, tier: this.tier, isEco: this.isEcoMode };
       this.callbacks.forEach((cb) => {
-        try { cb(state); } catch (e) {}
+        try {
+          cb(this.tier, this.fps);
+        } catch (e) {
+          console.error('[PerformanceManager] Subscriber error:', e);
+        }
       });
-    }
-
-    isLowTier() {
-      return this.tier === 'low' || this.isEcoMode;
     }
   }
 
-  // Instância singleton global acessível
-  window.PerfManager = new PerformanceManager();
+  // Exportação Global Singleton
+  window.PerformanceManager = new PerformanceManager();
 })();

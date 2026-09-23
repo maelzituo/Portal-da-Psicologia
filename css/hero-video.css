@@ -449,6 +449,11 @@
   .moment-4 { bottom: 15%; right: 6%; }
 }
 
+/* Story Sections Mobile Track (Oculto no Desktop) */
+.mobile-story-track {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .hero-video {
     object-position: center 48%;

@@ -8,14 +8,14 @@
 @media (max-width: 767.98px) {
   
   /* ==========================================================================
-     1. HERO MOBILE CINEMÁTICO - VÍDEO EM LOOP CONTÍNUO (SEM SCRUB / PINNING)
-     Experiência rica, cinematográfica e de alto contraste com o vídeo em evidência
+     1. HERO MOBILE CINEMÁTICO - EXPERIÊNCIA ELEGANTE, FLUIDA E ESTÁVEL
+     Vídeo em loop contínuo de background (60 FPS, Zero CPU/Scrub) com leitura perfeita
      ========================================================================== */
   #hero-scroll-section {
     position: relative !important;
-    height: auto !important;
-    min-height: 100svh !important;
-    min-height: 100dvh !important;
+    height: 100svh !important;
+    height: 100dvh !important;
+    min-height: 560px !important;
     width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -25,22 +25,25 @@
 
   #hero-sticky-viewport {
     position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    height: auto !important;
-    min-height: 100svh !important;
-    min-height: 100dvh !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 100% !important;
     width: 100% !important;
     display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
     align-items: center !important;
-    padding: 5.5rem 1.4rem 3.5rem 1.4rem !important;
+    justify-content: center !important;
+    padding: 5rem 1.4rem 2.5rem 1.4rem !important;
+    margin: 0 !important;
     overflow: hidden !important;
-    contain: layout style;
+    z-index: 5 !important;
+    contain: layout paint;
   }
 
-  /* Vídeo Mobile em Background Contínuo e Suave - Alta Visibilidade e Riqueza Visual */
+  .mobile-story-track {
+    display: none !important;
+  }
+
+  /* Vídeo Mobile em Background Contínuo e Suave - 60 FPS, Zero-Scrub */
   .hero-video-wrapper,
   #hero-video-container {
     position: absolute !important;
@@ -65,8 +68,7 @@
     height: 100% !important;
     object-fit: cover !important;
     object-position: center center !important;
-    opacity: 0.78 !important;
-    filter: brightness(0.98) contrast(1.06) saturate(1.08) !important;
+    opacity: 0.82 !important;
     transform: translateZ(0) !important;
     display: block !important;
     visibility: visible !important;
@@ -76,11 +78,10 @@
 
   [data-theme="dark"] .hero-video,
   [data-theme="dark"] #hero-video {
-    opacity: 0.70 !important;
-    filter: brightness(0.92) contrast(1.05) !important;
+    opacity: 0.72 !important;
   }
 
-  /* Overlay com Vinheta Cinematográfica Esmeralda Profunda - Mantém o vídeo nítido no centro e atmosfera imersiva sem faixas esbranquiçadas */
+  /* Overlay com Vinheta Cinematográfica Esmeralda Profunda */
   .hero-vignette {
     position: absolute !important;
     inset: 0 !important;
@@ -88,12 +89,11 @@
     background: linear-gradient(
       180deg, 
       rgba(11, 19, 15, 0.75) 0%, 
-      rgba(11, 19, 15, 0.20) 35%, 
-      rgba(11, 19, 15, 0.60) 72%, 
-      rgba(11, 19, 15, 0.92) 100%
+      rgba(11, 19, 15, 0.22) 35%, 
+      rgba(11, 19, 15, 0.65) 70%, 
+      rgba(11, 19, 15, 0.95) 100%
     ) !important;
     pointer-events: none !important;
-    transition: background 0.35s ease !important;
   }
 
   [data-theme="dark"] .hero-vignette {
@@ -101,7 +101,7 @@
       180deg, 
       rgba(10, 15, 13, 0.80) 0%, 
       rgba(10, 15, 13, 0.25) 35%, 
-      rgba(10, 15, 13, 0.70) 72%, 
+      rgba(10, 15, 13, 0.70) 70%, 
       rgba(10, 15, 13, 0.96) 100%
     ) !important;
   }
@@ -109,6 +109,7 @@
   /* Palco Narrativo do Hero no Mobile */
   .hero-narrative-stage {
     position: relative !important;
+    inset: auto !important;
     z-index: 4 !important;
     width: 100% !important;
     max-width: 520px !important;
@@ -116,47 +117,54 @@
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
+    justify-content: center !important;
     text-align: center !important;
-    gap: 1.4rem !important;
+    padding: 0 !important;
+    pointer-events: auto !important;
+    gap: 1.2rem !important;
   }
 
   /* Desativação dos momentos espalhados pelo canvas no mobile */
   .hero-moments-wrapper,
-  #phase-2-text {
+  #phase-2-text,
+  #phase-3-text {
     display: none !important;
   }
 
-  /* Capítulo 1: Abertura Hero Mobile */
+  /* Camada Narrativa Principal Mobile */
   #phase-1-text {
     position: relative !important;
     inset: auto !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    filter: none !important;
-    padding: 0 !important;
+    width: 100% !important;
     max-width: 100% !important;
+    padding: 0 !important;
     text-align: center !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
+    justify-content: center !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    filter: none !important;
+    pointer-events: auto !important;
   }
 
   .phase-headline {
     font-family: var(--font-display) !important;
-    font-size: clamp(1.85rem, 6.2vw, 2.35rem) !important;
+    font-size: clamp(1.75rem, 5.8vw, 2.25rem) !important;
     font-weight: 500 !important;
-    line-height: 1.25 !important;
+    line-height: 1.28 !important;
     color: #FAF9F6 !important;
     letter-spacing: -0.025em !important;
     margin-bottom: 0.85rem !important;
-    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55) !important;
-    transition: color 0.35s ease !important;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.65) !important;
+    filter: none !important;
   }
 
   [data-theme="dark"] .phase-headline {
     color: var(--text-pure) !important;
-    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55) !important;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65) !important;
   }
 
   /* Badges de Capítulo e Tags com Acabamento Refinado */
@@ -171,14 +179,12 @@
     color: #E2CDAA !important;
     background: rgba(197, 168, 128, 0.16) !important;
     border: 1px solid rgba(197, 168, 128, 0.38) !important;
-    padding: 0.4rem 0.95rem !important;
+    padding: 0.38rem 0.9rem !important;
     border-radius: var(--radius-pill) !important;
-    margin-bottom: 0.9rem !important;
+    margin-bottom: 0.85rem !important;
     font-weight: 600 !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
-    transition: color 0.35s ease, background-color 0.35s ease, border-color 0.35s ease !important;
+    filter: none !important;
   }
 
   [data-theme="dark"] .chapter-pill,
@@ -188,46 +194,31 @@
     border-color: rgba(212, 190, 155, 0.28) !important;
   }
 
-  /* Apresentação do CTA e Introdução no Hero Mobile */
+  /* Apresentação do CTA no Hero Mobile */
   #hero-cta-stage {
     position: relative !important;
     inset: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;
     filter: none !important;
     pointer-events: auto !important;
-    width: 100% !important;
-    padding: 1.4rem 1rem 0.5rem 1rem !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
   }
 
   #hero-cta-stage .phase-tag,
-  #hero-cta-stage .hero-cta-title {
+  #hero-cta-stage .hero-cta-title,
+  #hero-cta-stage .hero-cta-desc {
     display: none !important;
-  }
-
-  .hero-cta-desc {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    filter: none !important;
-    font-size: 0.98rem !important;
-    line-height: 1.65 !important;
-    color: #DEE8E3 !important;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5) !important;
-    margin: 0 auto 1.6rem !important;
-    max-width: 420px !important;
-    transition: color 0.35s ease !important;
-  }
-
-  [data-theme="dark"] .hero-cta-desc {
-    color: var(--text-secondary) !important;
   }
 
   .hero-cta-buttons {
