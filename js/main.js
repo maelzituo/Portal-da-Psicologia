@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, observerOptions);
 
   const animatedElements = document.querySelectorAll(
-    '.specialty-card, .differential-row, .team-card, .about-visual-card'
+    '.how-card, .situation-card, .specialty-card, .differential-row, .team-card, .about-visual-card'
   );
 
   animatedElements.forEach((el, index) => {
@@ -143,11 +143,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isEcoMode) {
       el.style.willChange = 'opacity, transform';
     }
-    el.style.transition = `opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${Math.min(index % 3 * 0.08, 0.2)}s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${Math.min(index % 3 * 0.08, 0.2)}s`;
+    el.style.transition = `opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${Math.min(index % 4 * 0.08, 0.25)}s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${Math.min(index % 4 * 0.08, 0.25)}s`;
     revealObserver.observe(el);
   });
 
-  // --- 5. MANIPULAÇÃO DO FORMULÁRIO DE AGENDAMENTO VIA WHATSAPP ---
+  // --- 5. MANIPULAÇÃO DO FORMULÁRIO DE AGENDAMENTO VIA WHATSAPP CENTRALIZADO ---
   const bookingForm = document.getElementById('concierge-booking-form');
   if (bookingForm) {
     bookingForm.addEventListener('submit', (e) => {
@@ -168,21 +168,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Mensagem personalizada e ética para o WhatsApp
-      const message = `*Solicitação de Agendamento - Portal da Psicologia*
-
-Olá! Gostaria de agendar uma consulta psicológica online.
-
-- *Nome:* ${name}
-- *WhatsApp:* ${phone}
-- *Motivo / Objetivo:* ${demand}
-- *Período Preferencial:* ${shift}
-- *Modalidade:* Atendimento 100% Online
-
-Aguardo informações sobre horários disponíveis. Obrigado(a)!`;
-
-      const clinicWhatsAppNumber = '5551993617100';
-      const whatsappUrl = `https://wa.me/${clinicWhatsAppNumber}?text=${encodeURIComponent(message)}`;
+      // Utiliza a configuração centralizada em ClinicData
+      let whatsappUrl = '';
+      if (typeof ClinicData !== 'undefined' && ClinicData.clinic) {
+        whatsappUrl = ClinicData.clinic.getWhatsAppUrl('form', { name, phone, demand, shift });
+      } else {
+        const message = `*Solicitação de Agendamento - Portal da Psicologia*\n\nOlá! Gostaria de agendar uma consulta psicológica online.\n\n- *Nome:* ${name}\n- *WhatsApp:* ${phone}\n- *Motivo / Objetivo:* ${demand}\n- *Período Preferencial:* ${shift}\n- *Modalidade:* Atendimento 100% Online\n\nAguardo informações sobre horários disponíveis. Obrigado(a)!`;
+        whatsappUrl = `https://wa.me/5551993617100?text=${encodeURIComponent(message)}`;
+      }
 
       if (submitBtn) {
         const originalContent = submitBtn.innerHTML;

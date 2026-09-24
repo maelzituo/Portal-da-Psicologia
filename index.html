@@ -4,11 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Portal da Psicologia — Clínica de Psicologia</title>
-  <meta name="description" content="Portal da Psicologia — Centro de atendimento psicológico, psicoterapia e desenvolvimento humano.">
+  <title>Portal da Psicologia — Centro de Atendimento Psicológico e Psicoterapia</title>
+  <meta name="description" content="Portal da Psicologia — Centro de atendimento psicológico, psicoterapia online e desenvolvimento humano com acolhimento singular, ética e sigilo profissional.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://ais-pre-q5udmzuzxrro3xelwa4c6x-653081478330.us-east1.run.app/">
   <meta name="theme-color" content="#F9F8F5">
+
+  <!-- OpenGraph Metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Portal da Psicologia — Centro de Atendimento Psicológico e Psicoterapia">
+  <meta property="og:description" content="Atendimento psicológico online para todo o Brasil. Cuidado ético, acolhedor e singular para a sua saúde mental e autoconhecimento.">
+  <meta property="og:url" content="https://ais-pre-q5udmzuzxrro3xelwa4c6x-653081478330.us-east1.run.app/">
+  <meta property="og:site_name" content="Portal da Psicologia">
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Portal da Psicologia — Atendimento Psicológico Online">
+  <meta name="twitter:description" content="Cuidado ético, acolhedor e singular para a sua saúde mental e autoconhecimento. Sessões por videochamada com sigilo profissional.">
+
+  <!-- Configuração Centralizada de Dados (Carregada antes dos componentes) -->
+  <script src="js/clinic-config.js?v=1.0"></script>
 
   <!-- Otimização Crítica de Fontes: Preconnect + Preload + Font Display Swap (Sem @import bloqueante no CSS) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,10 +44,42 @@
   <link rel="preload" href="public/frames-webp/f_0003.webp" as="image" type="image/webp">
 
   <!-- Estilos Críticos -->
-  <link rel="stylesheet" href="css/style.css?v=3.0">
-  <link rel="stylesheet" href="css/hero-video.css?v=3.0">
-  <link rel="stylesheet" href="css/mobile-experience.css?v=3.0">
-  <link rel="stylesheet" href="css/faq.css?v=1.0">
+  <link rel="stylesheet" href="css/style.css?v=3.2">
+  <link rel="stylesheet" href="css/hero-video.css?v=3.2">
+  <link rel="stylesheet" href="css/mobile-experience.css?v=3.2">
+  <link rel="stylesheet" href="css/faq.css?v=1.1">
+
+  <!-- Schema.org Structured Data: MedicalBusiness / Psychological Clinic -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    "name": "Portal da Psicologia",
+    "description": "Centro de atendimento psicológico, psicoterapia online e desenvolvimento humano com acolhimento singular, ética e sigilo profissional.",
+    "url": "https://ais-pre-q5udmzuzxrro3xelwa4c6x-653081478330.us-east1.run.app/",
+    "medicalSpecialty": "Psychiatric",
+    "availableService": [
+      {
+        "@type": "MedicalProcedure",
+        "name": "Psicoterapia Individual"
+      },
+      {
+        "@type": "MedicalProcedure",
+        "name": "Avaliação Psicológica"
+      },
+      {
+        "@type": "MedicalProcedure",
+        "name": "Ansiedade & Regulação Emocional"
+      },
+      {
+        "@type": "MedicalProcedure",
+        "name": "Terapia de Casal & Relações"
+      }
+    ],
+    "areaServed": "BR",
+    "serviceType": "Atendimento Psicológico Online"
+  }
+  </script>
 
   <!-- Schema.org Structured Data: FAQPage para SEO -->
   <script type="application/ld+json">
@@ -184,7 +232,9 @@
 
       <nav aria-label="Navegação Principal">
         <ul class="nav-menu">
-          <li><a href="#sobre" class="nav-link">Clínica</a></li>
+          <li><a href="#sobre" class="nav-link">A Clínica</a></li>
+          <li><a href="#como-funciona" class="nav-link">Como Funciona</a></li>
+          <li><a href="#para-quem" class="nav-link">Para Quem</a></li>
           <li><a href="#especialidades" class="nav-link">Especialidades</a></li>
           <li><a href="#equipe" class="nav-link">Equipe</a></li>
           <li><a href="#faq" class="nav-link">Dúvidas</a></li>
@@ -217,11 +267,13 @@
         <span class="brand-text">Portal da Psicologia</span>
       </div>
       <ul class="mobile-nav-links">
-        <li><a href="#sobre" class="mobile-nav-link">Clínica</a></li>
+        <li><a href="#sobre" class="mobile-nav-link">A Clínica</a></li>
+        <li><a href="#como-funciona" class="mobile-nav-link">Como Funciona</a></li>
+        <li><a href="#para-quem" class="mobile-nav-link">Para Quem</a></li>
         <li><a href="#especialidades" class="mobile-nav-link">Especialidades</a></li>
         <li><a href="#equipe" class="mobile-nav-link">Equipe</a></li>
-        <li><a href="#faq" class="mobile-nav-link">Dúvidas</a></li>
-        <li><a href="#contato" class="mobile-nav-link">Contato</a></li>
+        <li><a href="#faq" class="mobile-nav-link">Dúvidas Frequentes</a></li>
+        <li><a href="#contato" class="mobile-nav-link">Contato &amp; Agendamento</a></li>
       </ul>
     </div>
     <div class="mobile-drawer-footer">
@@ -393,15 +445,161 @@
 
 
     <!-- ========================================================================
-         4. ESPECIALIDADES
+         4. COMO FUNCIONA O ATENDIMENTO
+         ======================================================================== -->
+    <section class="section-padding" id="como-funciona" style="background-color: var(--bg-abyss);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Passo a Passo</span>
+          <h2 class="section-title">Como funciona o <em>início do seu acompanhamento.</em></h2>
+          <p class="section-subtitle">
+            Um processo simples, transparente e sem burocracia para você começar a cuidar da sua saúde emocional.
+          </p>
+        </div>
+
+        <div class="how-it-works-grid">
+          
+          <div class="how-card">
+            <div class="how-index">01</div>
+            <h3 class="how-title">Entre em contato</h3>
+            <p class="how-desc">
+              Envie uma mensagem pelo WhatsApp ou preencha o formulário de contato. Nossa equipe acolhe sua solicitação com total discrição e sigilo ético.
+            </p>
+          </div>
+
+          <div class="how-card">
+            <div class="how-index">02</div>
+            <h3 class="how-title">Conheça as possibilidades</h3>
+            <p class="how-desc">
+              Apresentamos os horários disponíveis, as modalidades de atendimento online e esclarecemos qualquer dúvida sobre o formato das sessões.
+            </p>
+          </div>
+
+          <div class="how-card">
+            <div class="how-index">03</div>
+            <h3 class="how-title">Agende seu horário</h3>
+            <p class="how-desc">
+              Defina o dia e o período mais conveniente para o seu atendimento. Você receberá previamente todas as orientações para o acesso por videochamada.
+            </p>
+          </div>
+
+          <div class="how-card">
+            <div class="how-index">04</div>
+            <h3 class="how-title">Comece seu acompanhamento</h3>
+            <p class="how-desc">
+              Participe da sessão por videochamada em um ambiente tranquilo. Um espaço seguro e acolhedor para você falar sobre sua história no seu próprio ritmo.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================================
+         5. PARA QUEM É O ATENDIMENTO
+         ======================================================================== -->
+    <section class="section-padding" id="para-quem">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Acolhimento Clínico</span>
+          <h2 class="section-title">Para quem é o <em>atendimento psicológico?</em></h2>
+          <p class="section-subtitle">
+            A psicoterapia acolhe pessoas em diferentes momentos, desafios e buscas de vida. Não é necessário ter um diagnóstico para começar a cuidar de si.
+          </p>
+        </div>
+
+        <div class="para-quem-grid">
+          
+          <article class="situation-card">
+            <div class="situation-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
+            </div>
+            <h3 class="situation-title">Ansiedade &amp; Sobrecarga</h3>
+            <p class="situation-desc">
+              Dificuldade em desacelerar pensamentos, preocupação contínua, inquietação e sensação constante de urgência mental ou desgaste emocional.
+            </p>
+          </article>
+
+          <article class="situation-card">
+            <div class="situation-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            </div>
+            <h3 class="situation-title">Autoestima &amp; Insegurança</h3>
+            <p class="situation-desc">
+              Autocrítica severa, medo constante do julgamento alheio, sensação de inadequação e busca por uma relação mais compreensiva e gentil consigo.
+            </p>
+          </article>
+
+          <article class="situation-card">
+            <div class="situation-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3 class="situation-title">Relacionamentos &amp; Conflitos</h3>
+            <p class="situation-desc">
+              Dificuldades na comunicação afetiva ou familiar, sensação de incompreensão, repetição de padrões dolorosos e desafios de convivência.
+            </p>
+          </article>
+
+          <article class="situation-card">
+            <div class="situation-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+            </div>
+            <h3 class="situation-title">Mudanças &amp; Transições de Vida</h3>
+            <p class="situation-desc">
+              Adaptação a novos ciclos, escolhas de carreira, mudança de cidade, novos começos ou términos de fases que demandam reorganização interna.
+            </p>
+          </article>
+
+          <article class="situation-card">
+            <div class="situation-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </div>
+            <h3 class="situation-title">Autoconhecimento &amp; Sentido</h3>
+            <p class="situation-desc">
+              Desejo de compreender suas emoções, identificar motivações pessoais e construir decisões alinhadas aos seus valores e bem-estar.
+            </p>
+          </article>
+
+          <article class="situation-card">
+            <div class="situation-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            </div>
+            <h3 class="situation-title">Desgaste Profissional &amp; Rotina</h3>
+            <p class="situation-desc">
+              Pressão contínua no ambiente profissional, estresse crônico, sensação de sobrecarga e busca por limites saudáveis entre carreira e vida.
+            </p>
+          </article>
+
+        </div>
+
+        <!-- Aviso Ético e Responsável -->
+        <div class="ethical-notice-card">
+          <div class="ethical-notice-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </div>
+          <div class="ethical-notice-text">
+            <h4>Acompanhamento Ético e Sem Julgamentos</h4>
+            <p>
+              O cuidado psicológico não exige diagnóstico prévio e não faz promessas milagrosas de cura. Cada pessoa possui seu próprio ritmo, e a psicoterapia oferece uma escuta técnica, qualificada e ética para apoiar você na construção de novos recursos e bem-estar emocional.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ========================================================================
+         6. ESPECIALIDADES
          ======================================================================== -->
     <section class="section-padding" id="especialidades" style="background-color: var(--bg-abyss);">
       <div class="container">
         <div class="section-header">
-          <span class="section-tag">Atendimento</span>
+          <span class="section-tag">Atendimento Clínico</span>
           <h2 class="section-title">Especialidades e abordagens clínicas.</h2>
           <p class="section-subtitle">
-            Áreas de atendimento preparadas para atender diferentes necessidades e fases da vida.
+            Áreas de atendimento estruturadas para acolher diferentes necessidades e fases da vida com rigor ético e empatia.
           </p>
         </div>
 
@@ -409,46 +607,102 @@
           
           <article class="specialty-card">
             <div class="specialty-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </div>
             <h3 class="specialty-name">Psicoterapia Individual</h3>
             <p class="specialty-desc">
-              Espaço reservado para o autoconhecimento, resolução de conflitos internos, desenvolvimento emocional e superação de desafios pessoais.
+              Espaço seguro e reservado dedicado ao autoconhecimento, resolução de impasses internos e desenvolvimento emocional.
             </p>
-            <span class="specialty-meta">Adultos e Jovens</span>
+            <div class="specialty-details-list">
+              <div class="specialty-detail-item">
+                <strong>O que significa:</strong>
+                Sessões semanais individuais com escuta qualificada pautada pelo sigilo profissional.
+              </div>
+              <div class="specialty-detail-item">
+                <strong>Quando é relevante:</strong>
+                Em momentos de angústia, dúvidas existenciais, dificuldades na tomada de decisões e desejo de crescimento pessoal.
+              </div>
+              <div class="specialty-detail-item">
+                <strong>Como ajuda:</strong>
+                Auxilia na compreensão de padrões emocionais e no desenvolvimento de autonomia diante da vida.
+              </div>
+            </div>
+            <span class="specialty-meta">Adultos e Jovens • Atendimento Online</span>
           </article>
 
           <article class="specialty-card">
             <div class="specialty-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             </div>
             <h3 class="specialty-name">Avaliação Psicológica</h3>
             <p class="specialty-desc">
-              Investigação e compreensão aprofundada de processos cognitivos, emocionais e comportamentais para orientação diagnóstica e terapêutica.
+              Compreensão aprofundada de processos emocionais, cognitivos e comportamentais com métodos reconhecidos.
             </p>
-            <span class="specialty-meta">Diagnóstico &amp; Orientação</span>
+            <div class="specialty-details-list">
+              <div class="specialty-detail-item">
+                <strong>O que significa:</strong>
+                Investigação clínica estruturada através de entrevistas, instrumentos e observação especializada.
+              </div>
+              <div class="specialty-detail-item">
+                <strong>Quando é relevante:</strong>
+                Para orientações diagnósticas, esclarecimento de dúvidas sobre funcionamento emocional ou demandas técnicas.
+              </div>
+              <div class="specialty-detail-item">
+                <strong>Como ajuda:</strong>
+                Oferece clareza técnica e direcionamento assertivo para intervenções terapêuticas e tomada de decisões.
+              </div>
+            </div>
+            <span class="specialty-meta">Diagnóstico &amp; Orientação Clínica</span>
           </article>
 
           <article class="specialty-card">
             <div class="specialty-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
             </div>
             <h3 class="specialty-name">Ansiedade &amp; Regulação Emocional</h3>
             <p class="specialty-desc">
-              Acompanhamento focado na identificação de gatilhos, manejo do estresse, ansiedade e fortalecimento da estabilidade emocional.
+              Acompanhamento focado na identificação de gatilhos, redução do estresse e fortalecimento da estabilidade emocional.
             </p>
-            <span class="specialty-meta">Manejo &amp; Equilíbrio</span>
+            <div class="specialty-details-list">
+              <div class="specialty-detail-item">
+                <strong>O que significa:</strong>
+                Compreensão dos mecanismos fisiológicos e cognitivos que desencadeiam respostas ansiosas.
+              </div>
+              <div class="specialty-detail-item">
+                <strong>Quando é relevante:</strong>
+                Em casos de preocupação excessiva, sobrecarga contínua, inquietação e momentos de sobrecarga mental.
+              </div>
+              <div class="specialty-detail-item">
+                <strong>Como ajuda:</strong>
+                Proporciona estratégias práticas de manejo, regulação emocional e restabelecimento da calma interna.
+              </div>
+            </div>
+            <span class="specialty-meta">Manejo &amp; Equilíbrio Emocional</span>
           </article>
 
           <article class="specialty-card">
             <div class="specialty-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             </div>
             <h3 class="specialty-name">Terapia de Casal &amp; Relações</h3>
             <p class="specialty-desc">
-              Mediação de diálogos, compreensão das dinâmicas relacionais e desenvolvimento de novas formas de comunicação e convivência.
+              Espaço mediado para a compreensão das dinâmicas interpessoais, diálogo seguro e convivência saudável.
             </p>
-            <span class="specialty-meta">Vínculo &amp; Comunicação</span>
+            <div class="specialty-details-list">
+              <div class="specialty-detail-item">
+                <strong>O que significa:</strong>
+                Mediação profissional para investigar impasses de convivência e aprofundar a escuta entre as partes.
+              </div>
+              <div class="specialty-detail-item">
+                <strong>Quando é relevante:</strong>
+                Em momentos de distanciamento, crises na comunicação, transições familiares ou alinhamento de projetos de vida.
+              </div>
+              <div class="specialty-detail-item">
+                <strong>Como ajuda:</strong>
+                Favorece conversas francas sem ataques mútuos, resgatando a empatia e novos acordos de convivência.
+              </div>
+            </div>
+            <span class="specialty-meta">Vínculo &amp; Comunicação Afetiva</span>
           </article>
 
         </div>
@@ -488,7 +742,7 @@
           <div class="differential-row">
             <div class="diff-index">04</div>
             <div class="diff-title">Atendimento 100% Online</div>
-            <div class="diff-desc">Consultas realizadas por plataforma segura e criptografada, com total flexibilidade de horários onde você estiver.</div>
+            <div class="diff-desc">Atendimento realizado por videochamada (Google Meet ou similar), com orientações para preservar a privacidade, o sigilo e o conforto da sua sessão onde você estiver.</div>
           </div>
         </div>
       </div>
@@ -496,7 +750,7 @@
 
 
     <!-- ========================================================================
-         6. EQUIPE
+         8. EQUIPE
          ======================================================================== -->
     <section class="section-padding" id="equipe" style="background-color: var(--bg-abyss);">
       <div class="container">
@@ -504,59 +758,110 @@
           <span class="section-tag">Corpo Clínico</span>
           <h2 class="section-title">Profissionais dedicados ao seu <em>desenvolvimento.</em></h2>
           <p class="section-subtitle">
-            Estrutura preparada para a apresentação dos psicólogos e especialistas da clínica.
+            Estrutura centralizada e preparada para a apresentação dos psicólogos e especialistas da clínica, respeitando as normas éticas do Conselho Federal de Psicologia.
           </p>
         </div>
 
-        <div class="team-grid">
+        <div class="team-grid" id="team-grid">
           
-          <div class="team-card">
+          <article class="team-card">
             <div class="team-photo-wrap">
-              <div class="team-avatar-placeholder">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <div class="team-avatar-placeholder" aria-label="Espaço reservado para a foto oficial">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span class="placeholder-photo-tag">[FOTO DO PROFISSIONAL]</span>
               </div>
             </div>
             <div class="team-info">
               <div class="team-role">Psicologia Clínica</div>
-              <h3 class="team-name">[Nome do Profissional]</h3>
-              <div class="team-crp">Psicólogo(a) • CRP Ativo</div>
+              <h3 class="team-name">[NOME DO PROFISSIONAL]</h3>
+              <div class="team-crp"><span class="crp-badge">[CRP DO PROFISSIONAL]</span> <span class="approach-meta">• [ABORDAGEM CLÍNICA]</span></div>
+              <div class="team-education"><small>[FORMAÇÃO ACADÊMICA / ESPECIALIZAÇÃO]</small></div>
               <p class="team-bio">
-                Atendimento clínico individual focado no acolhimento, desenvolvimento de autonomia e promoção da saúde mental.
+                Espaço reservado para a apresentação profissional, abordagem terapêutica e experiência clínica com atendimento individual e escuta qualificada.
               </p>
+              <div class="team-specialties-tags">
+                <span class="team-spec-pill">Psicoterapia Individual</span>
+                <span class="team-spec-pill">Ansiedade e Regulação</span>
+                <span class="team-spec-pill">Autoconhecimento</span>
+              </div>
+              <div class="team-card-actions">
+                <a href="https://wa.me/5551993617100?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20atendimento%20psicol%C3%B3gico." 
+                   class="btn btn-secondary team-contact-btn" 
+                   data-wa-context="scheduling"
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   aria-label="Consultar disponibilidade de atendimento">
+                  <span>Consultar Disponibilidade</span>
+                </a>
+              </div>
             </div>
-          </div>
+          </article>
 
-          <div class="team-card">
+          <article class="team-card">
             <div class="team-photo-wrap">
-              <div class="team-avatar-placeholder">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <div class="team-avatar-placeholder" aria-label="Espaço reservado para a foto oficial">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span class="placeholder-photo-tag">[FOTO DO PROFISSIONAL]</span>
               </div>
             </div>
             <div class="team-info">
               <div class="team-role">Psicoterapia &amp; Avaliação</div>
-              <h3 class="team-name">[Nome do Profissional]</h3>
-              <div class="team-crp">Psicólogo(a) • CRP Ativo</div>
+              <h3 class="team-name">[NOME DO PROFISSIONAL]</h3>
+              <div class="team-crp"><span class="crp-badge">[CRP DO PROFISSIONAL]</span> <span class="approach-meta">• [ABORDAGEM CLÍNICA]</span></div>
+              <div class="team-education"><small>[FORMAÇÃO ACADÊMICA / ESPECIALIZAÇÃO]</small></div>
               <p class="team-bio">
-                Atuação em avaliação psicológica e acompanhamento terapêutico estruturado para diferentes demandas clínicas.
+                Espaço reservado para a trajetória profissional, prática baseada em evidências éticas e acolhimento estruturado para diferentes demandas clínicas.
               </p>
+              <div class="team-specialties-tags">
+                <span class="team-spec-pill">Avaliação Psicológica</span>
+                <span class="team-spec-pill">Acompanhamento Terapêutico</span>
+                <span class="team-spec-pill">Transições de Vida</span>
+              </div>
+              <div class="team-card-actions">
+                <a href="https://wa.me/5551993617100?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20atendimento%20psicol%C3%B3gico." 
+                   class="btn btn-secondary team-contact-btn" 
+                   data-wa-context="scheduling"
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   aria-label="Consultar disponibilidade de atendimento">
+                  <span>Consultar Disponibilidade</span>
+                </a>
+              </div>
             </div>
-          </div>
+          </article>
 
-          <div class="team-card">
+          <article class="team-card">
             <div class="team-photo-wrap">
-              <div class="team-avatar-placeholder">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <div class="team-avatar-placeholder" aria-label="Espaço reservado para a foto oficial">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span class="placeholder-photo-tag">[FOTO DO PROFISSIONAL]</span>
               </div>
             </div>
             <div class="team-info">
               <div class="team-role">Relações &amp; Desenvolvimento</div>
-              <h3 class="team-name">[Nome do Profissional]</h3>
-              <div class="team-crp">Psicólogo(a) • CRP Ativo</div>
+              <h3 class="team-name">[NOME DO PROFISSIONAL]</h3>
+              <div class="team-crp"><span class="crp-badge">[CRP DO PROFISSIONAL]</span> <span class="approach-meta">• [ABORDAGEM CLÍNICA]</span></div>
+              <div class="team-education"><small>[FORMAÇÃO ACADÊMICA / ESPECIALIZAÇÃO]</small></div>
               <p class="team-bio">
-                Acompanhamento voltado para relações interpessoais, dinâmicas familiares e fortalecimento de vínculos afetivos.
+                Espaço reservado para a apresentação profissional, atuação com vínculos afetivos, desenvolvimento da autonomia e fortalecimento emocional.
               </p>
+              <div class="team-specialties-tags">
+                <span class="team-spec-pill">Relações Interpessoais</span>
+                <span class="team-spec-pill">Conflitos Afetivos</span>
+                <span class="team-spec-pill">Saúde Mental</span>
+              </div>
+              <div class="team-card-actions">
+                <a href="https://wa.me/5551993617100?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20atendimento%20psicol%C3%B3gico." 
+                   class="btn btn-secondary team-contact-btn" 
+                   data-wa-context="scheduling"
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   aria-label="Consultar disponibilidade de atendimento">
+                  <span>Consultar Disponibilidade</span>
+                </a>
+              </div>
             </div>
-          </div>
+          </article>
 
         </div>
       </div>
@@ -833,7 +1138,12 @@
             </div>
             <div class="faq-cta-actions">
               <a href="#contato" class="btn btn-primary">Agendar consulta</a>
-              <a href="https://wa.me/51993617100?text=Ol%C3%A1%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20o%20atendimento%20psicol%C3%B3gico%20online." target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;">
+              <a href="https://wa.me/5551993617100?text=Ol%C3%A1%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20o%20atendimento%20psicol%C3%B3gico%20online." 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 class="btn btn-secondary" 
+                 data-wa-context="questions"
+                 style="display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;">
                 <svg width="17" height="17" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true" style="flex-shrink: 0;"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
                 <span>Conversar no WhatsApp</span>
               </a>
@@ -847,7 +1157,7 @@
 
 
     <!-- ========================================================================
-         8. CONTATO & AGENDAMENTO
+         9. CONTATO & AGENDAMENTO
          ======================================================================== -->
     <section class="section-padding" id="contato">
       <div class="container">
@@ -869,27 +1179,37 @@
                   </div>
                   <div class="contact-info-content">
                     <h5>WhatsApp Direto</h5>
-                    <p><a href="https://wa.me/51993617100?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20o%20atendimento%20psicol%C3%B3gico%20online." target="_blank" rel="noopener noreferrer" id="contact-whatsapp-link">(51) 99361-7100</a></p>
+                    <p><a href="https://wa.me/5551993617100?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20o%20atendimento%20psicol%C3%B3gico%20online." target="_blank" rel="noopener noreferrer" id="contact-whatsapp-link" class="clinic-wa-display" data-wa-context="general">(51) 99361-7100</a></p>
                   </div>
                 </div>
 
                 <div class="contact-info-item">
                   <div class="contact-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                   </div>
                   <div class="contact-info-content">
                     <h5>E-mail</h5>
-                    <p><a href="mailto:contato@portaldapsicologia.com.br">contato@portaldapsicologia.com.br</a></p>
+                    <p><a href="mailto:contato@portaldapsicologia.com.br" id="contact-email-link">contato@portaldapsicologia.com.br</a></p>
                   </div>
                 </div>
 
                 <div class="contact-info-item">
                   <div class="contact-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  </div>
+                  <div class="contact-info-content">
+                    <h5>Horário de Atendimento</h5>
+                    <p>Segunda a Sexta-feira — Horários flexíveis sob agendamento</p>
+                  </div>
+                </div>
+
+                <div class="contact-info-item">
+                  <div class="contact-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                   </div>
                   <div class="contact-info-content">
                     <h5>Modalidade</h5>
-                    <p>Atendimento Exclusivamente Online (Plataforma Segura e Criptografada)</p>
+                    <p>Atendimento Exclusivamente Online (Videochamada privativa para todo o Brasil e exterior)</p>
                   </div>
                 </div>
               </div>
@@ -937,7 +1257,7 @@
                 </button>
 
                 <div class="form-note">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                   <span>Atendimento 100% Online • Total sigilo e código de ética profissional.</span>
                 </div>
               </form>
@@ -950,7 +1270,7 @@
   </main>
 
   <!-- ========================================================================
-       8. RODAPÉ INSTITUCIONAL
+       10. RODAPÉ INSTITUCIONAL
        ======================================================================== -->
   <footer class="site-footer">
     <div class="container">
@@ -962,18 +1282,20 @@
             <span class="brand-text">Portal da Psicologia</span>
           </div>
           <p>
-            Clínica dedicada à promoção da saúde mental, psicoterapia e cuidado individualizado.
+            Clínica dedicada à promoção da saúde mental, psicoterapia online e cuidado individualizado com rigor ético e sigilo profissional.
           </p>
         </div>
 
         <div>
           <h4 class="footer-col-title">Navegação</h4>
           <ul class="footer-links">
-            <li><a href="#sobre">Clínica</a></li>
+            <li><a href="#sobre">A Clínica</a></li>
+            <li><a href="#como-funciona">Como Funciona</a></li>
+            <li><a href="#para-quem">Para Quem</a></li>
             <li><a href="#especialidades">Especialidades</a></li>
             <li><a href="#equipe">Equipe</a></li>
             <li><a href="#faq">Dúvidas Frequentes</a></li>
-            <li><a href="#contato">Contato</a></li>
+            <li><a href="#contato">Contato &amp; Agendamento</a></li>
           </ul>
         </div>
 
@@ -991,7 +1313,7 @@
           <h4 class="footer-col-title">Institucional &amp; Legal</h4>
           <ul class="footer-links">
             <li><a href="/politica-de-privacidade" style="color: var(--color-primary); font-weight: 500;">Política de Privacidade &amp; LGPD</a></li>
-            <li><span style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; display: block; margin-top: 4px;">Em conformidade com o Código de Ética CFP.</span></li>
+            <li><span style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; display: block; margin-top: 4px;">Em conformidade com o Código de Ética Profissional do CFP.</span></li>
           </ul>
         </div>
 
@@ -1010,9 +1332,10 @@
   </footer>
 
   <!-- Botão Flutuante do WhatsApp (Aceleração por Hardware e Renderização Fluida) -->
-  <a href="https://wa.me/51993617100?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20o%20atendimento%20psicol%C3%B3gico%20online." 
+  <a href="https://wa.me/5551993617100?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20o%20atendimento%20psicol%C3%B3gico%20online." 
      class="floating-whatsapp-btn" 
      id="floating-whatsapp-btn"
+     data-wa-context="scheduling"
      target="_blank" 
      rel="noopener noreferrer" 
      aria-label="Fale com a Psicóloga no WhatsApp">
@@ -1034,6 +1357,9 @@
 
   <!-- Módulo de FAQ (Accordion e Categorias) -->
   <script src="js/faq.js?v=1.0" defer></script>
+
+  <!-- Renderizador Dinâmico de Equipe & Sincronização de Dados -->
+  <script src="js/team-renderer.js?v=1.0" defer></script>
 
   <!-- Interações Globais e Componentes -->
   <script src="js/main.js?v=5.0" defer></script>
