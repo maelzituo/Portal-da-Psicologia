@@ -46,12 +46,13 @@
   object-fit: cover;
   object-position: center 46%;
   pointer-events: none;
-  opacity: 0.35;
+  opacity: 0.80;
   transform: translate3d(0, 0, 0);
   will-change: opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   display: block;
+  transition: opacity 0.5s ease-out;
 }
 
 .hero-video {
@@ -62,13 +63,14 @@
   object-fit: cover;
   object-position: center 46%;
   pointer-events: none;
-  opacity: 0.35;
+  opacity: 0.80;
   transform: translate3d(0, 0, 0) scale(1);
   will-change: opacity, transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform-origin: center center;
   display: none; /* No desktop o Canvas 2D / WebP Sequence assume com zero jank */
+  transition: opacity 0.5s ease-out;
 }
 
 @media (max-width: 767px) {
@@ -80,20 +82,20 @@
   }
 }
 
-/* Vinheta Cinemática com Transição Aveludada para a Próxima Seção */
+/* Vinheta Cinemática Suave: Deixa o Vídeo Brilhar no Centro e Garante Contraste na Tipografia */
 .hero-vignette {
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(ellipse at center, transparent 30%, rgba(23, 36, 30, 0.45) 70%, rgba(23, 36, 30, 0.95) 100%),
-    linear-gradient(to bottom, rgba(23, 36, 30, 0.75) 0%, transparent 20%, transparent 75%, var(--color-background) 100%);
+    radial-gradient(ellipse at center, rgba(18, 28, 23, 0.25) 0%, rgba(18, 28, 23, 0.55) 60%, rgba(18, 28, 23, 0.90) 100%),
+    linear-gradient(to bottom, rgba(18, 28, 23, 0.65) 0%, transparent 25%, transparent 70%, var(--color-background) 100%);
   pointer-events: none;
   z-index: 2;
-  transform: translateZ(0); /* Hardware acceleration */
+  transform: translateZ(0);
   backface-visibility: hidden;
 }
 
-/* Camadas Narrativas */
+/* Camadas Narrativas com Alto Respiro */
 .hero-narrative-stage {
   position: absolute;
   inset: 0;
@@ -102,23 +104,44 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  padding: 2rem;
+  padding: 2.5rem;
+}
+
+/* Kicker Editorial do Hero com Entrada Suave */
+.hero-brand-kicker {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 1.8rem;
+  opacity: 0;
+  transform: translate3d(0, -8px, 0);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
+}
+
+.phase-layer.active .hero-brand-kicker {
+  opacity: 0.95;
+  transform: translate3d(0, 0, 0);
 }
 
 /* Fases Tipográficas com Animação de Entrada Poética */
 .phase-layer {
   position: absolute;
   width: 100%;
-  max-width: 960px;
+  max-width: 900px;
   text-align: center;
   padding: 0 1.5rem;
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-              visibility 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform, visibility;
-  transform: translateZ(0);
+  transform: translate3d(0, 16px, 0);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
   backface-visibility: hidden;
 }
 
@@ -126,135 +149,119 @@
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+  transform: translate3d(0, 0, 0);
 }
 
 .phase-tag {
   display: inline-block;
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.26em;
   color: var(--gold-light);
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.4rem;
   font-weight: 600;
   opacity: 0;
-  transform: translateY(-12px);
-  filter: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s,
-              transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+  transform: translate3d(0, -8px, 0);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .phase-layer.active .phase-tag {
   opacity: 0.95;
-  transform: translateY(0);
-  filter: none;
+  transform: translate3d(0, 0, 0);
 }
 
 .phase-headline {
-  font-size: clamp(2.3rem, 4.8vw, 4.2rem);
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
   font-weight: 400;
-  line-height: 1.22;
+  line-height: 1.24;
   color: #FAF9F6;
   letter-spacing: -0.025em;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.75);
+  text-shadow: 0 3px 24px rgba(0, 0, 0, 0.75);
+  text-wrap: balance;
+  margin-bottom: 2rem;
   opacity: 0;
-  transform: translateY(24px) scale(0.98);
-  filter: blur(6px);
-  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
-              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
-              filter 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+  transform: translate3d(0, 16px, 0);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.16s,
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.16s;
 }
 
 .phase-layer.active .phase-headline {
   opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: blur(0);
+  transform: translate3d(0, 0, 0);
 }
 
-/* Momentos Sincronizados */
-.hero-moments-wrapper {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  pointer-events: none;
+.phase-headline-poetic {
+  font-size: clamp(2rem, 3.8vw, 3.4rem);
+  font-style: italic;
+  font-weight: 300;
+  color: #F0EDE6;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
-.cinematic-moment {
-  position: absolute;
-  padding: 0.85rem 1.65rem;
-  background: rgba(23, 36, 30, 0.82);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(197, 168, 128, 0.38);
-  border-radius: var(--radius-pill);
-  color: #FAF9F6;
+.hero-subtle-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+
+.phase-layer.active .hero-subtle-cta {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.hero-subtle-cta .hero-btn {
+  padding: 0.85rem 2.2rem;
   font-size: 0.92rem;
   font-weight: 500;
   letter-spacing: 0.04em;
-  opacity: 0;
-  transform: translateY(18px) scale(0.96) translateZ(0);
-  filter: blur(4px);
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), 
-              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-              filter 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  box-shadow: 0 12px 35px rgba(10, 20, 16, 0.45);
-  will-change: opacity, transform, filter;
-  backface-visibility: hidden;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.25, 1, 0.5, 1),
+              background 0.25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.cinematic-moment.active {
-  opacity: 1;
-  transform: translateY(0) scale(1) translateZ(0);
-  filter: blur(0);
+@media (hover: hover) {
+  .hero-subtle-cta .hero-btn:hover {
+    transform: translate3d(0, -2px, 0);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+  }
 }
 
-.moment-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: var(--gold-primary);
-  box-shadow: 0 0 10px var(--gold-glow);
-  animation: pulseDot 2.8s ease-in-out infinite;
+.hero-subtle-cta .hero-btn:active {
+  transform: translate3d(0, 0, 0) scale(0.98);
 }
 
-@keyframes pulseDot {
-  0%, 100% { transform: scale(1); opacity: 0.9; }
-  50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 14px var(--gold-primary); }
+/* Momentos Sincronizados Ocultados para Evitar Poluição Visual */
+.hero-moments-wrapper {
+  display: none !important;
 }
 
-.moment-1 { top: 22%; left: 8%; }
-.moment-2 { top: 28%; right: 8%; }
-.moment-3 { bottom: 24%; left: 10%; }
-.moment-4 { bottom: 18%; right: 10%; }
-
-/* CTA Final do Hero - Otimizado para Máxima Performance e Fluidez */
+/* CTA Final do Hero: Espaçoso, Editorial e Não Encaixotado */
 .hero-cta-stage {
   position: absolute;
   width: 100%;
-  max-width: 760px;
+  max-width: 800px;
   text-align: center;
-  padding: 3.2rem 2.4rem;
-  background: rgba(18, 28, 23, 0.94);
-  border: 1px solid rgba(197, 168, 128, 0.35);
-  border-radius: var(--radius-lg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 20px 50px rgba(5, 12, 10, 0.5), 0 0 30px rgba(197, 168, 128, 0.08);
+  padding: 2.8rem 2rem;
   opacity: 0;
   visibility: hidden;
-  transform: translate3d(0, 16px, 0);
-  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), 
-              transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
-              visibility 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: translate3d(0, 20px, 0);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
   z-index: 8;
   will-change: transform, opacity;
   backface-visibility: hidden;
-  contain: layout style;
 }
 
 .hero-cta-stage.active {
@@ -264,76 +271,31 @@
   pointer-events: auto;
 }
 
-/* Transições Rápidas, Aceleradas por GPU para os Elementos Internos do CTA */
-.hero-cta-stage .phase-tag {
-  opacity: 0;
-  transform: translate3d(0, -6px, 0);
-  filter: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) 0.04s,
-              transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) 0.04s;
-  will-change: transform, opacity;
-}
-
-.hero-cta-stage.active .phase-tag {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-  filter: none;
-}
-
 .hero-cta-title {
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  font-weight: 500;
+  font-size: clamp(2.4rem, 4.4vw, 3.8rem);
+  font-weight: 400;
   color: #FAF9F6;
   margin-bottom: 1.2rem;
-  letter-spacing: -0.03em;
-  opacity: 0;
-  transform: translate3d(0, 10px, 0);
-  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.08s,
-              transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.08s;
-  will-change: transform, opacity;
-}
-
-.hero-cta-stage.active .hero-cta-title {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
 }
 
 .hero-cta-desc {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: #D1DCD6;
   max-width: 580px;
-  margin: 0 auto 2.2rem;
-  line-height: 1.7;
-  opacity: 0;
-  transform: translate3d(0, 8px, 0);
-  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s,
-              transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s;
-  will-change: transform, opacity;
-}
-
-.hero-cta-stage.active .hero-cta-desc {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
+  margin: 0 auto 2.5rem;
+  line-height: 1.65;
+  text-wrap: balance;
 }
 
 .hero-cta-buttons {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.2rem;
+  gap: 1.4rem;
   flex-wrap: wrap;
-  opacity: 0;
-  transform: translate3d(0, 8px, 0);
-  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.16s,
-              transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.16s;
-  will-change: transform, opacity;
-}
-
-.hero-cta-stage.active .hero-cta-buttons {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
 }
 
 .hero-cta-buttons .btn-primary {
@@ -341,6 +303,7 @@
   color: #17241E;
   font-weight: 600;
   border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .hero-cta-buttons .btn-primary:hover {
@@ -352,11 +315,33 @@
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: #FAF9F6;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .hero-cta-buttons .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.22);
   color: #FFFFFF;
+}
+
+/* Suporte a Redução de Movimento */
+@media (prefers-reduced-motion: reduce) {
+  .hero-canvas,
+  .hero-video,
+  .phase-layer,
+  .hero-brand-kicker,
+  .phase-tag,
+  .phase-headline,
+  .hero-subtle-cta,
+  .hero-subtle-cta .hero-btn,
+  .hero-cta-stage,
+  .scroll-indicator-line::after {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
 }
 
 /* Indicador de Scroll */

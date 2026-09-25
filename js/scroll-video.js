@@ -180,6 +180,14 @@
       img.src = `${FRAME_PREFIX}${formatFrameNumber(index)}${FRAME_EXT}`;
       images[index] = img;
 
+      if (isFirstFrame) {
+        setTimeout(() => {
+          if (loadingState && !loadingState.classList.contains('loaded')) {
+            loadingState.classList.add('loaded');
+          }
+        }, 350);
+      }
+
       const onLoaded = () => {
         loadedStatus[index] = 1;
         if (isFirstFrame) {
@@ -286,41 +294,46 @@
 
     function updateDesktopVisuals(p) {
       if (scrollIndicator) {
-        if (p > 0.015) scrollIndicator.classList.add('hidden');
+        if (p > 0.02) scrollIndicator.classList.add('hidden');
         else scrollIndicator.classList.remove('hidden');
       }
 
-      // FASE 1: Introdução Poética (0% a 20%)
-      if (p < 0.20) {
+      // FASE 1: Introdução Principal (0% a 25%) - Vídeo nítido e protagonista
+      if (p < 0.25) {
         activateLayer(phase1);
-        setCanvasOpacity(0.35);
+        setCanvasOpacity(0.85);
         hideAllMoments();
       }
-      // FASE 2: Posicionamento e Acolhimento (20% a 38%)
-      else if (p >= 0.20 && p < 0.38) {
+      // FASE 2: Respiro Poético & Acolhimento (25% a 72%) - Vídeo em 100% de brilho/presença
+      else if (p >= 0.25 && p < 0.72) {
         activateLayer(phase2);
-        setCanvasOpacity(0.75);
+        setCanvasOpacity(1.0);
         hideAllMoments();
       }
-      // FASE 3: Ambiente e Saúde Mental + Momentos Sincronizados (38% a 84%)
-      else if (p >= 0.38 && p < 0.84) {
-        activateLayer(phase3 || phase2);
-        setCanvasOpacity(1.0);
-
-        toggleMoment(moments[0], p >= 0.42 && p < 0.54);
-        toggleMoment(moments[1], p >= 0.54 && p < 0.65);
-        toggleMoment(moments[2], p >= 0.65 && p < 0.75);
-        toggleMoment(moments[3], p >= 0.75 && p < 0.84);
-      }
-      // FASE 4: Chamada para Ação Final (84% a 100%)
-      else if (p >= 0.84) {
+      // FASE 3: Encerramento Narrativo & CTA Discreto (72% a 100%)
+      else if (p >= 0.72) {
         activateLayer(ctaStage);
-        setCanvasOpacity(0.28);
+        setCanvasOpacity(0.50);
         hideAllMoments();
       }
     }
 
     function setupDesktopMode() {
+      const isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (isReducedMotion) {
+        if (canvas) canvas.style.display = 'block';
+        if (video) {
+          video.style.display = 'none';
+          if (!video.paused) video.pause();
+        }
+        fitCanvasDimensions();
+        preloadDesktopFrames();
+        drawDesktopFrame(1);
+        activateLayer(phase1);
+        if (loadingState) loadingState.classList.add('loaded');
+        return;
+      }
+
       if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
         setTimeout(setupDesktopMode, 50);
         return;

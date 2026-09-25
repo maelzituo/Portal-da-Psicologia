@@ -178,6 +178,23 @@
 
 .faq-question-text {
   flex: 1;
+  display: flex;
+  align-items: baseline;
+}
+
+.faq-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--gold-dark);
+  margin-right: 0.85rem;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .faq-num {
+  color: var(--gold-light);
 }
 
 /* --- Indicador de Abertura (+ / −) --- */

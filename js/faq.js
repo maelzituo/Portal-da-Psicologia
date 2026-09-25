@@ -111,7 +111,7 @@
     let isExpandedAll = false;
     const INITIAL_VISIBLE_COUNT = 6;
 
-    // --- 1. RENDERIZAÇÃO PROGRESSIVA DO ACCORDION ---
+    // --- 1. RENDERIZAÇÃO DO ACCORDION ---
     function renderAccordion() {
       // Itens a exibir conforme a categoria selecionada
       const filteredItems = FAQ_DATA.filter((item) => {
@@ -121,16 +121,11 @@
 
       faqContainer.innerHTML = '';
 
-      filteredItems.forEach((item, index) => {
+      filteredItems.forEach((item) => {
         const itemEl = document.createElement('div');
         itemEl.className = 'faq-item';
         itemEl.setAttribute('data-category', item.category);
         itemEl.id = `faq-item-${item.id}`;
-
-        // Se estiver na aba "todos" e ainda não expandiu tudo, esconde itens além do 6º
-        if (currentCategory === 'todos' && !isExpandedAll && index >= INITIAL_VISIBLE_COUNT) {
-          itemEl.classList.add('faq-item-collapsed');
-        }
 
         itemEl.innerHTML = `
           <h3 class="faq-question-heading">
@@ -141,6 +136,7 @@
               aria-expanded="false" 
               aria-controls="faq-answer-${item.id}"
             >
+              <span class="faq-num">${String(item.id).padStart(2, '0')}</span>
               <span class="faq-question-text">${item.question}</span>
               <span class="faq-icon-wrapper" aria-hidden="true">
                 <span class="faq-icon"></span>
@@ -165,8 +161,9 @@
       // Configuração dos Listeners nos botões
       attachAccordionListeners();
 
-      // Atualiza o estado do botão "Ver todas as perguntas"
-      updateToggleAllBtn(filteredItems.length);
+      if (toggleAllBtn) {
+        toggleAllBtn.style.display = 'none';
+      }
     }
 
     // --- 2. CONTROLE DO ACCORDION (EXPANSÃO / FECHAMENTO SUAVE) ---

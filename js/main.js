@@ -112,40 +112,71 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- 4. REVELAÇÃO PROGRESSIVA EFICIENTE COM INTERSECTION OBSERVER ---
-  const observerOptions = {
-    threshold: isEcoMode ? 0.05 : 0.15,
-    rootMargin: '0px 0px -30px 0px'
-  };
+  // --- 4. SISTEMA REUTILIZÁVEL DE SCROLL REVEAL & MICROINTERAÇÕES (WCAG & 60-120 FPS) ---
+  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const revealObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translate3d(0, 0, 0)';
-        observer.unobserve(entry.target);
-        
-        // Remove willChange para liberar buffers de GPU
-        setTimeout(() => {
-          entry.target.style.willChange = 'auto';
-        }, 600);
-      }
+  if (!prefersReducedMotion) {
+    document.documentElement.classList.add('motion-enabled');
+
+    const observerOptions = {
+      threshold: isEcoMode ? 0.05 : 0.12,
+      rootMargin: isEcoMode ? '0px 0px -15px 0px' : '0px 0px -35px 0px'
+    };
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+          
+          // Libera os buffers de GPU após a conclusão da animação
+          setTimeout(() => {
+            entry.target.style.willChange = 'auto';
+          }, 700);
+        }
+      });
+    }, observerOptions);
+
+    const revealElements = document.querySelectorAll(
+      '.section-header, .about-text-content, .about-visual-card, ' +
+      '.how-card, .situation-card, .specialty-card, .differential-row, ' +
+      '.team-card, .ethical-notice-card, .faq-cta-card, .contact-info-col, ' +
+      '.contact-form-col, .reveal-on-scroll'
+    );
+
+    revealElements.forEach(el => {
+      revealObserver.observe(el);
     });
-  }, observerOptions);
 
-  const animatedElements = document.querySelectorAll(
-    '.how-card, .situation-card, .specialty-card, .differential-row, .team-card, .about-visual-card'
-  );
+    // --- Parallax Sutil e Seguro (Desktop Apenas / Zero Jank) ---
+    const visualCard = document.querySelector('.about-visual-card');
+    if (visualCard && window.innerWidth >= 1024 && window.matchMedia('(hover: hover)').matches) {
+      let cardTicking = false;
+      window.addEventListener('mousemove', (e) => {
+        if (!cardTicking) {
+          requestAnimationFrame(() => {
+            const rect = visualCard.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+              const cx = window.innerWidth / 2;
+              const cy = window.innerHeight / 2;
+              const dx = (e.clientX - cx) / cx;
+              const dy = (e.clientY - cy) / cy;
+              // Inclinação imperceptível de no máximo 2.2 graus
+              const tiltX = -dy * 2.2;
+              const tiltY = dx * 2.2;
+              visualCard.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg)`;
+            }
+            cardTicking = false;
+          });
+          cardTicking = true;
+        }
+      }, { passive: true });
 
-  animatedElements.forEach((el, index) => {
-    el.style.opacity = '0';
-    el.style.transform = 'translate3d(0, 18px, 0)';
-    if (!isEcoMode) {
-      el.style.willChange = 'opacity, transform';
+      visualCard.addEventListener('mouseleave', () => {
+        visualCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+      });
     }
-    el.style.transition = `opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${Math.min(index % 4 * 0.08, 0.25)}s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${Math.min(index % 4 * 0.08, 0.25)}s`;
-    revealObserver.observe(el);
-  });
+  }
 
   // --- 5. MANIPULAÇÃO DO FORMULÁRIO DE AGENDAMENTO VIA WHATSAPP CENTRALIZADO ---
   const bookingForm = document.getElementById('concierge-booking-form');

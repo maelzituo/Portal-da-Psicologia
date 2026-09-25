@@ -80,21 +80,18 @@
             ${photoHtml}
           </div>
           <div class="team-info">
-            <div class="team-role">${role}</div>
             <h3 class="team-name">${name}</h3>
             <div class="team-crp">
               <span class="crp-badge">${crp}</span>
-              ${approach ? `<span class="approach-meta">• ${approach}</span>` : ''}
+              <span class="approach-meta">• ${role}</span>
             </div>
-            ${education ? `<div class="team-education"><small>${education}</small></div>` : ''}
-            <p class="team-bio">${bio}</p>
-            ${specialtiesHtml}
+            ${education || approach ? `<div class="team-education"><small>${approach ? `${approach} • ` : ''}${education}</small></div>` : ''}
             <div class="team-card-actions">
               <a href="${ClinicData.clinic.getWhatsAppUrl('scheduling')}" 
                  class="btn btn-secondary team-contact-btn" 
                  target="_blank" 
                  rel="noopener noreferrer" 
-                 aria-label="Agendar consulta com ${name}">
+                 aria-label="Consultar disponibilidade com ${name}">
                 <span>Consultar Disponibilidade</span>
               </a>
             </div>
