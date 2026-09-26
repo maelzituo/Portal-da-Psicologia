@@ -107,7 +107,7 @@
   padding: 2.5rem;
 }
 
-/* Kicker Editorial do Hero com Entrada Suave */
+/* Kicker Editorial do Hero */
 .hero-brand-kicker {
   display: inline-block;
   font-size: 0.82rem;
@@ -116,15 +116,7 @@
   text-transform: uppercase;
   color: var(--gold-light);
   margin-bottom: 1.8rem;
-  opacity: 0;
-  transform: translate3d(0, -8px, 0);
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
-}
-
-.phase-layer.active .hero-brand-kicker {
-  opacity: 0.95;
-  transform: translate3d(0, 0, 0);
+  opacity: 0.92;
 }
 
 /* Fases Tipográficas com Animação de Entrada Poética */
@@ -137,11 +129,10 @@
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
-  transform: translate3d(0, 16px, 0);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              visibility 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, visibility;
+  transform: translateZ(0);
   backface-visibility: hidden;
 }
 
@@ -149,7 +140,6 @@
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translate3d(0, 0, 0);
 }
 
 .phase-tag {
@@ -161,14 +151,14 @@
   margin-bottom: 1.4rem;
   font-weight: 600;
   opacity: 0;
-  transform: translate3d(0, -8px, 0);
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(-8px);
+  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .phase-layer.active .phase-tag {
   opacity: 0.95;
-  transform: translate3d(0, 0, 0);
+  transform: translateY(0);
 }
 
 .phase-headline {
@@ -181,14 +171,14 @@
   text-wrap: balance;
   margin-bottom: 2rem;
   opacity: 0;
-  transform: translate3d(0, 16px, 0);
-  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.16s,
-              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.16s;
+  transform: translateY(16px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s,
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
 }
 
 .phase-layer.active .phase-headline {
   opacity: 1;
-  transform: translate3d(0, 0, 0);
+  transform: translateY(0);
 }
 
 .phase-headline-poetic {
@@ -198,46 +188,6 @@
   color: #F0EDE6;
   max-width: 760px;
   margin: 0 auto;
-}
-
-.hero-subtle-cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1.5rem;
-  opacity: 0;
-  transform: translate3d(0, 14px, 0);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
-              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
-}
-
-.phase-layer.active .hero-subtle-cta {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
-.hero-subtle-cta .hero-btn {
-  padding: 0.85rem 2.2rem;
-  font-size: 0.92rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  border-radius: var(--radius-pill);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  transform: translate3d(0, 0, 0);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.25s cubic-bezier(0.25, 1, 0.5, 1),
-              background 0.25s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-@media (hover: hover) {
-  .hero-subtle-cta .hero-btn:hover {
-    transform: translate3d(0, -2px, 0);
-    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
-  }
-}
-
-.hero-subtle-cta .hero-btn:active {
-  transform: translate3d(0, 0, 0) scale(0.98);
 }
 
 /* Momentos Sincronizados Ocultados para Evitar Poluição Visual */
@@ -254,10 +204,10 @@
   padding: 2.8rem 2rem;
   opacity: 0;
   visibility: hidden;
-  transform: translate3d(0, 20px, 0);
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(0, 16px, 0);
+  transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+              visibility 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   pointer-events: none;
   z-index: 8;
   will-change: transform, opacity;
@@ -329,18 +279,10 @@
   .hero-canvas,
   .hero-video,
   .phase-layer,
-  .hero-brand-kicker,
-  .phase-tag,
-  .phase-headline,
-  .hero-subtle-cta,
-  .hero-subtle-cta .hero-btn,
   .hero-cta-stage,
   .scroll-indicator-line::after {
     animation: none !important;
     transition: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-    visibility: visible !important;
   }
 }
 

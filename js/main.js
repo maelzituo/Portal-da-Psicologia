@@ -112,43 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- 4. SISTEMA REUTILIZÁVEL DE SCROLL REVEAL & MICROINTERAÇÕES (WCAG & 60-120 FPS) ---
+  // --- 4. MICROINTERAÇÕES E EFEITOS SUTIS DE AMBIENTAÇÃO ---
   const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!prefersReducedMotion) {
-    document.documentElement.classList.add('motion-enabled');
-
-    const observerOptions = {
-      threshold: isEcoMode ? 0.05 : 0.12,
-      rootMargin: isEcoMode ? '0px 0px -15px 0px' : '0px 0px -35px 0px'
-    };
-
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          observer.unobserve(entry.target);
-          
-          // Libera os buffers de GPU após a conclusão da animação
-          setTimeout(() => {
-            entry.target.style.willChange = 'auto';
-          }, 700);
-        }
-      });
-    }, observerOptions);
-
-    const revealElements = document.querySelectorAll(
-      '.section-header, .about-text-content, .about-visual-card, ' +
-      '.how-card, .situation-card, .specialty-card, .differential-row, ' +
-      '.team-card, .ethical-notice-card, .faq-cta-card, .contact-info-col, ' +
-      '.contact-form-col, .reveal-on-scroll'
-    );
-
-    revealElements.forEach(el => {
-      revealObserver.observe(el);
-    });
-
-    // --- Parallax Sutil e Seguro (Desktop Apenas / Zero Jank) ---
+    // Parallax Sutil e Seguro no Cartão de Filosofia Clínica (Desktop Apenas / Zero Jank)
     const visualCard = document.querySelector('.about-visual-card');
     if (visualCard && window.innerWidth >= 1024 && window.matchMedia('(hover: hover)').matches) {
       let cardTicking = false;

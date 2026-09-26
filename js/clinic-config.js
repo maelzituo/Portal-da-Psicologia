@@ -140,15 +140,15 @@
       name: "[NOME DO PROFISSIONAL]",
       professionalTitle: "Psicólogo(a) Clínico(a)",
       crp: "[CRP DO PROFISSIONAL]",
-      role: "Relações & Desenvolvimento",
+      role: "Desenvolvimento & Relações Interpessoais",
       approach: "[ABORDAGEM CLÍNICA]",
       education: "[FORMAÇÃO ACADÊMICA / ESPECIALIZAÇÃO]",
       specialties: [
         "Relações Interpessoais",
-        "Conflitos Afetivos",
+        "Desenvolvimento Pessoal",
         "Saúde Mental"
       ],
-      bio: "Espaço reservado para a apresentação profissional, atuação com vínculos afetivos, desenvolvimento da autonomia e fortalecimento emocional.",
+      bio: "Espaço reservado para a apresentação profissional, escuta clínica individual, desenvolvimento da autonomia e fortalecimento emocional.",
       photo: "",
       instagram: "[INSTAGRAM PROFISSIONAL]",
       email: "[E-MAIL PROFISSIONAL]"

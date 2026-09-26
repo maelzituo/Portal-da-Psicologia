@@ -313,186 +313,18 @@ body::after {
 }
 
 /* ==========================================================================
-   SISTEMA DE MOTION DESIGN & SCROLL REVEAL (EDITORIAL & 60-120 FPS)
-   - Progressão: Entrada suave → Presença serena → Microinteração tátil
-   - Aceleração estrita por GPU (transform, opacity) com liberação de buffers
-   - Suporte a progressive enhancement (100% visível se JS falhar)
+   MICROINTERAÇÕES & DETALHES DE MOTION DESIGN (EDITORIAL & LEVE)
+   - Todo o conteúdo é visível e acessível por padrão (sem risco de seções em branco).
+   - Microinterações táteis e acabamento refinado em botões, cartões e separadores.
    ========================================================================== */
 
-/* 1. Classes Utilitárias Reutilizáveis de Movimento */
-.reveal,
-.reveal-up,
-.reveal-on-scroll {
-  will-change: transform, opacity;
-}
-
-/* Estado Base Inicial: Ativado apenas quando o script adiciona .motion-enabled */
-.motion-enabled .reveal,
-.motion-enabled .reveal-up,
-.motion-enabled .reveal-on-scroll,
-.motion-enabled .section-header,
-.motion-enabled .about-text-content,
-.motion-enabled .about-visual-card,
-.motion-enabled .how-card,
-.motion-enabled .situation-card,
-.motion-enabled .specialty-card,
-.motion-enabled .differential-row,
-.motion-enabled .team-card,
-.motion-enabled .ethical-notice-card,
-.motion-enabled .faq-cta-card,
-.motion-enabled .contact-info-col,
-.motion-enabled .contact-form-col {
-  opacity: 0;
-  transform: translate3d(0, 20px, 0);
-  transition: opacity var(--motion-normal) var(--ease-standard),
-              transform var(--motion-normal) var(--ease-standard);
-}
-
-/* Estado Revelado com Desaceleração Natural */
-.motion-enabled .is-revealed,
-.motion-enabled .section-header.is-revealed,
-.motion-enabled .about-text-content.is-revealed,
-.motion-enabled .about-visual-card.is-revealed,
-.motion-enabled .how-card.is-revealed,
-.motion-enabled .situation-card.is-revealed,
-.motion-enabled .specialty-card.is-revealed,
-.motion-enabled .differential-row.is-revealed,
-.motion-enabled .team-card.is-revealed,
-.motion-enabled .ethical-notice-card.is-revealed,
-.motion-enabled .faq-cta-card.is-revealed,
-.motion-enabled .contact-info-col.is-revealed,
-.motion-enabled .contact-form-col.is-revealed {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
-/* Revelação com Escala Suave (Para elementos visuais nobres) */
-.motion-enabled .reveal-scale {
-  opacity: 0;
-  transform: translate3d(0, 16px, 0) scale(0.985);
-  transition: opacity var(--motion-normal) var(--ease-standard),
-              transform var(--motion-normal) var(--ease-standard);
-}
-
-.motion-enabled .reveal-scale.is-revealed {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
-}
-
-/* Revelação Fade Sutil (Sem deslocamento vertical) */
-.motion-enabled .reveal-fade {
-  opacity: 0;
-  transition: opacity var(--motion-normal) var(--ease-standard);
-}
-
-.motion-enabled .reveal-fade.is-revealed {
-  opacity: 1;
-}
-
-/* 2. Micro-Hierarquia em Cabeçalhos de Seção (Tag → Título → Subtítulo) */
-.motion-enabled .section-header .section-tag {
-  opacity: 0;
-  transform: translate3d(0, 10px, 0);
-  transition: opacity var(--motion-normal) var(--ease-standard),
-              transform var(--motion-normal) var(--ease-standard);
-}
-
-.motion-enabled .section-header.is-revealed .section-tag {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
-.motion-enabled .section-header .section-title {
-  opacity: 0;
-  transform: translate3d(0, 14px, 0);
-  transition: opacity var(--motion-normal) var(--ease-standard) 0.08s,
-              transform var(--motion-normal) var(--ease-standard) 0.08s;
-}
-
-.motion-enabled .section-header.is-revealed .section-title {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
-.motion-enabled .section-header .section-subtitle {
-  opacity: 0;
-  transform: translate3d(0, 12px, 0);
-  transition: opacity var(--motion-normal) var(--ease-standard) 0.16s,
-              transform var(--motion-normal) var(--ease-standard) 0.16s;
-}
-
-.motion-enabled .section-header.is-revealed .section-subtitle {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
-/* 3. Stagger Groups (Delays Curtos e Musicais para não bloquear o usuário) */
-.motion-enabled .stagger-group > *:nth-child(1),
-.motion-enabled .how-it-works-grid > *:nth-child(1),
-.motion-enabled .specialties-grid > *:nth-child(1),
-.motion-enabled .differentials-list > *:nth-child(1),
-.motion-enabled .team-grid > *:nth-child(1),
-.motion-enabled .para-quem-grid > *:nth-child(1) {
-  transition-delay: 0s;
-}
-
-.motion-enabled .stagger-group > *:nth-child(2),
-.motion-enabled .how-it-works-grid > *:nth-child(2),
-.motion-enabled .specialties-grid > *:nth-child(2),
-.motion-enabled .differentials-list > *:nth-child(2),
-.motion-enabled .team-grid > *:nth-child(2),
-.motion-enabled .para-quem-grid > *:nth-child(2) {
-  transition-delay: 0.08s;
-}
-
-.motion-enabled .stagger-group > *:nth-child(3),
-.motion-enabled .how-it-works-grid > *:nth-child(3),
-.motion-enabled .specialties-grid > *:nth-child(3),
-.motion-enabled .differentials-list > *:nth-child(3),
-.motion-enabled .team-grid > *:nth-child(3),
-.motion-enabled .para-quem-grid > *:nth-child(3) {
-  transition-delay: 0.16s;
-}
-
-.motion-enabled .stagger-group > *:nth-child(4),
-.motion-enabled .how-it-works-grid > *:nth-child(4),
-.motion-enabled .specialties-grid > *:nth-child(4),
-.motion-enabled .differentials-list > *:nth-child(4),
-.motion-enabled .team-grid > *:nth-child(4),
-.motion-enabled .para-quem-grid > *:nth-child(4) {
-  transition-delay: 0.24s;
-}
-
-.motion-enabled .stagger-group > *:nth-child(5),
-.motion-enabled .para-quem-grid > *:nth-child(5) {
-  transition-delay: 0.30s;
-}
-
-.motion-enabled .stagger-group > *:nth-child(6),
-.motion-enabled .para-quem-grid > *:nth-child(6) {
-  transition-delay: 0.36s;
-}
-
-/* Micro-delay específico para tags explícitas */
-.motion-enabled [data-stagger="1"] { transition-delay: 0s; }
-.motion-enabled [data-stagger="2"] { transition-delay: 0.08s; }
-.motion-enabled [data-stagger="3"] { transition-delay: 0.16s; }
-.motion-enabled [data-stagger="4"] { transition-delay: 0.24s; }
-
-/* 4. Indicador de Linha e Elementos Decorativos Conectados */
+/* Linha indicadora conectora no 'Como Funciona' */
 .how-index::after {
   content: '';
   flex-grow: 1;
   height: 1px;
   background: var(--color-border);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform var(--motion-slow) var(--ease-standard) 0.22s;
-}
-
-.motion-enabled .how-card.is-revealed .how-index::after,
-body:not(.motion-enabled) .how-index::after {
-  transform: scaleX(1);
+  opacity: 0.85;
 }
 
 /* Linha sutil superior nos How Cards */
@@ -1107,7 +939,7 @@ button {
    ========================================================================== */
 .specialties-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
 
@@ -2252,7 +2084,11 @@ textarea:focus-visible {
    RESPONSIVIDADE GLOBAL
    ========================================================================== */
 @media (max-width: 1024px) {
-  .specialties-grid, .team-grid {
+  .specialties-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .team-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -2403,35 +2239,6 @@ video {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
-  }
-
-  .motion-enabled .reveal,
-  .motion-enabled .reveal-up,
-  .motion-enabled .reveal-on-scroll,
-  .motion-enabled .reveal-scale,
-  .motion-enabled .reveal-fade,
-  .motion-enabled .section-header,
-  .motion-enabled .section-header .section-tag,
-  .motion-enabled .section-header .section-title,
-  .motion-enabled .section-header .section-subtitle,
-  .motion-enabled .about-text-content,
-  .motion-enabled .about-visual-card,
-  .motion-enabled .how-card,
-  .motion-enabled .situation-card,
-  .motion-enabled .specialty-card,
-  .motion-enabled .differential-row,
-  .motion-enabled .team-card,
-  .motion-enabled .ethical-notice-card,
-  .motion-enabled .faq-cta-card,
-  .motion-enabled .contact-info-col,
-  .motion-enabled .contact-form-col,
-  .how-index::after,
-  .differential-row::before,
-  .how-card::before {
-    opacity: 1 !important;
-    transform: none !important;
-    visibility: visible !important;
-    transition: none !important;
   }
 
   .whatsapp-btn-pulse {
