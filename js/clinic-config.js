@@ -28,13 +28,13 @@
     // Identidade
     name: "Portal da Psicologia",
     legalName: "[RAZÃO SOCIAL / REGISTRO INSTITUCIONAL]",
-    cnpj: "[CNPJ DA CLÍNICA OU RESPONSÁVEL TÉCNICO]",
+    cnpj: "67.751.242/0001-98",
     tagline: "Centro de atendimento psicológico, psicoterapia e desenvolvimento humano.",
     description: "Atendimento psicológico online para todo o Brasil, pautado pelo sigilo ético, escuta qualificada e acolhimento singular.",
     
     // Contato Oficial (Centralizado — Altere aqui para atualizar todos os links do site)
-    whatsappNumber: "5551993617100", // Apenas dígitos com código do país (ex: 5551993617100)
-    whatsappDisplay: "(51) 99361-7100",
+    whatsappNumber: "5551992509187", // Apenas dígitos com código do país (ex: 5551993617100)
+    whatsappDisplay: "(51) 99250-9187",
     email: "[E-MAIL PROFISSIONAL DA CLÍNICA]",
     emailDisplay: "contato@portaldapsicologia.com.br",
     instagram: "[INSTAGRAM OFICIAL DA CLÍNICA]",
