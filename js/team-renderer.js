@@ -52,10 +52,15 @@
       const role = sanitize(prof.role || 'Psicologia Clínica');
       const approach = sanitize(prof.approach || '[ABORDAGEM CLÍNICA]');
       const education = sanitize(prof.education || '[FORMAÇÃO]');
-      const bio = sanitize(prof.bio || 'Atendimento clínico com foco na escuta ética e desenvolvimento humano.');
+      const bio = sanitize(prof.bio || '');
       
+      let photoSrc = hasPhoto ? sanitize(prof.photo) : '';
+      if (photoSrc && !photoSrc.startsWith('/') && !photoSrc.startsWith('http')) {
+        photoSrc = '/' + photoSrc;
+      }
+
       const photoHtml = hasPhoto
-        ? `<img src="${sanitize(prof.photo)}" alt="${name}" class="team-photo-img" loading="lazy" width="400" height="260">`
+        ? `<img src="${photoSrc}" alt="${name} — ${role}" class="team-photo-img" loading="lazy" width="640" height="640">`
         : `
           <div class="team-avatar-placeholder" aria-label="Espaço reservado para a foto oficial">
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -86,8 +91,10 @@
               <span class="approach-meta">• ${role}</span>
             </div>
             ${education || approach ? `<div class="team-education"><small>${approach ? `${approach} • ` : ''}${education}</small></div>` : ''}
+            ${bio ? `<p class="team-bio">${bio}</p>` : ''}
+            ${specialtiesHtml}
             <div class="team-card-actions">
-              <a href="${ClinicData.clinic.getWhatsAppUrl('scheduling')}" 
+              <a href="${ClinicData.clinic.getWhatsAppUrl('team', { name: name })}" 
                  class="btn btn-secondary team-contact-btn" 
                  target="_blank" 
                  rel="noopener noreferrer" 

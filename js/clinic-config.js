@@ -101,57 +101,21 @@
   const PROFESSIONALS_CONFIG = [
     {
       id: 1,
-      name: "[NOME DO PROFISSIONAL]",
-      professionalTitle: "Psicólogo(a) Clínico(a)",
-      crp: "[CRP DO PROFISSIONAL]",
+      name: "Filipi Morais",
+      professionalTitle: "Psicólogo Clínico",
+      crp: "07/43751",
       role: "Psicologia Clínica",
-      approach: "[ABORDAGEM CLÍNICA — EX: TCC, PSICANÁLISE, HUMANISTA, FENOMENOLOGIA]",
-      education: "[FORMAÇÃO ACADÊMICA / ESPECIALIZAÇÃO]",
+      approach: "Psicanálise",
+      education: "Psicologia e Saúde Mental • Sexologia Clínica",
       specialties: [
-        "Psicoterapia Individual",
-        "Ansiedade e Regulação Emocional",
-        "Autoconhecimento"
-      ],
-      bio: "Espaço reservado para a apresentação profissional, abordagem terapêutica e experiência clínica com atendimento individual e escuta qualificada.",
-      photo: "", // Deixar vazio enquanto a foto oficial não for fornecida (ativa fallback elegante)
-      instagram: "[INSTAGRAM PROFISSIONAL]",
-      email: "[E-MAIL PROFISSIONAL]"
-    },
-    {
-      id: 2,
-      name: "[NOME DO PROFISSIONAL]",
-      professionalTitle: "Psicólogo(a) Clínico(a)",
-      crp: "[CRP DO PROFISSIONAL]",
-      role: "Psicoterapia & Avaliação",
-      approach: "[ABORDAGEM CLÍNICA]",
-      education: "[FORMAÇÃO ACADÊMICA / ESPECIALIZAÇÃO]",
-      specialties: [
+        "Psicologia e Saúde Mental",
         "Avaliação Psicológica",
-        "Acompanhamento Terapêutico",
-        "Transições de Vida"
+        "Sexologia Clínica"
       ],
-      bio: "Espaço reservado para a trajetória profissional, prática baseada em evidências éticas e acolhimento estruturado para diferentes demandas clínicas.",
-      photo: "",
-      instagram: "[INSTAGRAM PROFISSIONAL]",
-      email: "[E-MAIL PROFISSIONAL]"
-    },
-    {
-      id: 3,
-      name: "[NOME DO PROFISSIONAL]",
-      professionalTitle: "Psicólogo(a) Clínico(a)",
-      crp: "[CRP DO PROFISSIONAL]",
-      role: "Desenvolvimento & Relações Interpessoais",
-      approach: "[ABORDAGEM CLÍNICA]",
-      education: "[FORMAÇÃO ACADÊMICA / ESPECIALIZAÇÃO]",
-      specialties: [
-        "Relações Interpessoais",
-        "Desenvolvimento Pessoal",
-        "Saúde Mental"
-      ],
-      bio: "Espaço reservado para a apresentação profissional, escuta clínica individual, desenvolvimento da autonomia e fortalecimento emocional.",
-      photo: "",
-      instagram: "[INSTAGRAM PROFISSIONAL]",
-      email: "[E-MAIL PROFISSIONAL]"
+      bio: "Atendimento clínico e psicoterapia online com abordagem psicanalítica. Acolhimento singular e ético para demandas de saúde mental, autoconhecimento, sexualidade e avaliação psicológica.",
+      photo: "/public/foto-filipi.jpeg",
+      instagram: "https://instagram.com",
+      email: "contato@portaldapsicologia.com.br"
     }
   ];
 
