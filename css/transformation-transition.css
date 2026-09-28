@@ -1,11 +1,131 @@
 /* ==========================================================================
-   TRANSIÇÃO CINEMATOGRÁFICA — "A MATÉRIA SE TRANSFORMA"
-   Posicionamento: Exclusivamente entre o Hero atual e a Seção Clínica (#sobre)
-   Dimensões: 100vh / 100dvh — Pausa visual imersiva, dinâmica e fluida
-   Performance: 100% acelerada por GPU (Compositor-only: transform3d + opacity)
-   Velocidade: ~2.8s total, ultra-suave a 60-120 FPS, sem travamentos
+   PORTAL DA PSICOLOGIA — EXPERIÊNCIA DE TRANSIÇÃO: "A MATÉRIA SE TRANSFORMA"
+   Localização: Exclusivamente entre o Hero e a Seção Clínica (#sobre)
+   Conceito: Matéria viva escultural + Iluminação orgânica + Portais de Cuidado
+   Direção de Arte: Minimalismo escultural, editorial humano, estética contemporânea
+   Performance: 100% acelerado por GPU (Compositor-only: translate3d + opacity)
+   Comportamento: Abertura cinematográfica seguida de permanência harmônica (nunca fica vazia)
    ========================================================================== */
 
+:root {
+  /* --------------------------------------------------------------------------
+     TOKENS CROMÁTICOS: LIGHT MODE (Off-White, Marfim, Sálvia e Âmbar)
+     -------------------------------------------------------------------------- */
+  --trans-bg: radial-gradient(ellipse 90% 80% at 50% 50%, #F6F4ED 0%, #ECE6DC 55%, #E2DCD0 100%);
+  --trans-top-overlay: linear-gradient(180deg, #17241e 0%, rgba(23, 36, 30, 0.45) 45%, rgba(246, 244, 237, 0) 100%);
+  --trans-bottom-overlay: linear-gradient(0deg, var(--color-background) 0%, rgba(249, 248, 245, 0.8) 55%, rgba(246, 244, 237, 0) 100%);
+
+  /* Matéria Orgânica: Tons Minerais, Jade Translúcido e Âmbar Quente */
+  --materia-stop-outer-1: #FAF6F0;
+  --materia-stop-outer-2: #7C9A8C;
+  --materia-stop-outer-3: #3D5F51;
+  --materia-stop-outer-4: #1E352C;
+
+  --materia-stop-middle-1: #FFFFFF;
+  --materia-stop-middle-2: #8DAA9C;
+  --materia-stop-middle-3: #355346;
+  --materia-stop-middle-4: #1B2F27;
+
+  --materia-stop-core-1: #FFFFFF;
+  --materia-stop-core-2: #D2BEA3;
+  --materia-stop-core-3: #48695A;
+  --materia-stop-core-4: #182A23;
+
+  --materia-specular-1: rgba(255, 255, 255, 0.85);
+  --materia-specular-2: rgba(255, 255, 255, 0.2);
+
+  --materia-beam-1: #FFFFFF;
+  --materia-beam-2: #EDE2D2;
+  --materia-beam-3: #C5A880;
+
+  --materia-stroke: rgba(44, 74, 62, 0.24);
+  --materia-halo-1: rgba(197, 168, 128, 0.32);
+  --materia-halo-2: rgba(44, 74, 62, 0.16);
+
+  --trans-quote-color: #1C2621;
+  --trans-quote-accent: #8F7249;
+  --trans-quote-shadow: 0 2px 14px rgba(44, 74, 62, 0.08);
+
+  /* Cards Editoriais: Light Mode */
+  --card-bg: linear-gradient(155deg, rgba(255, 255, 255, 0.86) 0%, rgba(246, 243, 235, 0.94) 100%);
+  --card-border: rgba(61, 95, 81, 0.16);
+  --card-border-hover: rgba(197, 168, 128, 0.6);
+  --card-shadow: 0 10px 28px rgba(44, 74, 62, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --card-shadow-hover: 0 16px 36px rgba(44, 74, 62, 0.12), 0 0 20px rgba(197, 168, 128, 0.18);
+  --card-symbol-bg: rgba(61, 95, 81, 0.08);
+  --card-symbol-border: rgba(61, 95, 81, 0.18);
+  --card-symbol-color: #355346;
+  --card-title-color: #1C2621;
+  --card-desc-color: #556B61;
+  --card-cta-color: #8F7249;
+  --card-kicker-color: #8F7249;
+
+  --pill-bg: rgba(61, 95, 81, 0.08);
+  --pill-border: rgba(61, 95, 81, 0.22);
+  --pill-color: #1C2621;
+}
+
+[data-theme="dark"] {
+  /* --------------------------------------------------------------------------
+     TOKENS CROMÁTICOS: DARK MODE (Obsidiana, Floresta Noturna e Champagne)
+     -------------------------------------------------------------------------- */
+  --trans-bg: radial-gradient(ellipse 90% 80% at 50% 50%, #15241D 0%, #0D1612 55%, #070B09 100%);
+  --trans-top-overlay: linear-gradient(180deg, #17241e 0%, rgba(23, 36, 30, 0.5) 45%, rgba(13, 22, 18, 0) 100%);
+  --trans-bottom-overlay: linear-gradient(0deg, var(--color-background) 0%, rgba(13, 17, 15, 0.85) 55%, rgba(13, 22, 18, 0) 100%);
+
+  /* Matéria Orgânica: Quartzo Fumê, Âmbar Profundo e Sálvia Lúmina */
+  --materia-stop-outer-1: #E4D5C2;
+  --materia-stop-outer-2: #3D6454;
+  --materia-stop-outer-3: #1E342B;
+  --materia-stop-outer-4: #0E1914;
+
+  --materia-stop-middle-1: #EFE2D2;
+  --materia-stop-middle-2: #5B6B54;
+  --materia-stop-middle-3: #182A22;
+  --materia-stop-middle-4: #0E1A14;
+
+  --materia-stop-core-1: #FBF4EA;
+  --materia-stop-core-2: #D4BE9B;
+  --materia-stop-core-3: #2C4A3E;
+  --materia-stop-core-4: #122019;
+
+  --materia-specular-1: rgba(255, 255, 255, 0.7);
+  --materia-specular-2: rgba(255, 255, 255, 0.12);
+
+  --materia-beam-1: #FFFFFF;
+  --materia-beam-2: #E8D8C3;
+  --materia-beam-3: #C5A880;
+
+  --materia-stroke: rgba(220, 203, 180, 0.22);
+  --materia-halo-1: rgba(220, 203, 180, 0.28);
+  --materia-halo-2: rgba(61, 100, 84, 0.22);
+
+  --trans-quote-color: #F2F1ED;
+  --trans-quote-accent: #D4BE9B;
+  --trans-quote-shadow: 0 2px 20px rgba(0, 0, 0, 0.85);
+
+  /* Cards Editoriais: Dark Mode */
+  --card-bg: linear-gradient(155deg, rgba(22, 38, 30, 0.75) 0%, rgba(12, 22, 17, 0.85) 100%);
+  --card-border: rgba(212, 190, 155, 0.18);
+  --card-border-hover: rgba(220, 203, 180, 0.48);
+  --card-shadow: 0 12px 32px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --card-shadow-hover: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 24px rgba(197, 168, 128, 0.18);
+  --card-symbol-bg: rgba(197, 168, 128, 0.12);
+  --card-symbol-border: rgba(197, 168, 128, 0.24);
+  --card-symbol-color: #DDCBB4;
+  --card-title-color: #FBF9F5;
+  --card-desc-color: #A6B9A4;
+  --card-cta-color: #C5A880;
+  --card-kicker-color: #C5A880;
+
+  --pill-bg: rgba(197, 168, 128, 0.12);
+  --pill-border: rgba(197, 168, 128, 0.32);
+  --pill-color: #EDECE8;
+}
+
+/* ==========================================================================
+   PALCO & ESTRUTURA PRINCIPAL
+   ========================================================================== */
 .trans-materia-section {
   position: relative;
   width: 100%;
@@ -16,14 +136,14 @@
   justify-content: center;
   overflow: hidden;
   box-sizing: border-box;
-  background-color: #0b1410;
-  background: radial-gradient(ellipse 90% 80% at 50% 50%, #162921 0%, #0d1a15 50%, #070c0a 100%);
+  background: var(--trans-bg);
+  transition: background 0.6s ease;
   z-index: 5;
   contain: paint layout;
-  padding: 2rem 1.5rem;
+  padding: clamp(2.5rem, 5vh, 4rem) 1.5rem;
 }
 
-/* Transições ultra-suaves de atmosfera com o Hero e a Seção Clínica */
+/* Conexão gradativa com o final do Hero (superior) */
 .trans-materia-section::before {
   content: "";
   position: absolute;
@@ -31,33 +151,31 @@
   left: 0;
   right: 0;
   height: clamp(80px, 12vh, 140px);
-  background: linear-gradient(180deg, #17241e 0%, rgba(23, 36, 30, 0.5) 50%, rgba(23, 36, 30, 0) 100%);
+  background: var(--trans-top-overlay);
   pointer-events: none;
   z-index: 2;
+  transition: background 0.6s ease;
 }
 
+/* Conexão suave com a seção Clínica (inferior) */
 .trans-materia-section::after {
   content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: clamp(90px, 14vh, 160px);
+  height: clamp(100px, 15vh, 180px);
+  background: var(--trans-bottom-overlay);
   pointer-events: none;
   z-index: 2;
-  background: linear-gradient(0deg, var(--color-background) 0%, rgba(11, 20, 16, 0.55) 60%, rgba(11, 20, 16, 0) 100%);
-  transition: background 0.4s ease;
+  transition: background 0.6s ease;
 }
 
-[data-theme="dark"] .trans-materia-section::after {
-  background: linear-gradient(0deg, #0d110f 0%, rgba(11, 20, 16, 0.55) 60%, rgba(11, 20, 16, 0) 100%);
-}
-
-/* Palco central */
+/* Recipiente do palco integrado */
 .trans-materia-stage {
   position: relative;
   width: 100%;
-  max-width: 1040px;
+  max-width: 1080px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,63 +184,67 @@
 }
 
 /* ==========================================================================
-   ELEMENTO CENTRAL: A MATÉRIA ORGÂNICA EM TRANSFORMAÇÃO ULTRA-SUAVE
+   ELEMENTO ESCULTURAL: A MATÉRIA ORGÂNICA VIVA
+   Permanece como uma presença viva e luminosa (não desaparece!)
    ========================================================================== */
 .trans-materia-viewport {
   position: relative;
-  width: 240px;
-  height: 195px;
+  width: 200px;
+  height: 170px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
-  will-change: transform, opacity;
   transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
   pointer-events: none;
   user-select: none;
-}
-
-/* Halo sutil de iluminação ambiente multicamada (aceleração total por hardware) */
-.trans-materia-halo {
-  position: absolute;
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(220, 203, 180, 0.28) 0%, rgba(61, 100, 84, 0.22) 45%, rgba(11, 20, 16, 0) 75%);
-  opacity: 0.38;
-  transform: translate3d(0, 0, 0) scale(0.68);
-  pointer-events: none;
-  will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+}
+
+/* Halo de luz ambiente aveludada */
+.trans-materia-halo {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--materia-halo-1) 0%, var(--materia-halo-2) 45%, transparent 75%);
+  opacity: 0.35;
+  transform: translate3d(0, 0, 0) scale(0.72);
+  pointer-events: none;
+  will-change: transform, opacity;
+  transition: background 0.6s ease;
+  backface-visibility: hidden;
 }
 
 /* SVG da matéria orgânica viva */
 .trans-materia-svg {
-  width: 175px;
-  height: 175px;
+  width: 155px;
+  height: 155px;
   overflow: visible;
   transform-origin: center center;
-  transform: translate3d(0, 0, 0) scale(0.72);
+  transform: translate3d(0, 0, 0) scale(0.75);
   opacity: 0.92;
   will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
-/* Camadas orgânicas do SVG (sem repaints via CSS filter) */
+/* Camadas orgânicas do SVG */
 .materia-outer-path {
   fill: url(#rg-matter-outer);
-  stroke: rgba(220, 203, 180, 0.2);
+  stroke: var(--materia-stroke);
   stroke-width: 1.2;
-  transform-origin: 150px 150px;
+  transform-origin: 160px 160px;
   will-change: transform, opacity;
   backface-visibility: hidden;
+  transition: stroke 0.6s ease;
 }
 
 .materia-middle-path {
   fill: url(#rg-matter-middle);
-  transform-origin: 150px 150px;
+  transform-origin: 160px 160px;
   opacity: 0.88;
   will-change: transform, opacity;
   backface-visibility: hidden;
@@ -130,37 +252,37 @@
 
 .materia-core-path {
   fill: url(#rg-matter-core);
-  transform-origin: 150px 150px;
+  transform-origin: 160px 160px;
   opacity: 0.96;
   will-change: transform, opacity;
   backface-visibility: hidden;
 }
 
 .materia-specular-path {
-  transform-origin: 150px 150px;
+  transform-origin: 160px 160px;
   opacity: 0.65;
   mix-blend-mode: overlay;
   will-change: opacity, transform;
   backface-visibility: hidden;
 }
 
-/* Região de luz que atravessa a superfície */
+/* Feixe de luz suave atravessando a matéria */
 .materia-light-beam {
   fill: url(#lg-light-beam);
   opacity: 0;
-  transform-origin: 150px 150px;
-  transform: scaleX(0.08) scaleY(0.04);
+  transform-origin: 160px 160px;
+  transform: translate3d(0, 0, 0) rotate(-16deg) scaleX(0.08) scaleY(0.04);
   mix-blend-mode: screen;
   will-change: opacity, transform;
   backface-visibility: hidden;
 }
 
-/* Abertura translúcida interna ("há espaço para olhar para dentro") */
+/* Abertura interior revelada */
 .materia-aperture-core {
   fill: url(#rg-aperture-inner);
   opacity: 0;
-  transform-origin: 150px 150px;
-  transform: scale(0.2);
+  transform-origin: 160px 160px;
+  transform: translate3d(0, 0, 0) scale(0.2);
   mix-blend-mode: screen;
   will-change: opacity, transform;
   backface-visibility: hidden;
@@ -171,38 +293,41 @@
    "Olhar para dentro também é transformação."
    ========================================================================== */
 .trans-materia-quote-wrap {
-  margin-top: 0.8rem;
+  margin-top: 0.75rem;
   text-align: center;
-  max-width: 720px;
+  max-width: 680px;
   position: relative;
   z-index: 4;
   pointer-events: none;
 }
 
 .trans-materia-quote {
-  font-family: 'Playfair Display', Georgia, 'Plus Jakarta Sans', serif;
-  font-size: clamp(1.15rem, 2.1vw, 1.52rem);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.15rem, 2.1vw, 1.48rem);
   font-weight: 400;
   font-style: italic;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.025em;
   line-height: 1.45;
-  color: #f2f1ed;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.75);
+  color: var(--trans-quote-color);
+  text-shadow: var(--trans-quote-shadow);
   opacity: 0;
   transform: translate3d(0, 8px, 0);
   will-change: opacity, transform;
   margin: 0;
+  transition: color 0.6s ease;
   backface-visibility: hidden;
 }
 
 .trans-materia-quote em {
   font-style: normal;
-  color: #ddcbb4;
+  color: var(--trans-quote-accent);
   font-weight: 400;
+  transition: color 0.6s ease;
 }
 
 /* ==========================================================================
-   PRÉVIA CHAMATIVA DAS PRÓXIMAS SEÇÕES (LUXURY EDITORIAL CARDS)
+   CAMADA HARMÔNICA E HUMANA: CARDS EDITORIAIS DO PORTAL
+   Preenche a tela com elegância, calor e propósito
    ========================================================================== */
 .trans-materia-preview-stage {
   width: 100%;
@@ -215,62 +340,61 @@
 
 .trans-preview-header {
   text-align: center;
+  max-width: 620px;
   margin-bottom: 1.3rem;
   will-change: opacity, transform;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
 }
 
-.trans-preview-tag {
+.trans-preview-kicker {
   display: inline-block;
   font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: #c5a880;
+  color: var(--card-kicker-color);
   margin-bottom: 0.35rem;
 }
 
 .trans-preview-title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+  font-size: clamp(1.22rem, 2.3vw, 1.65rem);
   font-weight: 500;
-  color: #fbfaf7;
+  color: var(--card-title-color);
+  margin: 0 0 0.35rem 0;
+  line-height: 1.3;
+}
+
+.trans-preview-lead {
+  font-size: 0.84rem;
+  color: var(--card-desc-color);
   margin: 0;
-  line-height: 1.32;
-  letter-spacing: -0.01em;
+  line-height: 1.5;
 }
 
-.trans-preview-title em {
-  font-style: italic;
-  color: #e4d5c2;
-}
-
-/* Grid de Cards de Destaque */
+/* Grid de Cards Editoriais */
 .trans-preview-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.05rem;
+  gap: 1rem;
   width: 100%;
 }
 
 .trans-preview-card {
   position: relative;
-  background: linear-gradient(155deg, rgba(24, 40, 32, 0.75) 0%, rgba(13, 23, 18, 0.82) 100%);
-  border: 1px solid rgba(212, 190, 155, 0.18);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   border-radius: 14px;
-  padding: 1.25rem 1.15rem;
+  padding: 1.2rem 1.1rem;
   text-decoration: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
-              background 0.28s ease, 
-              border-color 0.28s ease, 
-              box-shadow 0.28s ease;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s ease, 
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
   cursor: pointer;
   will-change: transform, opacity;
@@ -286,18 +410,15 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(221, 203, 180, 0.6), transparent);
+  background: linear-gradient(90deg, transparent, var(--card-border-hover), transparent);
   opacity: 0;
-  transition: opacity 0.28s ease;
+  transition: opacity 0.3s ease;
 }
 
 .trans-preview-card:hover {
-  transform: translate3d(0, -6px, 0);
-  background: linear-gradient(155deg, rgba(32, 54, 43, 0.9) 0%, rgba(17, 30, 24, 0.95) 100%);
-  border-color: rgba(221, 203, 180, 0.48);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5), 
-              0 0 24px rgba(197, 168, 128, 0.16), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transform: translate3d(0, -5px, 0);
+  border-color: var(--card-border-hover);
+  box-shadow: var(--card-shadow-hover);
 }
 
 .trans-preview-card:hover::before {
@@ -305,200 +426,199 @@
 }
 
 .trans-preview-card:focus-visible {
-  outline: 2px solid #c5a880;
+  outline: 2px solid var(--card-cta-color);
   outline-offset: 3px;
 }
 
-.trans-card-indicator {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  background: linear-gradient(135deg, #f5ecd8 0%, #c5a880 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
+/* Topo do Card */
+.trans-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
 }
 
-/* Badge circular de joia para o ícone */
-.trans-card-icon-badge {
-  width: 38px;
-  height: 38px;
+.trans-card-kicker {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--card-kicker-color);
+}
+
+.trans-card-symbol {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(197, 168, 128, 0.15) 0%, rgba(30, 52, 42, 0.35) 100%);
-  border: 1px solid rgba(197, 168, 128, 0.22);
+  background: var(--card-symbol-bg);
+  border: 1px solid var(--card-symbol-border);
+  color: var(--card-symbol-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0.7rem 0 0.55rem 0;
-  color: #ddcbb4;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
-              background 0.28s ease, 
-              border-color 0.28s ease, 
-              color 0.28s ease;
-  transform: translate3d(0, 0, 0);
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.trans-preview-card:hover .trans-card-icon-badge {
-  transform: translate3d(0, 0, 0) scale(1.08);
-  background: radial-gradient(circle, rgba(197, 168, 128, 0.28) 0%, rgba(44, 74, 62, 0.5) 100%);
-  border-color: rgba(221, 203, 180, 0.45);
-  color: #ffffff;
+.trans-preview-card:hover .trans-card-symbol {
+  transform: scale(1.08);
 }
 
-.trans-card-body {
+/* Corpo do Card */
+.trans-card-content {
   flex: 1;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.75rem;
 }
 
 .trans-card-title {
   font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   font-weight: 600;
-  color: #faf8f5;
-  margin: 0 0 0.32rem 0;
+  color: var(--card-title-color);
+  margin: 0 0 0.35rem 0;
   letter-spacing: -0.01em;
 }
 
 .trans-card-desc {
   font-size: 0.8rem;
   line-height: 1.48;
-  color: #a6b9a4;
+  color: var(--card-desc-color);
   margin: 0;
 }
 
-.trans-card-action {
+/* Rodapé do Card */
+.trans-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(197, 168, 128, 0.12);
+  padding-top: 0.6rem;
+}
+
+.trans-card-cta {
   font-size: 0.78rem;
   font-weight: 600;
-  color: #c5a880;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+  color: var(--card-cta-color);
   transition: color 0.25s ease;
 }
 
-.trans-arrow {
+.trans-card-arrow {
+  font-size: 0.9rem;
+  color: var(--card-cta-color);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-block;
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.trans-preview-card:hover .trans-card-action {
-  color: #ffffff;
-}
-
-.trans-preview-card:hover .trans-arrow {
+.trans-preview-card:hover .trans-card-arrow {
   transform: translate3d(4px, 0, 0);
 }
 
-/* Botão de Continuidade */
-.trans-preview-footer {
-  margin-top: 1.35rem;
+/* Conector de Continuidade */
+.trans-preview-continuation {
+  margin-top: 1.4rem;
   display: flex;
   justify-content: center;
   will-change: opacity, transform;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
 }
 
-.trans-continue-btn {
+.trans-continuation-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(197, 168, 128, 0.12);
-  border: 1px solid rgba(197, 168, 128, 0.32);
-  color: #edece8;
-  padding: 0.6rem 1.6rem;
+  background: var(--pill-bg);
+  border: 1px solid var(--pill-border);
+  color: var(--pill-color);
+  padding: 0.58rem 1.6rem;
   border-radius: 9999px;
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   font-weight: 500;
   text-decoration: none;
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
-  transform: translate3d(0, 0, 0);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-.trans-continue-btn svg {
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+.trans-continuation-pill svg {
+  transition: transform 0.3s ease;
 }
 
-.trans-continue-btn:hover {
-  background: rgba(197, 168, 128, 0.24);
-  border-color: #c5a880;
-  color: #ffffff;
+.trans-continuation-pill:hover {
+  border-color: var(--card-cta-color);
   transform: translate3d(0, 2px, 0);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), 0 0 20px rgba(197, 168, 128, 0.22);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 0 16px rgba(197, 168, 128, 0.2);
 }
 
-.trans-continue-btn:hover svg {
+.trans-continuation-pill:hover svg {
   transform: translate3d(0, 3px, 0);
 }
 
 /* ==========================================================================
-   CRONOGRAMA ÁGIL, CONTÍNUO E FLUIDO A 60-120 FPS (~2.8s total)
-   Zero repaints, zero layout recalculation durante a reprodução
+   TIMELINE CINEMATOGRÁFICA & TRANSIÇÃO DE ESTADOS
+   0.0s – 1.4s: Concentração da matéria
+   1.4s – 2.8s: Expansão da forma e passagem do feixe de luz
+   2.0s – 2.8s: Frase surge com dignidade
+   2.4s – 3.4s: Cards emergem em cascata harmoniosa
+   3.4s+: PERMANÊNCIA DEFINITIVA (a tela nunca fica vazia!)
    ========================================================================== */
 
-.trans-materia-section.is-animating .trans-materia-halo {
-  animation: transHaloSequence 2.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+.trans-materia-section[data-state="animating"] .trans-materia-halo {
+  animation: seqHalo 3.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
-.trans-materia-section.is-animating .trans-materia-svg {
-  animation: transSvgSequence 2.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+.trans-materia-section[data-state="animating"] .trans-materia-svg {
+  animation: seqSvg 3.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
-.trans-materia-section.is-animating .materia-outer-path {
-  animation: transOuterMorph 2.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+.trans-materia-section[data-state="animating"] .materia-outer-path {
+  animation: seqOuterMorph 3.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
-.trans-materia-section.is-animating .materia-middle-path {
-  animation: transMiddleMorph 2.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+.trans-materia-section[data-state="animating"] .materia-middle-path {
+  animation: seqMiddleMorph 3.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
-.trans-materia-section.is-animating .materia-core-path {
-  animation: transCoreMorph 2.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+.trans-materia-section[data-state="animating"] .materia-core-path {
+  animation: seqCoreMorph 3.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
-.trans-materia-section.is-animating .materia-specular-path {
-  animation: transSpecularMorph 2.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+.trans-materia-section[data-state="animating"] .materia-specular-path {
+  animation: seqSpecular 3.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
-.trans-materia-section.is-animating .materia-light-beam {
-  animation: transLightBeam 2.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+.trans-materia-section[data-state="animating"] .materia-light-beam {
+  animation: seqLightBeam 3.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
-.trans-materia-section.is-animating .materia-aperture-core {
-  animation: transApertureCore 2.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+.trans-materia-section[data-state="animating"] .materia-aperture-core {
+  animation: seqAperture 3.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
-.trans-materia-section.is-animating .trans-materia-quote {
-  animation: transQuoteSequence 2.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+.trans-materia-section[data-state="animating"] .trans-materia-quote {
+  animation: seqQuote 3.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
-/* Entrada dos cards com GPU Compositing puro (Aceleração direta sem stutter) */
-.trans-materia-section.is-animating .trans-preview-header {
-  animation: transCardFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.85s both;
+/* Cascata harmônica dos cards */
+.trans-materia-section[data-state="animating"] .trans-preview-header {
+  animation: transCardFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both;
 }
 
-.trans-materia-section.is-animating .trans-preview-card:nth-child(1) {
-  animation: transCardFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 1.0s both;
+.trans-materia-section[data-state="animating"] .trans-preview-card:nth-child(1) {
+  animation: transCardFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.35s both;
 }
 
-.trans-materia-section.is-animating .trans-preview-card:nth-child(2) {
-  animation: transCardFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 1.12s both;
+.trans-materia-section[data-state="animating"] .trans-preview-card:nth-child(2) {
+  animation: transCardFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.48s both;
 }
 
-.trans-materia-section.is-animating .trans-preview-card:nth-child(3) {
-  animation: transCardFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 1.24s both;
+.trans-materia-section[data-state="animating"] .trans-preview-card:nth-child(3) {
+  animation: transCardFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.61s both;
 }
 
-.trans-materia-section.is-animating .trans-preview-card:nth-child(4) {
-  animation: transCardFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 1.36s both;
+.trans-materia-section[data-state="animating"] .trans-preview-card:nth-child(4) {
+  animation: transCardFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.74s both;
 }
 
-.trans-materia-section.is-animating .trans-preview-footer {
-  animation: transCardFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 1.5s both;
+.trans-materia-section[data-state="animating"] .trans-preview-continuation {
+  animation: transCardFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.88s both;
 }
 
 @keyframes transCardFadeUp {
@@ -512,85 +632,86 @@
   }
 }
 
-/* 1. Seqüência do SVG Principal */
-@keyframes transSvgSequence {
+/* 1. Seqüência do SVG Principal: expande e estabiliza-se no topo */
+@keyframes seqSvg {
   0% {
     opacity: 0;
-    transform: translate3d(0, 0, 0) scale(0.62);
+    transform: translate3d(0, 0, 0) scale(0.6);
   }
-  22% {
-    opacity: 0.96;
-    transform: translate3d(0, 0, 0) scale(0.78);
+  24% {
+    opacity: 0.95;
+    transform: translate3d(0, 0, 0) scale(0.76);
   }
-  48% {
+  50% {
     opacity: 0.94;
-    transform: translate3d(0, 0, 0) scale(1.14);
+    transform: translate3d(0, 0, 0) scale(1.12);
   }
-  68% {
+  72% {
     opacity: 0.92;
-    transform: translate3d(0, 0, 0) scale(1.18);
+    transform: translate3d(0, 0, 0) scale(1.16);
   }
-  84% {
+  86% {
     opacity: 0.86;
-    transform: translate3d(0, -6px, 0) scale(0.92);
+    transform: translate3d(0, -4px, 0) scale(0.88);
   }
   100% {
-    opacity: 0.82;
-    transform: translate3d(0, -10px, 0) scale(0.84);
+    /* Estabiliza como um emblema vivo sereno */
+    opacity: 0.84;
+    transform: translate3d(0, -6px, 0) scale(0.8);
   }
 }
 
-/* 2. Deformação orgânica externa */
-@keyframes transOuterMorph {
-  0%, 18% {
+/* 2. Deformação externa */
+@keyframes seqOuterMorph {
+  0%, 20% {
     transform: translate3d(0, 0, 0) scale(0.92);
     opacity: 0.88;
   }
-  45% {
-    transform: translate3d(0, 0, 0) scale(1.08, 1.04);
+  48% {
+    transform: translate3d(0, 0, 0) scale(1.08, 1.04) rotate(1.8deg);
     opacity: 0.94;
   }
-  68% {
-    transform: translate3d(0, 0, 0) scale(1.18, 1.12);
+  70% {
+    transform: translate3d(0, 0, 0) scale(1.16, 1.12) rotate(3deg);
     opacity: 0.9;
   }
   86% {
-    transform: translate3d(0, 0, 0) scale(1.04, 1.02);
-    opacity: 0.84;
+    transform: translate3d(0, 0, 0) scale(1.04) rotate(1.8deg);
+    opacity: 0.85;
   }
   100% {
-    transform: translate3d(0, 0, 0) scale(1.02);
-    opacity: 0.8;
+    transform: translate3d(0, 0, 0) scale(1.02) rotate(1.2deg);
+    opacity: 0.82;
   }
 }
 
 /* 3. Camada média */
-@keyframes transMiddleMorph {
-  0%, 18% {
+@keyframes seqMiddleMorph {
+  0%, 20% {
     transform: translate3d(0, 0, 0) scale(0.9);
     opacity: 0.86;
   }
-  46% {
-    transform: translate3d(0, 0, 0) scale(1.06, 1.1);
+  48% {
+    transform: translate3d(0, 0, 0) scale(1.06, 1.1) rotate(-1.5deg);
     opacity: 0.9;
   }
-  68% {
-    transform: translate3d(0, 0, 0) scale(1.18, 1.14);
+  70% {
+    transform: translate3d(0, 0, 0) scale(1.16, 1.14) rotate(-2.8deg);
     opacity: 0.85;
   }
   86% {
-    transform: translate3d(0, 0, 0) scale(1.03);
+    transform: translate3d(0, 0, 0) scale(1.03) rotate(-1.2deg);
     opacity: 0.78;
   }
   100% {
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1) rotate(-0.8deg);
     opacity: 0.75;
   }
 }
 
-/* 4. Núcleo concentrado (sem blur dinâmico para garantir fluidez máxima) */
-@keyframes transCoreMorph {
-  0%, 18% {
+/* 4. Núcleo */
+@keyframes seqCoreMorph {
+  0%, 20% {
     transform: translate3d(0, 0, 0) scale(0.84);
     opacity: 0.96;
   }
@@ -598,8 +719,8 @@
     transform: translate3d(2px, -2px, 0) scale(1.12);
     opacity: 0.9;
   }
-  68% {
-    transform: translate3d(3px, -2px, 0) scale(1.28);
+  70% {
+    transform: translate3d(3px, -2px, 0) scale(1.26);
     opacity: 0.76;
   }
   86% {
@@ -612,42 +733,42 @@
   }
 }
 
-/* 4.1. Brilho especular sutil */
-@keyframes transSpecularMorph {
-  0%, 20% {
-    opacity: 0.3;
+/* 4.1 Brilho especular */
+@keyframes seqSpecular {
+  0%, 22% {
+    opacity: 0.25;
     transform: translate3d(0, 0, 0) scale(0.85);
   }
   50% {
-    opacity: 0.75;
-    transform: translate3d(0, 0, 0) scale(1.1);
+    opacity: 0.72;
+    transform: translate3d(0, 0, 0) scale(1.08);
   }
-  75% {
-    opacity: 0.65;
-    transform: translate3d(0, 0, 0) scale(1.05);
+  72% {
+    opacity: 0.62;
+    transform: translate3d(0, 0, 0) scale(1.12);
   }
   100% {
-    opacity: 0.55;
+    opacity: 0.52;
     transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
-/* 5. Feixe de luz suave atravessando a matéria */
-@keyframes transLightBeam {
-  0%, 35% {
+/* 5. Feixe de luz */
+@keyframes seqLightBeam {
+  0%, 38% {
     opacity: 0;
     transform: translate3d(0, 0, 0) rotate(-16deg) scaleX(0.08) scaleY(0.04);
   }
-  52% {
+  54% {
     opacity: 0.9;
     transform: translate3d(0, 0, 0) rotate(-12deg) scaleX(1.1) scaleY(0.75);
   }
-  68% {
+  70% {
     opacity: 0.96;
     transform: translate3d(0, 0, 0) rotate(-8deg) scaleX(1.42) scaleY(1);
   }
-  84% {
-    opacity: 0.55;
+  86% {
+    opacity: 0.5;
     transform: translate3d(0, 0, 0) rotate(-6deg) scaleX(1.15) scaleY(0.8);
   }
   100% {
@@ -656,22 +777,22 @@
   }
 }
 
-/* 6. Abertura interior */
-@keyframes transApertureCore {
-  0%, 38% {
+/* 6. Abertura */
+@keyframes seqAperture {
+  0%, 40% {
     opacity: 0;
     transform: translate3d(0, 0, 0) scale(0.3);
   }
-  56% {
+  58% {
     opacity: 0.8;
     transform: translate3d(0, 0, 0) scale(0.95);
   }
-  70% {
+  72% {
     opacity: 0.9;
     transform: translate3d(0, 0, 0) scale(1.22);
   }
-  85% {
-    opacity: 0.55;
+  86% {
+    opacity: 0.5;
     transform: translate3d(0, 0, 0) scale(1.05);
   }
   100% {
@@ -680,13 +801,13 @@
   }
 }
 
-/* 7. Halo ambiente */
-@keyframes transHaloSequence {
+/* 7. Halo */
+@keyframes seqHalo {
   0% {
     opacity: 0;
     transform: translate3d(0, 0, 0) scale(0.48);
   }
-  22% {
+  24% {
     opacity: 0.44;
     transform: translate3d(0, 0, 0) scale(0.78);
   }
@@ -698,8 +819,8 @@
     opacity: 0.54;
     transform: translate3d(0, 0, 0) scale(1.28);
   }
-  85% {
-    opacity: 0.38;
+  86% {
+    opacity: 0.36;
     transform: translate3d(0, 0, 0) scale(1.05);
   }
   100% {
@@ -709,54 +830,55 @@
 }
 
 /* 8. Frase poética */
-@keyframes transQuoteSequence {
-  0%, 15% {
+@keyframes seqQuote {
+  0%, 20% {
     opacity: 0;
     transform: translate3d(0, 10px, 0);
   }
-  32% {
+  38% {
     opacity: 0.94;
     transform: translate3d(0, 2px, 0);
   }
-  48% {
+  52% {
     opacity: 0.98;
     transform: translate3d(0, 0, 0);
   }
-  75% {
+  80% {
     opacity: 0.98;
     transform: translate3d(0, 0, 0);
   }
   100% {
     opacity: 0.95;
-    transform: translate3d(0, -4px, 0);
+    transform: translate3d(0, -3px, 0);
   }
 }
 
 /* ==========================================================================
-   ESTADO REPOUSO / FINALIZADO
+   ESTADO REPOUSO / CONCLUÍDO (COMPLETE)
+   A seção permanece preenchida, harmoniosa, viva e totalmente interativa
    ========================================================================== */
-.trans-materia-section.is-finished .trans-materia-viewport {
-  transform: translate3d(0, -10px, 0) scale(0.84);
-  opacity: 0.82;
+.trans-materia-section[data-state="concluded"] .trans-materia-viewport {
+  transform: translate3d(0, -6px, 0) scale(0.8);
+  opacity: 0.84;
 }
 
-.trans-materia-section.is-finished .trans-materia-svg {
-  opacity: 0.82;
+.trans-materia-section[data-state="concluded"] .trans-materia-svg {
+  opacity: 0.84;
 }
 
-.trans-materia-section.is-finished .trans-materia-halo {
+.trans-materia-section[data-state="concluded"] .trans-materia-halo {
   opacity: 0.3;
   transform: translate3d(0, 0, 0) scale(0.96);
 }
 
-.trans-materia-section.is-finished .trans-materia-quote {
+.trans-materia-section[data-state="concluded"] .trans-materia-quote {
   opacity: 0.95;
-  transform: translate3d(0, -4px, 0);
+  transform: translate3d(0, -3px, 0);
 }
 
-.trans-materia-section.is-finished .trans-preview-header,
-.trans-materia-section.is-finished .trans-preview-card,
-.trans-materia-section.is-finished .trans-preview-footer {
+.trans-materia-section[data-state="concluded"] .trans-preview-header,
+.trans-materia-section[data-state="concluded"] .trans-preview-card,
+.trans-materia-section[data-state="concluded"] .trans-preview-continuation {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
@@ -765,12 +887,12 @@
    ESTADO FALLBACK SEM JAVASCRIPT
    ========================================================================== */
 .trans-materia-section:not(.js-enabled) .trans-materia-viewport {
-  transform: translate3d(0, -10px, 0) scale(0.84);
-  opacity: 0.82;
+  transform: translate3d(0, -6px, 0) scale(0.8);
+  opacity: 0.84;
 }
 
 .trans-materia-section:not(.js-enabled) .trans-materia-svg {
-  opacity: 0.82;
+  opacity: 0.84;
 }
 
 .trans-materia-section:not(.js-enabled) .trans-materia-halo {
@@ -780,18 +902,53 @@
 
 .trans-materia-section:not(.js-enabled) .trans-materia-quote {
   opacity: 0.95;
-  transform: translate3d(0, -4px, 0);
+  transform: translate3d(0, -3px, 0);
 }
 
 .trans-materia-section:not(.js-enabled) .trans-preview-header,
 .trans-materia-section:not(.js-enabled) .trans-preview-card,
-.trans-materia-section:not(.js-enabled) .trans-preview-footer {
+.trans-materia-section:not(.js-enabled) .trans-preview-continuation {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
 
 /* ==========================================================================
-   RESPONSIVIDADE: DESKTOP MÉDIO & TABLETS
+   ACESSIBILIDADE: PREFERS-REDUCED-MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .trans-materia-section[data-state="animating"] * {
+    animation: none !important;
+  }
+
+  .trans-materia-viewport {
+    transform: translate3d(0, -6px, 0) scale(0.8);
+    opacity: 0.84;
+  }
+
+  .trans-materia-svg {
+    opacity: 0.84;
+  }
+
+  .trans-materia-halo {
+    opacity: 0.3;
+    transform: translate3d(0, 0, 0) scale(0.96);
+  }
+
+  .trans-materia-quote {
+    opacity: 0.95;
+    transform: translate3d(0, -3px, 0);
+  }
+
+  .trans-preview-header,
+  .trans-preview-card,
+  .trans-preview-continuation {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE: TABLETS
    ========================================================================== */
 @media (max-width: 1024px) {
   .trans-preview-grid {
@@ -801,7 +958,7 @@
   .trans-materia-section {
     min-height: 100vh;
     height: auto;
-    padding: 3rem 1.5rem;
+    padding: 3.5rem 1.5rem;
   }
 }
 
@@ -822,17 +979,17 @@
   }
 
   .trans-materia-svg {
-    width: 130px;
-    height: 130px;
+    width: 125px;
+    height: 125px;
   }
 
   .trans-materia-halo {
-    width: 155px;
-    height: 155px;
+    width: 160px;
+    height: 160px;
   }
 
   .trans-materia-quote-wrap {
-    margin-top: 0.6rem;
+    margin-top: 0.5rem;
     padding: 0 1rem;
   }
 
@@ -841,58 +998,23 @@
   }
 
   .trans-materia-preview-stage {
-    margin-top: 1.2rem;
+    margin-top: 1.3rem;
   }
 
   .trans-preview-title {
-    font-size: 1.22rem;
+    font-size: 1.25rem;
   }
 
   .trans-preview-grid {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 0.85rem;
   }
 
   .trans-preview-card {
-    padding: 1.05rem 1rem;
+    padding: 1.1rem 1rem;
   }
 
   .trans-card-desc {
     font-size: 0.82rem;
-  }
-}
-
-/* ==========================================================================
-   ACESSIBILIDADE: PREFERS-REDUCED-MOTION
-   ========================================================================== */
-@media (prefers-reduced-motion: reduce) {
-  .trans-materia-section.is-animating * {
-    animation: none !important;
-  }
-
-  .trans-materia-viewport {
-    transform: translate3d(0, -10px, 0) scale(0.84);
-    opacity: 0.82;
-  }
-
-  .trans-materia-svg {
-    opacity: 0.82;
-  }
-
-  .trans-materia-halo {
-    opacity: 0.3;
-    transform: translate3d(0, 0, 0) scale(0.96);
-  }
-
-  .trans-materia-quote {
-    opacity: 0.95;
-    transform: translate3d(0, -4px, 0);
-  }
-
-  .trans-preview-header,
-  .trans-preview-card,
-  .trans-preview-footer {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
   }
 }
