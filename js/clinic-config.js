@@ -113,7 +113,7 @@
         "Sexologia Clínica"
       ],
       bio: "Atendimento clínico e psicoterapia online com abordagem psicanalítica. Acolhimento singular e ético para demandas de saúde mental, autoconhecimento, sexualidade e avaliação psicológica.",
-      photo: "/public/foto-filipi.jpeg",
+      photo: "public/foto-filipi.jpeg",
       instagram: "https://instagram.com",
       email: "contato@portaldapsicologia.com.br"
     }

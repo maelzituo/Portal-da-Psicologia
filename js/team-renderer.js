@@ -54,10 +54,7 @@
       const education = sanitize(prof.education || '[FORMAÇÃO]');
       const bio = sanitize(prof.bio || '');
       
-      let photoSrc = hasPhoto ? sanitize(prof.photo) : '';
-      if (photoSrc && !photoSrc.startsWith('/') && !photoSrc.startsWith('http')) {
-        photoSrc = '/' + photoSrc;
-      }
+      const photoSrc = hasPhoto ? sanitize(prof.photo) : '';
 
       const photoHtml = hasPhoto
         ? `<img src="${photoSrc}" alt="${name} — ${role}" class="team-photo-img" loading="lazy" width="640" height="640">`
