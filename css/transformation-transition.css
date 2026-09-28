@@ -194,13 +194,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translate3d(0, 0, 0);
-  will-change: transform, opacity;
+  transform: translate3d(var(--mouse-vx, 0px), var(--mouse-vy, 0px), 0);
   pointer-events: none;
   user-select: none;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
 }
 
 /* Halo de luz ambiente aveludada */
@@ -211,9 +210,8 @@
   border-radius: 50%;
   background: radial-gradient(circle, var(--materia-halo-1) 0%, var(--materia-halo-2) 45%, transparent 75%);
   opacity: 0.35;
-  transform: translate3d(0, 0, 0) scale(0.72);
+  transform: translate3d(var(--mouse-hx, 0px), var(--mouse-hy, 0px), 0) scale(0.72);
   pointer-events: none;
-  will-change: transform, opacity;
   transition: background 0.6s ease;
   backface-visibility: hidden;
 }
@@ -226,7 +224,6 @@
   transform-origin: center center;
   transform: translate3d(0, 0, 0) scale(0.75);
   opacity: 0.92;
-  will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
@@ -237,7 +234,6 @@
   stroke: var(--materia-stroke);
   stroke-width: 1.2;
   transform-origin: 160px 160px;
-  will-change: transform, opacity;
   backface-visibility: hidden;
   transition: stroke 0.6s ease;
 }
@@ -246,7 +242,6 @@
   fill: url(#rg-matter-middle);
   transform-origin: 160px 160px;
   opacity: 0.88;
-  will-change: transform, opacity;
   backface-visibility: hidden;
 }
 
@@ -254,7 +249,6 @@
   fill: url(#rg-matter-core);
   transform-origin: 160px 160px;
   opacity: 0.96;
-  will-change: transform, opacity;
   backface-visibility: hidden;
 }
 
@@ -262,7 +256,6 @@
   transform-origin: 160px 160px;
   opacity: 0.65;
   mix-blend-mode: overlay;
-  will-change: opacity, transform;
   backface-visibility: hidden;
 }
 
@@ -273,7 +266,6 @@
   transform-origin: 160px 160px;
   transform: translate3d(0, 0, 0) rotate(-16deg) scaleX(0.08) scaleY(0.04);
   mix-blend-mode: screen;
-  will-change: opacity, transform;
   backface-visibility: hidden;
 }
 
@@ -284,7 +276,6 @@
   transform-origin: 160px 160px;
   transform: translate3d(0, 0, 0) scale(0.2);
   mix-blend-mode: screen;
-  will-change: opacity, transform;
   backface-visibility: hidden;
 }
 
@@ -312,7 +303,6 @@
   text-shadow: var(--trans-quote-shadow);
   opacity: 0;
   transform: translate3d(0, 8px, 0);
-  will-change: opacity, transform;
   margin: 0;
   transition: color 0.6s ease;
   backface-visibility: hidden;
@@ -342,7 +332,6 @@
   text-align: center;
   max-width: 620px;
   margin-bottom: 1.3rem;
-  will-change: opacity, transform;
 }
 
 .trans-preview-kicker {
@@ -389,15 +378,14 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   box-shadow: var(--card-shadow);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
               border-color 0.3s ease, 
               box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
   cursor: pointer;
-  will-change: transform, opacity;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -517,7 +505,6 @@
   margin-top: 1.4rem;
   display: flex;
   justify-content: center;
-  will-change: opacity, transform;
 }
 
 .trans-continuation-pill {
@@ -559,6 +546,20 @@
    2.4s – 3.4s: Cards emergem em cascata harmoniosa
    3.4s+: PERMANÊNCIA DEFINITIVA (a tela nunca fica vazia!)
    ========================================================================== */
+
+/* Ativação estrita de will-change apenas durante a execução da animação */
+.trans-materia-section[data-state="animating"] .trans-materia-viewport,
+.trans-materia-section[data-state="animating"] .trans-materia-halo,
+.trans-materia-section[data-state="animating"] .trans-materia-svg,
+.trans-materia-section[data-state="animating"] .trans-materia-quote,
+.trans-materia-section[data-state="animating"] .trans-preview-card {
+  will-change: transform, opacity;
+}
+
+.trans-materia-section[data-state="concluded"] *,
+.trans-materia-section[data-state="reduced-motion"] * {
+  will-change: auto !important;
+}
 
 .trans-materia-section[data-state="animating"] .trans-materia-halo {
   animation: seqHalo 3.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
@@ -854,31 +855,38 @@
 }
 
 /* ==========================================================================
-   ESTADO REPOUSO / CONCLUÍDO (COMPLETE)
+   ESTADO REPOUSO / CONCLUÍDO (COMPLETE) & REDUCED-MOTION
    A seção permanece preenchida, harmoniosa, viva e totalmente interativa
    ========================================================================== */
-.trans-materia-section[data-state="concluded"] .trans-materia-viewport {
-  transform: translate3d(0, -6px, 0) scale(0.8);
+.trans-materia-section[data-state="concluded"] .trans-materia-viewport,
+.trans-materia-section[data-state="reduced-motion"] .trans-materia-viewport {
+  transform: translate3d(var(--mouse-vx, 0px), calc(-6px + var(--mouse-vy, 0px)), 0) scale(0.8);
   opacity: 0.84;
 }
 
-.trans-materia-section[data-state="concluded"] .trans-materia-svg {
+.trans-materia-section[data-state="concluded"] .trans-materia-svg,
+.trans-materia-section[data-state="reduced-motion"] .trans-materia-svg {
   opacity: 0.84;
 }
 
-.trans-materia-section[data-state="concluded"] .trans-materia-halo {
+.trans-materia-section[data-state="concluded"] .trans-materia-halo,
+.trans-materia-section[data-state="reduced-motion"] .trans-materia-halo {
   opacity: 0.3;
-  transform: translate3d(0, 0, 0) scale(0.96);
+  transform: translate3d(var(--mouse-hx, 0px), var(--mouse-hy, 0px), 0) scale(0.96);
 }
 
-.trans-materia-section[data-state="concluded"] .trans-materia-quote {
+.trans-materia-section[data-state="concluded"] .trans-materia-quote,
+.trans-materia-section[data-state="reduced-motion"] .trans-materia-quote {
   opacity: 0.95;
   transform: translate3d(0, -3px, 0);
 }
 
 .trans-materia-section[data-state="concluded"] .trans-preview-header,
 .trans-materia-section[data-state="concluded"] .trans-preview-card,
-.trans-materia-section[data-state="concluded"] .trans-preview-continuation {
+.trans-materia-section[data-state="concluded"] .trans-preview-continuation,
+.trans-materia-section[data-state="reduced-motion"] .trans-preview-header,
+.trans-materia-section[data-state="reduced-motion"] .trans-preview-card,
+.trans-materia-section[data-state="reduced-motion"] .trans-preview-continuation {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
@@ -916,34 +924,34 @@
    ACESSIBILIDADE: PREFERS-REDUCED-MOTION
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .trans-materia-section[data-state="animating"] * {
+  .trans-materia-section * {
     animation: none !important;
   }
 
   .trans-materia-viewport {
-    transform: translate3d(0, -6px, 0) scale(0.8);
-    opacity: 0.84;
+    transform: translate3d(0, -6px, 0) scale(0.8) !important;
+    opacity: 0.84 !important;
   }
 
   .trans-materia-svg {
-    opacity: 0.84;
+    opacity: 0.84 !important;
   }
 
   .trans-materia-halo {
-    opacity: 0.3;
-    transform: translate3d(0, 0, 0) scale(0.96);
+    opacity: 0.3 !important;
+    transform: translate3d(0, 0, 0) scale(0.96) !important;
   }
 
   .trans-materia-quote {
-    opacity: 0.95;
-    transform: translate3d(0, -3px, 0);
+    opacity: 0.95 !important;
+    transform: translate3d(0, -3px, 0) !important;
   }
 
   .trans-preview-header,
   .trans-preview-card,
   .trans-preview-continuation {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) !important;
   }
 }
 
@@ -1012,6 +1020,13 @@
 
   .trans-preview-card {
     padding: 1.1rem 1rem;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+  }
+
+  [data-theme="dark"] .trans-preview-card {
+    background: rgba(18, 30, 24, 0.96) !important;
   }
 
   .trans-card-desc {

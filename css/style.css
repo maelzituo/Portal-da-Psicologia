@@ -2422,19 +2422,28 @@ video {
    para usuários com sensibilidade vestibular ou preferências de redução de movimento.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+  html {
     scroll-behavior: auto !important;
   }
 
-  .whatsapp-btn-pulse {
+  /* Desativa loops e animações decorativas contínuas */
+  .whatsapp-btn-pulse,
+  .scroll-indicator-line::after,
+  .loading-spinner {
     animation: none !important;
   }
 
+  /* Transições instantâneas e sem atrasos bloqueantes */
+  *,
+  *::before,
+  *::after {
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.05s !important;
+    transition-delay: 0s !important;
+  }
+
+  /* Desativa deslocamentos excessivos de hover preservando feedback visual */
   .btn:hover,
   .btn:active,
   .specialty-card:hover,

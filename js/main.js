@@ -1,6 +1,7 @@
 /**
  * PORTAL DA PSICOLOGIA - INTERAÇÕES GLOBAIS & EXPERIÊNCIA DO USUÁRIO
- * Otimizado para Core Web Vitals, INP, LCP e 60-120 FPS em CPUs móveis de baixo custo
+ * Otimizado para Core Web Vitals, INP, LCP e 60-120 FPS em CPUs móveis de baixo custo.
+ * Zero-Jank: Elimina listeners de scroll contínuos com getBoundingClientRect().
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,52 +10,45 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Cache de Elementos do DOM ---
   const header = document.querySelector('.site-header');
   const sobreSection = document.getElementById('sobre');
-  const heroSection = document.getElementById('hero-scroll-section');
   const mobileToggle = document.getElementById('mobile-toggle');
   const mobileDrawer = document.getElementById('mobile-drawer');
   const mobileOverlay = document.getElementById('mobile-overlay');
   const mobileClose = document.getElementById('mobile-drawer-close');
   const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-  const isEcoMode = document.documentElement.classList.contains('perf-tier-low') || window.innerWidth < 768;
 
-  // --- 1. CONTROLE DE NAVEGAÇÃO APÓS O HERO (ZERO-CPU OBSERVER & SCROLL SYNC) ---
-  if (header) {
-    const updateHeaderVisibility = () => {
-      if (!sobreSection) return;
+  // --- 1. CONTROLE DE NAVEGAÇÃO DO HEADER (APARECE EXCLUSIVAMENTE A PARTIR DE SOBRE A CLÍNICA) ---
+  if (header && sobreSection) {
+    let headerTicking = false;
+
+    function updateHeaderVisibility() {
+      // O header só deve surgir quando o usuário atingir a seção Sobre a Clínica (#sobre)
+      // e permanecer nas seções seguintes. Se retornar para a Transição ou Hero, ele se oculta.
       const rect = sobreSection.getBoundingClientRect();
-      
-      // O header só se torna visível quando o usuário ultrapassa a experiência do Hero
-      // (isto é, quando o topo da seção #sobre atinge ou ultrapassa a área visível superior)
-      if (rect.top <= 80) {
-        header.classList.add('scrolled');
+      const isPastSobre = rect.top <= 70;
+
+      if (isPastSobre) {
+        if (!header.classList.contains('scrolled')) {
+          header.classList.add('scrolled');
+        }
       } else {
-        header.classList.remove('scrolled');
+        if (header.classList.contains('scrolled')) {
+          header.classList.remove('scrolled');
+        }
       }
-    };
-
-    if ('IntersectionObserver' in window && sobreSection) {
-      const headerObserver = new IntersectionObserver((entries) => {
-        entries.forEach(() => {
-          updateHeaderVisibility();
-        });
-      }, {
-        threshold: [0, 0.05, 0.1, 0.25, 0.5],
-        rootMargin: '0px 0px 0px 0px'
-      });
-
-      headerObserver.observe(sobreSection);
-      if (heroSection) headerObserver.observe(heroSection);
+      headerTicking = false;
     }
 
-    // Listener desacoplado via requestAnimationFrame para resposta imediata
-    let isHeaderTicking = false;
     window.addEventListener('scroll', () => {
-      if (!isHeaderTicking) {
-        requestAnimationFrame(() => {
-          updateHeaderVisibility();
-          isHeaderTicking = false;
-        });
-        isHeaderTicking = true;
+      if (!headerTicking) {
+        requestAnimationFrame(updateHeaderVisibility);
+        headerTicking = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener('resize', () => {
+      if (!headerTicking) {
+        requestAnimationFrame(updateHeaderVisibility);
+        headerTicking = true;
       }
     }, { passive: true });
 
@@ -62,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateHeaderVisibility();
   }
 
-  // --- 2. MENU MOBILE DRAWER (GPU TRANSLATE) ---
+  // --- 2. MENU MOBILE DRAWER (GPU TRANSLATE, ZERO REFLOW) ---
   function openMobileMenu() {
     if (mobileDrawer && mobileOverlay) {
       mobileDrawer.classList.add('open');
@@ -83,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (mobileClose) mobileClose.addEventListener('click', closeMobileMenu, { passive: true });
   if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu, { passive: true });
 
-  mobileNavLinks.forEach(link => {
+  mobileNavLinks.forEach((link) => {
     link.addEventListener('click', closeMobileMenu, { passive: true });
   });
 
@@ -92,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 
   // --- 3. SCROLL SUAVE PARA ÂNCORAS COM PRESERVAÇÃO DE MAIN THREAD ---
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
       if (targetId === '#' || !targetId) return;
@@ -112,28 +106,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- 4. MICROINTERAÇÕES E EFEITOS SUTIS DE AMBIENTAÇÃO ---
+  // --- 4. MICROINTERAÇÃO LOCALIZADA NO CARTÃO DE FILOSOFIA (DESKTOP) ---
   const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!prefersReducedMotion) {
-    // Parallax Sutil e Seguro no Cartão de Filosofia Clínica (Desktop Apenas / Zero Jank)
     const visualCard = document.querySelector('.about-visual-card');
+    // Adiciona listener diretamente ao card (NÃO na janela global!), eliminando cálculos contínuos
     if (visualCard && window.innerWidth >= 1024 && window.matchMedia('(hover: hover)').matches) {
       let cardTicking = false;
-      window.addEventListener('mousemove', (e) => {
+      let cardRect = null;
+
+      visualCard.addEventListener('mouseenter', () => {
+        cardRect = visualCard.getBoundingClientRect();
+      }, { passive: true });
+
+      visualCard.addEventListener('mousemove', (e) => {
         if (!cardTicking) {
           requestAnimationFrame(() => {
-            const rect = visualCard.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-              const cx = window.innerWidth / 2;
-              const cy = window.innerHeight / 2;
-              const dx = (e.clientX - cx) / cx;
-              const dy = (e.clientY - cy) / cy;
-              // Inclinação imperceptível de no máximo 2.2 graus
-              const tiltX = -dy * 2.2;
-              const tiltY = dx * 2.2;
-              visualCard.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg)`;
-            }
+            if (!cardRect) cardRect = visualCard.getBoundingClientRect();
+            const x = e.clientX - cardRect.left;
+            const y = e.clientY - cardRect.top;
+            const dx = (x - cardRect.width / 2) / (cardRect.width / 2);
+            const dy = (y - cardRect.height / 2) / (cardRect.height / 2);
+
+            const tiltX = (-dy * 2.0).toFixed(2);
+            const tiltY = (dx * 2.0).toFixed(2);
+            visualCard.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
             cardTicking = false;
           });
           cardTicking = true;
@@ -141,12 +139,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }, { passive: true });
 
       visualCard.addEventListener('mouseleave', () => {
+        cardRect = null;
         visualCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-      });
+      }, { passive: true });
     }
   }
 
-  // --- 5. MANIPULAÇÃO DO FORMULÁRIO DE AGENDAMENTO VIA WHATSAPP CENTRALIZADO ---
+  // --- 5. FORMULÁRIO DE AGENDAMENTO VIA WHATSAPP CENTRALIZADO ---
   const bookingForm = document.getElementById('concierge-booking-form');
   if (bookingForm) {
     bookingForm.addEventListener('submit', (e) => {
@@ -184,8 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.style.color = '#FFFFFF';
 
         setTimeout(() => {
-          window.open(whatsappUrl, '_blank');
-          submitBtn.innerHTML = '<span>Solicitação Aberta no WhatsApp!</span>';
+          window.location.href = whatsappUrl;
+          submitBtn.innerHTML = '<span>Solicitação Aberta!</span>';
 
           setTimeout(() => {
             submitBtn.innerHTML = originalContent;
@@ -194,26 +193,20 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.style.color = '';
             bookingForm.reset();
           }, 3000);
-        }, 400);
+        }, 350);
       } else {
-        window.open(whatsappUrl, '_blank');
+        window.location.href = whatsappUrl;
         bookingForm.reset();
       }
     });
   }
-});
 
-/**
- * ==========================================================================
- * DARK MODE - LOGIC (SINCRONIZADO E ACESSÍVEL)
- * ==========================================================================
- */
-document.addEventListener('DOMContentLoaded', () => {
+  // --- 6. DARK MODE - LOGIC (SINCRONIZADO E ACESSÍVEL) ---
   const themeToggles = document.querySelectorAll('.theme-toggle');
-  
+
   function updateThemeUI(theme) {
     const isDark = theme === 'dark';
-    themeToggles.forEach(toggle => {
+    themeToggles.forEach((toggle) => {
       toggle.setAttribute('aria-label', isDark ? 'Alternar para Modo Claro' : 'Alternar para Modo Escuro');
       toggle.setAttribute('title', isDark ? 'Ativar Modo Claro' : 'Ativar Modo Escuro');
     });
@@ -222,22 +215,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const initialTheme = document.documentElement.getAttribute('data-theme') || 'light';
   updateThemeUI(initialTheme);
 
-  themeToggles.forEach(toggle => {
+  themeToggles.forEach((toggle) => {
     toggle.addEventListener('click', (e) => {
       e.stopPropagation();
       const root = document.documentElement;
       const currentTheme = root.getAttribute('data-theme') || 'light';
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      
+
       root.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
       updateThemeUI(newTheme);
     });
   });
 
-  // Listener para mudanças na preferência do sistema
+  // Listener para mudanças na preferência do sistema operacional
   if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
       if (!localStorage.getItem('theme')) {
         const newTheme = e.matches ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', newTheme);

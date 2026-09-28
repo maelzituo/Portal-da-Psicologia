@@ -1,12 +1,14 @@
 /**
- * PORTAL DA PSICOLOGIA - UNIFIED HYBRID ENGINE (DESKTOP + MOBILE)
- * Script unificado de alta performance que elimina qualquer conflito de dependências.
+ * PORTAL DA PSICOLOGIA - MOTOR HÍBRIDO UNIFICADO DE VÍDEO & CANVAS (DESKTOP + MOBILE)
  * 
  * - DESKTOP (>= 768px): Sequência Apple-Style de 240 quadros WebP renderizados em Canvas 2D Retina
- *   com amortecimento viscoso e GSAP ScrollTrigger Pinning integrado.
+ *   com amortecimento viscoso (Spring Physics) e GSAP ScrollTrigger Pinning.
+ *   Loop RAF auto-pausável: para quando estabilizado, fora da viewport ou com aba em segundo plano.
  * 
  * - MOBILE (< 768px): Vídeo nativo em loop contínuo e suave (60 FPS contínuos)
- *   com narrativa adaptada e pausamento automático fora da tela para poupar 100% de CPU.
+ *   com poster fallback imediato, recuperação de autoplay bloqueado e pausamento fora da tela.
+ * 
+ * - ACESSIBILIDADE: Respeito estrito a prefers-reduced-motion com fallback estático instantâneo.
  */
 
 (function () {
@@ -35,15 +37,11 @@
     const ctaStage = document.getElementById('hero-cta-stage');
     const loadingState = document.getElementById('video-loading');
 
-    const moment1 = document.getElementById('moment-1');
-    const moment2 = document.getElementById('moment-2');
-    const moment3 = document.getElementById('moment-3');
-    const moment4 = document.getElementById('moment-4');
-    const moments = [moment1, moment2, moment3, moment4].filter(Boolean);
-
     const allLayers = [phase1, phase2, phase3, ctaStage].filter(Boolean);
 
     if (!section) return;
+
+    let isHeroInView = true;
 
     /* =========================================================================
        1. CONTROLE DE CAMADAS NARRATIVAS (GPU ACCELERATED & ZERO-JANK)
@@ -70,27 +68,6 @@
           layer.style.transform = 'translate3d(0, -10px, 0)';
         }
       });
-    }
-
-    function toggleMoment(element, show) {
-      if (!element) return;
-      if (show) {
-        if (!element.classList.contains('active')) {
-          element.classList.add('active');
-          element.style.opacity = '1';
-          element.style.transform = 'translate3d(0, 0, 0)';
-        }
-      } else {
-        if (element.classList.contains('active')) {
-          element.classList.remove('active');
-          element.style.opacity = '0';
-          element.style.transform = 'translate3d(0, 10px, 0)';
-        }
-      }
-    }
-
-    function hideAllMoments() {
-      moments.forEach((m) => toggleMoment(m, false));
     }
 
     function setCanvasOpacity(val) {
@@ -144,13 +121,13 @@
         loadDesktopFrame(i, i === 1);
       }
 
-      // 2. Quadros chave a cada 4 frames
+      // 2. Quadros chave com espaçamento
       setTimeout(() => {
         for (let i = 16; i <= TOTAL_FRAMES; i += 4) {
           loadDesktopFrame(i);
         }
 
-        // 3. Demais quadros em batches ociosos
+        // 3. Demais quadros em batches ociosos sem bloquear a thread principal
         setTimeout(() => {
           let current = 1;
           const loadBatch = () => {
@@ -209,6 +186,7 @@
     function drawDesktopFrame(frameIndex) {
       const img = images[frameIndex];
       if (!img || !loadedStatus[frameIndex]) {
+        // Fallback para o quadro mais próximo já carregado
         for (let offset = 1; offset < 30; offset++) {
           if (frameIndex - offset >= 1 && loadedStatus[frameIndex - offset]) {
             drawActualImage(images[frameIndex - offset]);
@@ -255,8 +233,12 @@
       context.drawImage(img, drawX, drawY, drawWidth, drawHeight);
     }
 
+    /**
+     * Loop com amortecimento viscoso (Spring Physics)
+     * OTIMIZAÇÃO: Pausa automaticamente assim que o movimento atinge estabilização!
+     */
     function smoothRenderLoop(time) {
-      if (!isDesktopScreen()) {
+      if (!isDesktopScreen() || !isHeroInView || document.hidden) {
         rafId = null;
         return;
       }
@@ -275,9 +257,21 @@
       velocity += force * dt;
       smoothProgress += velocity * dt;
 
-      if (absDiff < 0.00002 && Math.abs(velocity) < 0.0001) {
+      // Condição de repouso: quando estabilizado, renderiza o quadro final e PAUSA o RAF
+      if (absDiff < 0.00003 && Math.abs(velocity) < 0.0001) {
         smoothProgress = targetProgress;
         velocity = 0;
+
+        const boundedProgress = Math.max(0, Math.min(1, smoothProgress));
+        const targetFrame = Math.min(TOTAL_FRAMES, Math.max(1, Math.round(boundedProgress * (TOTAL_FRAMES - 1)) + 1));
+
+        if (targetFrame !== lastRenderedIndex) {
+          drawDesktopFrame(targetFrame);
+        }
+        updateDesktopVisuals(boundedProgress);
+
+        rafId = null;
+        return; // Fim do loop, economiza 100% de CPU
       }
 
       const boundedProgress = Math.max(0, Math.min(1, smoothProgress));
@@ -292,29 +286,33 @@
       rafId = requestAnimationFrame(smoothRenderLoop);
     }
 
+    function requestDesktopRender() {
+      if (!rafId && isHeroInView && !document.hidden && isDesktopScreen()) {
+        lastTime = performance.now();
+        rafId = requestAnimationFrame(smoothRenderLoop);
+      }
+    }
+
     function updateDesktopVisuals(p) {
       if (scrollIndicator) {
         if (p > 0.02) scrollIndicator.classList.add('hidden');
         else scrollIndicator.classList.remove('hidden');
       }
 
-      // FASE 1: Introdução Principal (0% a 25%) - Vídeo nítido e protagonista
+      // FASE 1: Introdução Principal (0% a 25%)
       if (p < 0.25) {
         activateLayer(phase1);
         setCanvasOpacity(0.85);
-        hideAllMoments();
       }
-      // FASE 2: Respiro Poético & Acolhimento (25% a 72%) - Vídeo em 100% de brilho/presença
+      // FASE 2: Respiro Poético & Acolhimento (25% a 72%)
       else if (p >= 0.25 && p < 0.72) {
         activateLayer(phase2);
         setCanvasOpacity(1.0);
-        hideAllMoments();
       }
       // FASE 3: Encerramento Narrativo & CTA Discreto (72% a 100%)
       else if (p >= 0.72) {
         activateLayer(ctaStage);
         setCanvasOpacity(0.50);
-        hideAllMoments();
       }
     }
 
@@ -368,41 +366,20 @@
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           targetProgress = self.progress;
-
-          // Sincronização do Header
-          const header = document.querySelector('.site-header');
-          if (header) {
-            if (self.progress < 0.98) {
-              if (header.classList.contains('scrolled')) header.classList.remove('scrolled');
-            }
-          }
-        },
-        onLeave: () => {
-          const header = document.querySelector('.site-header');
-          if (header) header.classList.add('scrolled');
-        },
-        onEnterBack: () => {
-          const header = document.querySelector('.site-header');
-          if (header) header.classList.remove('scrolled');
+          requestDesktopRender();
         }
       });
 
       updateDesktopVisuals(0);
-
-      if (!rafId) {
-        lastTime = performance.now();
-        rafId = requestAnimationFrame(smoothRenderLoop);
-      }
+      requestDesktopRender();
 
       isDesktopInitialized = true;
       ScrollTrigger.refresh();
     }
 
     /* =========================================================================
-       3. MOTOR MOBILE: VÍDEO LOOP CONTÍNUO + HERO LIMPO E RÁPIDO
+       3. MOTOR MOBILE: VÍDEO LOOP CONTÍNUO + FALLBACK IMEDIATO + HERO LEVE
        ========================================================================= */
-    let mobileObserver = null;
-
     function setupMobileMode() {
       if (desktopScrollTrigger) {
         desktopScrollTrigger.kill(true);
@@ -431,47 +408,91 @@
           if (loadingState) loadingState.classList.add('loaded');
         };
 
+        video.addEventListener('error', () => {
+          // Em caso de falha no vídeo, poster atua como fallback e remove o spinner
+          removeSpinner();
+        }, { once: true });
+
         const playPromise = video.play();
         if (playPromise !== undefined) {
           playPromise.then(removeSpinner).catch(() => {
-            const unlock = () => {
-              if (video) video.play().then(removeSpinner).catch(() => {});
-              ['touchstart', 'touchend', 'click', 'scroll'].forEach((evt) => {
-                window.removeEventListener(evt, unlock);
+            // Autoplay bloqueado pelo navegador/modo economia de bateria
+            removeSpinner();
+            const unlockPlayback = () => {
+              if (video && isHeroInView && !document.hidden) {
+                video.play().catch(() => {});
+              }
+              ['touchstart', 'click', 'scroll'].forEach((evt) => {
+                window.removeEventListener(evt, unlockPlayback);
               });
             };
-            ['touchstart', 'touchend', 'click', 'scroll'].forEach((evt) => {
-              window.addEventListener(evt, unlock, { once: true, passive: true });
+            ['touchstart', 'click', 'scroll'].forEach((evt) => {
+              window.addEventListener(evt, unlockPlayback, { once: true, passive: true });
             });
           });
         }
 
         video.addEventListener('playing', removeSpinner, { once: true });
-        setTimeout(removeSpinner, 600);
+        setTimeout(removeSpinner, 500);
       }
 
-      // No mobile, apresenta a fase 1 com excelência visual
       activateLayer(phase1);
-      hideAllMoments();
-
-      // Observer para pausar o vídeo fora da tela
-      if ('IntersectionObserver' in window) {
-        if (mobileObserver) mobileObserver.disconnect();
-        mobileObserver = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              if (video && video.paused) video.play().catch(() => {});
-            } else {
-              if (video && !video.paused) video.pause();
-            }
-          });
-        }, { threshold: 0.05 });
-        mobileObserver.observe(section);
-      }
     }
 
     /* =========================================================================
-       4. INICIALIZAÇÃO RESPONSIVA E RESIZE HANDLER
+       4. INTERSECTION OBSERVER DO HERO & VISIBILIDADE DE ABA
+       ========================================================================= */
+    if ('IntersectionObserver' in window) {
+      const heroObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          isHeroInView = entry.isIntersecting;
+          if (isHeroInView) {
+            if (!isDesktopScreen()) {
+              if (video && video.paused && !document.hidden) {
+                video.play().catch(() => {});
+              }
+            } else {
+              requestDesktopRender();
+            }
+          } else {
+            // Saiu da viewport: pausa vídeo e loop imediatamente
+            if (video && !video.paused) {
+              video.pause();
+            }
+            if (rafId) {
+              cancelAnimationFrame(rafId);
+              rafId = null;
+            }
+          }
+        });
+      }, { threshold: [0.0, 0.05, 0.2] });
+
+      heroObserver.observe(section);
+    }
+
+    // Monitoramento da visibilidade da aba (document.hidden)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+        if (video && !video.paused) {
+          video.pause();
+        }
+      } else {
+        if (isHeroInView) {
+          if (isDesktopScreen()) {
+            requestDesktopRender();
+          } else if (video && video.paused) {
+            video.play().catch(() => {});
+          }
+        }
+      }
+    }, { passive: true });
+
+    /* =========================================================================
+       5. INICIALIZAÇÃO RESPONSIVA E RESIZE DEBOUNCED
        ========================================================================= */
     function checkAndSwitch() {
       if (isDesktopScreen()) {
@@ -484,22 +505,39 @@
     checkAndSwitch();
 
     let resizeTimer = null;
+    let prevWidth = window.innerWidth;
+    let prevIsDesktop = isDesktopScreen();
+
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        if (isDesktopScreen()) {
+        const currentWidth = window.innerWidth;
+        const currentIsDesktop = isDesktopScreen();
+
+        // Evita re-execuções desnecessárias causadas pela barra de navegação retrátil no mobile
+        if (currentIsDesktop !== prevIsDesktop || Math.abs(currentWidth - prevWidth) > 20) {
+          prevWidth = currentWidth;
+          prevIsDesktop = currentIsDesktop;
+          checkAndSwitch();
+        } else if (currentIsDesktop && isDesktopInitialized) {
           fitCanvasDimensions();
-          if (!isDesktopInitialized) {
-            setupDesktopMode();
-          } else if (typeof ScrollTrigger !== 'undefined') {
+          if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
           }
-        } else {
-          isDesktopInitialized = false;
-          setupMobileMode();
         }
       }, 150);
     }, { passive: true });
+
+    // Observador reativo a prefers-reduced-motion
+    if (window.matchMedia) {
+      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const handleMotion = () => {
+        checkAndSwitch();
+      };
+      if (motionQuery.addEventListener) {
+        motionQuery.addEventListener('change', handleMotion);
+      }
+    }
   }
 
   if (document.readyState === 'loading') {

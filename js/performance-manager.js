@@ -1,9 +1,10 @@
 /**
  * PORTAL DA PSICOLOGIA - PERFORMANCE & ECO MANAGER
- * Arquitetura de telemetria adaptativa para hardware móvel e baixo consumo de energia.
- * - Monitoramento de taxa de quadros (FPS) e frame budget de 16.6ms.
- * - Detecção heurística de hardware (RAM, CPU Cores, GPU, Bateria, Conexão).
- * - Degradação graciosa e eliminação de repaints desnecessários em dispositivos modestos.
+ * Arquitetura de otimização de performance e detecção passiva de hardware.
+ * - Detecção instantânea e passiva sem loops rAF ou polling de bateria.
+ * - Respeito automático a prefers-reduced-motion e economia de dados (Save-Data).
+ * - Pausamento automático com aba em segundo plano (document.hidden).
+ * - Utilitários globais de agendamento ocioso (scheduleIdle) e liberação de VRAM (cleanupWillChange).
  */
 
 (function () {
@@ -12,21 +13,16 @@
   class PerformanceManager {
     constructor() {
       this.fps = 60;
-      this.frameCount = 0;
-      this.lastFrameTime = performance.now();
-      this.lowFpsCounter = 0;
       this.tier = 'high'; // 'high' | 'medium' | 'low'
       this.isEcoMode = false;
-      this.isMonitoring = true;
       this.callbacks = new Set();
 
       this.initHardwareDetection();
-      this.startFpsMonitoring();
-      this.setupPowerAndNetworkListeners();
+      this.setupMotionListener();
     }
 
     /**
-     * 1. DETECÇÃO HEURÍSTICA DE HARDWARE & SISTEMA
+     * 1. DETECÇÃO PASSIVA & INSTANTÂNEA DE HARDWARE (Zero-CPU, Zero-Loop)
      */
     initHardwareDetection() {
       const root = document.documentElement;
@@ -34,20 +30,20 @@
 
       // 1.1 CPU Concurrency (Cores)
       const cores = navigator.hardwareConcurrency || 4;
-      if (cores <= 4) {
+      if (cores <= 2) {
         isLowEnd = true;
       }
 
       // 1.2 Device Memory (RAM em GB)
       const memory = navigator.deviceMemory || 4;
-      if (memory <= 3) {
+      if (memory <= 2) {
         isLowEnd = true;
       }
 
-      // 1.3 Conexão Lenta ou Economia de Dados
+      // 1.3 Conexão Lenta ou Economia de Dados (Save-Data)
       if (navigator.connection) {
         const conn = navigator.connection;
-        if (conn.saveData || conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g' || conn.effectiveType === '3g') {
+        if (conn.saveData || conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g') {
           isLowEnd = true;
         }
       }
@@ -57,91 +53,47 @@
         isLowEnd = true;
       }
 
-      // 1.5 Viewport Mobile (< 768px) com pouca RAM
-      const isMobile = window.innerWidth < 768 || ('ontouchstart' in window && window.innerWidth < 1024);
-
-      if (isLowEnd || (isMobile && memory <= 4)) {
+      if (isLowEnd) {
         this.setTier('low');
-      } else if (memory <= 4 || cores <= 6) {
+      } else if (memory <= 4 || cores <= 4) {
         this.setTier('medium');
       } else {
         this.setTier('high');
       }
-
-      // Aplica classes de otimização CSS imediatas
-      root.classList.add(`perf-tier-${this.tier}`);
-      if (this.tier === 'low') {
-        root.classList.add('perf-eco-active');
-        this.isEcoMode = true;
-      }
     }
 
     /**
-     * 2. MONITORAMENTO DE FPS EM TEMPO REAL
+     * 2. OBSERVAÇÃO DINÂMICA DE REDUÇÃO DE MOVIMENTO
      */
-    startFpsMonitoring() {
-      let frames = 0;
-      let startTime = performance.now();
-
-      const checkFpsLoop = (now) => {
-        if (!this.isMonitoring) return;
-
-        frames++;
-        const delta = now - startTime;
-
-        if (delta >= 1000) {
-          this.fps = Math.round((frames * 1000) / delta);
-          frames = 0;
-          startTime = now;
-
-          // Se detectar FPS persistentemente baixo (< 36 FPS por 3 amostragens consecutivas)
-          if (this.fps < 36) {
-            this.lowFpsCounter++;
-            if (this.lowFpsCounter >= 3 && this.tier !== 'low') {
-              this.setTier('low');
-              document.documentElement.classList.add('perf-eco-active');
-              this.isEcoMode = true;
-            }
-          } else if (this.fps >= 50) {
-            this.lowFpsCounter = Math.max(0, this.lowFpsCounter - 1);
+    setupMotionListener() {
+      if (window.matchMedia) {
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const onMotionChange = (e) => {
+          if (e.matches) {
+            this.setTier('low');
           }
-
-          this.notifySubscribers();
+        };
+        if (motionQuery.addEventListener) {
+          motionQuery.addEventListener('change', onMotionChange);
         }
-
-        requestAnimationFrame(checkFpsLoop);
-      };
-
-      requestAnimationFrame(checkFpsLoop);
-    }
-
-    /**
-     * 3. MONITORAMENTO DE BATERIA E ECONOMIA DE ENERGIA
-     */
-    setupPowerAndNetworkListeners() {
-      if ('getBattery' in navigator) {
-        navigator.getBattery().then((battery) => {
-          const checkBattery = () => {
-            if (battery.level <= 0.20 && !battery.charging) {
-              this.setTier('low');
-              document.documentElement.classList.add('perf-eco-active');
-              this.isEcoMode = true;
-            }
-          };
-
-          checkBattery();
-          battery.addEventListener('levelchange', checkBattery);
-          battery.addEventListener('chargingchange', checkBattery);
-        }).catch(() => {});
       }
     }
 
     setTier(newTier) {
-      if (this.tier === newTier) return;
+      if (this.tier === newTier && document.documentElement.classList.contains(`perf-tier-${newTier}`)) return;
       const root = document.documentElement;
       root.classList.remove(`perf-tier-${this.tier}`);
       this.tier = newTier;
       root.classList.add(`perf-tier-${this.tier}`);
+
+      if (this.tier === 'low') {
+        root.classList.add('perf-eco-active');
+        this.isEcoMode = true;
+      } else {
+        root.classList.remove('perf-eco-active');
+        this.isEcoMode = false;
+      }
+
       this.notifySubscribers();
     }
 
@@ -159,7 +111,7 @@
     /**
      * Remove will-change de um elemento após término de animação para liberar VRAM/GPU
      */
-    cleanupWillChange(element, delayMs = 600) {
+    cleanupWillChange(element, delayMs = 400) {
       if (!element) return;
       setTimeout(() => {
         element.style.willChange = 'auto';
