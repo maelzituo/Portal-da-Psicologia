@@ -48,6 +48,9 @@
     serviceHours: "Segunda a Sexta-feira, horários flexíveis sob agendamento",
     appointmentPlatform: "Google Meet ou Videochamada Privativa (sem necessidade de instalação de aplicativos)",
     
+    // Mensagem de Boas-Vindas Oficial do WhatsApp Business
+    whatsappAutoMessage: "Olá! Seja bem-vindo(a) ao Portal da Psicologia.\n\nAgradecemos pelo seu contato. Nossa equipe está à disposição para acolher sua demanda e fornecer informações sobre nossos atendimentos psicológicos.\n\nEm breve, retornaremos sua mensagem. Será um prazer conversar com você.\n\nFilipi Morais\nCRP: 07/43751",
+
     // Mensagens Pré-formatadas e Contextuais para o WhatsApp
     messages: {
       scheduling: "Olá! Gostaria de informações sobre horários disponíveis para agendamento de consulta psicológica online.",
@@ -69,7 +72,7 @@
 
     /**
      * Gera URL do WhatsApp com mensagem contextual codificada
-     * @param {string} context - 'scheduling' | 'questions' | 'general' | 'privacy' | 'form'
+     * @param {string} context - 'scheduling' | 'questions' | 'general' | 'privacy' | 'form' | 'team'
      * @param {object} customData - dados adicionais para contexto 'form' ou 'teamContact'
      * @returns {string} URL completa do wa.me
      */
@@ -96,23 +99,22 @@
   // 2. CORPO CLÍNICO / PROFISSIONAIS (ESTRUTURA ESCALÁVEL PARA 1, 2, 3 OU MAIS)
   // ============================================================================
   // Esta lista pode conter 1, 2, 3 ou quantos profissionais a clínica possuir.
-  // Quando uma foto não estiver definida (vazia), o componente utiliza automaticamente
-  // um avatar elegante com ícone clínico e indicador visual neutro.
+  // Permite que novos psicólogos sejam adicionados sem refazer o componente.
   const PROFESSIONALS_CONFIG = [
     {
       id: 1,
       name: "Filipi Morais",
-      professionalTitle: "Psicólogo Clínico",
       crp: "07/43751",
-      role: "Psicologia Clínica",
+      profession: "Psicólogo Clínico",
       approach: "Psicanálise",
-      education: "Psicologia e Saúde Mental • Sexologia Clínica",
-      specialties: [
+      aboutTitle: "Sobre mim",
+      about: "Acredito que o processo psicoterapêutico deve ser construído a partir da singularidade de cada pessoa, respeitando sua história, seus sentimentos, seus limites e suas necessidades. Meu trabalho é pautado pela ética profissional, pela escuta qualificada e por uma abordagem humana e acolhedora.",
+      specializationsTitle: "Especializações",
+      specializations: [
         "Psicologia e Saúde Mental",
         "Avaliação Psicológica",
         "Sexologia Clínica"
       ],
-      bio: "Atendimento clínico e psicoterapia online com abordagem psicanalítica. Acolhimento singular e ético para demandas de saúde mental, autoconhecimento, sexualidade e avaliação psicológica.",
       photo: "public/foto-filipi.jpeg",
       instagram: "https://instagram.com",
       email: "contato@portaldapsicologia.com.br"

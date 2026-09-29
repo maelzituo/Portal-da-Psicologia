@@ -35,10 +35,10 @@
 
     // Ajusta o estilo de grid se houver apenas 1 ou 2 profissionais
     if (professionals.length === 1) {
-      teamGrid.style.gridTemplateColumns = 'minmax(300px, 480px)';
+      teamGrid.style.gridTemplateColumns = 'minmax(300px, 520px)';
       teamGrid.style.justifyContent = 'center';
     } else if (professionals.length === 2) {
-      teamGrid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(320px, 440px))';
+      teamGrid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(320px, 460px))';
       teamGrid.style.justifyContent = 'center';
     } else {
       teamGrid.style.gridTemplateColumns = '';
@@ -47,17 +47,21 @@
 
     teamGrid.innerHTML = professionals.map((prof, index) => {
       const hasPhoto = prof.photo && typeof prof.photo === 'string' && prof.photo.trim() !== '';
-      const name = sanitize(prof.name || '[NOME DO PROFISSIONAL]');
-      const crp = sanitize(prof.crp || '[CRP DO PROFISSIONAL]');
-      const role = sanitize(prof.role || 'Psicologia Clínica');
-      const approach = sanitize(prof.approach || '[ABORDAGEM CLÍNICA]');
-      const education = sanitize(prof.education || '[FORMAÇÃO]');
-      const bio = sanitize(prof.bio || '');
+      const name = sanitize(prof.name || 'Filipi Morais');
+      const crp = sanitize(prof.crp || '07/43751');
+      const profession = sanitize(prof.profession || prof.professionalTitle || 'Psicólogo Clínico');
+      const approach = sanitize(prof.approach || 'Psicanálise');
+      const aboutTitle = sanitize(prof.aboutTitle || 'Sobre mim');
+      const about = sanitize(prof.about || prof.bio || '');
+      const specializationsTitle = sanitize(prof.specializationsTitle || 'Especializações');
+      const specializations = Array.isArray(prof.specializations) 
+        ? prof.specializations 
+        : (Array.isArray(prof.specialties) ? prof.specialties : []);
       
       const photoSrc = hasPhoto ? sanitize(prof.photo) : '';
 
       const photoHtml = hasPhoto
-        ? `<img src="${photoSrc}" alt="${name} — ${role}" class="team-photo-img" loading="lazy" width="640" height="640">`
+        ? `<img src="${photoSrc}" alt="${name} — ${profession}" class="team-photo-img" loading="lazy" width="640" height="640">`
         : `
           <div class="team-avatar-placeholder" aria-label="Espaço reservado para a foto oficial">
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -68,10 +72,13 @@
           </div>
         `;
 
-      const specialtiesHtml = Array.isArray(prof.specialties) && prof.specialties.length > 0
+      const specializationsHtml = specializations.length > 0
         ? `
-          <div class="team-specialties-tags">
-            ${prof.specialties.map(spec => `<span class="team-spec-pill">${sanitize(spec)}</span>`).join('')}
+          <div class="team-editorial-block">
+            <h4 class="team-editorial-title">${specializationsTitle}</h4>
+            <ul class="team-specializations-list">
+              ${specializations.map(spec => `<li>${sanitize(spec)}</li>`).join('')}
+            </ul>
           </div>
         `
         : '';
@@ -83,13 +90,24 @@
           </div>
           <div class="team-info">
             <h3 class="team-name">${name}</h3>
-            <div class="team-crp">
-              <span class="crp-badge">${crp}</span>
-              <span class="approach-meta">• ${role}</span>
+            
+            <div class="team-identification">
+              <span class="team-crp-text"><strong>CRP:</strong> ${crp}</span>
+              <span class="team-id-separator" aria-hidden="true">·</span>
+              <span class="team-profession-text"><strong>${profession}</strong></span>
             </div>
-            ${education || approach ? `<div class="team-education"><small>${approach ? `${approach} • ` : ''}${education}</small></div>` : ''}
-            ${bio ? `<p class="team-bio">${bio}</p>` : ''}
-            ${specialtiesHtml}
+
+            <div class="team-approach">
+              <strong>Abordagem:</strong> ${approach}
+            </div>
+
+            <div class="team-editorial-block">
+              <h4 class="team-editorial-title">${aboutTitle}</h4>
+              <p class="team-about-text">${about}</p>
+            </div>
+
+            ${specializationsHtml}
+
             <div class="team-card-actions">
               <a href="${ClinicData.clinic.getWhatsAppUrl('team', { name: name })}" 
                  class="btn btn-secondary team-contact-btn" 
