@@ -15,7 +15,7 @@
     position: relative !important;
     height: 100svh !important;
     height: 100dvh !important;
-    min-height: 560px !important;
+    min-height: clamp(480px, 90svh, 580px) !important;
     width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -531,5 +531,17 @@
     #hero-video {
       transition: none !important;
     }
+  }
+}
+
+/* Modo paisagem em dispositivos móveis (altura reduzida) */
+@media (max-width: 900px) and (orientation: landscape) {
+  #hero-scroll-section {
+    min-height: 100svh !important;
+    height: 100svh !important;
+  }
+
+  #hero-sticky-viewport {
+    padding: 3.5rem 1.4rem 1.5rem !important;
   }
 }

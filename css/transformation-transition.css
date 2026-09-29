@@ -124,13 +124,12 @@
 }
 
 /* ==========================================================================
-   PALCO & ESTRUTURA PRINCIPAL
+   PALCO & ESTRUTURA PRINCIPAL (Transição Curta e Controlada)
    ========================================================================== */
 .trans-materia-section {
   position: relative;
   width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: clamp(340px, 48vh, 480px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -964,9 +963,9 @@
   }
 
   .trans-materia-section {
-    min-height: 100vh;
+    min-height: clamp(320px, 44vh, 440px);
     height: auto;
-    padding: 3.5rem 1.5rem;
+    padding: 3rem 1.5rem;
   }
 }
 
@@ -975,10 +974,9 @@
    ========================================================================== */
 @media (max-width: 768px) {
   .trans-materia-section {
-    min-height: 100vh;
-    min-height: 100dvh;
+    min-height: auto;
     height: auto;
-    padding: 3rem 1.25rem;
+    padding: 2.5rem 1.25rem;
   }
 
   .trans-materia-viewport {
