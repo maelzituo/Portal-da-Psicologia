@@ -325,8 +325,7 @@
           if (!video.paused) video.pause();
         }
         fitCanvasDimensions();
-        preloadDesktopFrames();
-        drawDesktopFrame(1);
+        loadDesktopFrame(1, true);
         activateLayer(phase1);
         if (loadingState) loadingState.classList.add('loaded');
         return;
@@ -388,6 +387,19 @@
       if (rafId) {
         cancelAnimationFrame(rafId);
         rafId = null;
+      }
+
+      const isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (isReducedMotion) {
+        if (canvas) canvas.style.display = 'none';
+        if (video) {
+          video.style.display = 'block';
+          if (!video.paused) video.pause();
+          video.removeAttribute('autoplay');
+        }
+        if (loadingState) loadingState.classList.add('loaded');
+        activateLayer(phase1);
+        return;
       }
 
       if (canvas) canvas.style.display = 'none';

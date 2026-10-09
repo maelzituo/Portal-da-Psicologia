@@ -1263,8 +1263,44 @@ section[id] {
    ========================================================================== */
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 2.5rem;
+  width: 100%;
+}
+
+/* 1 Profissional: Composição editorial centralizada e harmônica */
+.team-grid[data-count="1"],
+.team-grid.team-single {
+  grid-template-columns: minmax(300px, 520px);
+  justify-content: center;
+}
+
+/* 2 Profissionais: Grid balanceado de 2 colunas */
+.team-grid[data-count="2"],
+.team-grid.team-duo {
+  grid-template-columns: repeat(2, minmax(300px, 480px));
+  justify-content: center;
+}
+
+/* 3 ou mais Profissionais: Grid responsivo adaptativo */
+.team-grid[data-count="3"],
+.team-grid[data-count="4"],
+.team-grid[data-count="5"],
+.team-grid[data-count="6"],
+.team-grid:not([data-count="1"]):not([data-count="2"]) {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  justify-content: center;
+}
+
+.team-monogram {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+}
+
+[data-theme="dark"] .team-monogram {
+  color: var(--gold-light);
 }
 
 .team-card {
@@ -2405,8 +2441,10 @@ textarea:focus-visible {
     margin-bottom: 2.2rem;
   }
 
-  .specialties-grid, .team-grid {
-    grid-template-columns: 1fr;
+  .specialties-grid,
+  .team-grid,
+  .team-grid[data-count] {
+    grid-template-columns: 1fr !important;
   }
 
   .how-it-works-grid {

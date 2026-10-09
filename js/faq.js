@@ -38,7 +38,7 @@
       id: 5,
       category: 'atendimento',
       question: 'Com que frequência devo fazer terapia?',
-      answer: 'A terapia precisa, preferencialmente, ser semanal porque a continuidade é importante para construir o processo terapêutico com consistência. O intervalo de uma semana permite acompanhar o que aconteceu, compreender sentimentos e situações recentes e dar continuidade ao que foi trabalhado na sessão anterior. Mais do que uma frequência, trata-se de criar um espaço regular de escuta, reflexão e elaboração.'
+      answer: 'A frequência é definida em conjunto com o profissional, considerando as necessidades e o momento de cada pessoa. Em muitos processos, encontros semanais podem favorecer a continuidade e o aprofundamento do acompanhamento.'
     },
     {
       id: 6,
@@ -58,7 +58,7 @@
       id: 8,
       category: 'experiencia',
       question: 'Preciso instalar algum aplicativo?',
-      answer: 'Para realizar a terapia on-line, você não precisa instalar nenhum aplicativo específico. As sessões podem ser realizadas pelo Google Meet, através de um link enviado previamente, ou por videochamada. É um processo simples, seguro e você pode participar pelo celular ou computador.'
+      answer: 'Para realizar a terapia on-line, você não precisa instalar nenhum aplicativo específico. As sessões são realizadas por videochamada, através de um link enviado previamente pelo profissional. É um processo simples, seguro e você pode participar pelo celular ou computador.'
     },
     {
       id: 9,

@@ -23,34 +23,34 @@
     const teamGrid = document.querySelector('.team-grid');
     if (!teamGrid || typeof ClinicData === 'undefined') return;
 
-    const professionals = ClinicData.professionals || [];
+    const rawProfessionals = ClinicData.professionals || [];
+    // Filtra estritamente profissionais ativos com dados mínimos válidos
+    const professionals = rawProfessionals.filter(p => {
+      return p && typeof p === 'object' && p.active !== false && p.name && p.crp;
+    });
+
     if (!professionals.length) {
-      teamGrid.innerHTML = `
-        <div class="team-empty-state" style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
-          <p>O corpo clínico está sendo estruturado. Em breve as informações dos profissionais estarão disponíveis.</p>
-        </div>
-      `;
       return;
     }
 
-    // Ajusta o estilo de grid se houver apenas 1 ou 2 profissionais
+    // Configura o atributo data-count e classes semânticas para o CSS responsivo
+    teamGrid.setAttribute('data-count', String(professionals.length));
+    teamGrid.classList.remove('team-single', 'team-duo', 'team-multi');
+
     if (professionals.length === 1) {
-      teamGrid.style.gridTemplateColumns = 'minmax(300px, 520px)';
-      teamGrid.style.justifyContent = 'center';
+      teamGrid.classList.add('team-single');
     } else if (professionals.length === 2) {
-      teamGrid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(320px, 460px))';
-      teamGrid.style.justifyContent = 'center';
+      teamGrid.classList.add('team-duo');
     } else {
-      teamGrid.style.gridTemplateColumns = '';
-      teamGrid.style.justifyContent = '';
+      teamGrid.classList.add('team-multi');
     }
 
     teamGrid.innerHTML = professionals.map((prof, index) => {
       const hasPhoto = prof.photo && typeof prof.photo === 'string' && prof.photo.trim() !== '';
-      const name = sanitize(prof.name || 'Filipi Morais');
-      const crp = sanitize(prof.crp || '07/43751');
+      const name = sanitize(prof.name);
+      const crp = sanitize(prof.crp);
       const profession = sanitize(prof.profession || prof.professionalTitle || 'Psicólogo Clínico');
-      const approach = sanitize(prof.approach || 'Psicanálise');
+      const approach = sanitize(prof.approach || '');
       const aboutTitle = sanitize(prof.aboutTitle || 'Sobre mim');
       const about = sanitize(prof.about || prof.bio || '');
       const specializationsTitle = sanitize(prof.specializationsTitle || 'Especializações');
@@ -60,17 +60,28 @@
       
       const photoSrc = hasPhoto ? sanitize(prof.photo) : '';
 
+      // Avatar com monograma editorial nobre se a foto não estiver definida
+      const initials = name.split(' ').filter(Boolean).map(n => n[0]).slice(0, 2).join('').toUpperCase();
       const photoHtml = hasPhoto
         ? `<img src="${photoSrc}" alt="${name} — ${profession}" class="team-photo-img" loading="lazy" width="640" height="640">`
         : `
-          <div class="team-avatar-placeholder" aria-label="Espaço reservado para a foto oficial">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <span class="placeholder-photo-tag">[FOTO DO PROFISSIONAL]</span>
+          <div class="team-avatar-placeholder" aria-label="${name}">
+            <span class="team-monogram">${initials || 'PP'}</span>
           </div>
         `;
+
+      const approachHtml = approach ? `
+        <div class="team-approach">
+          <strong>Abordagem:</strong> ${approach}
+        </div>
+      ` : '';
+
+      const aboutHtml = about ? `
+        <div class="team-editorial-block">
+          <h4 class="team-editorial-title">${aboutTitle}</h4>
+          <p class="team-about-text">${about}</p>
+        </div>
+      ` : '';
 
       const specializationsHtml = specializations.length > 0
         ? `
@@ -97,15 +108,8 @@
               <span class="team-profession-text"><strong>${profession}</strong></span>
             </div>
 
-            <div class="team-approach">
-              <strong>Abordagem:</strong> ${approach}
-            </div>
-
-            <div class="team-editorial-block">
-              <h4 class="team-editorial-title">${aboutTitle}</h4>
-              <p class="team-about-text">${about}</p>
-            </div>
-
+            ${approachHtml}
+            ${aboutHtml}
             ${specializationsHtml}
 
             <div class="team-card-actions">
