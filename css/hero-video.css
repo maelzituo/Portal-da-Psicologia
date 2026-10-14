@@ -1,14 +1,15 @@
 /* ==========================================================================
-   PORTAL DA PSICOLOGIA — HERO CINEMATOGRÁFICO
-   Composição imersiva em vídeo otimizado, CSS puro e JavaScript mínimo.
+   PORTAL DA PSICOLOGIA — HERO CINEMATOGRÁFICO MINIMALISTA
+   Composição visual estável, imersiva, sem scroll hijacking e de alta performance.
    Identidade: Verde Floresta Profundo, Dourado Nobre e Acolhimento Humano.
    ========================================================================== */
 
-/* 1. SEÇÃO PRINCIPAL (VIEWPORT COMPLETA) */
+/* 1. SEÇÃO PRINCIPAL (VIEWPORT COMPLETA & ESTABILIDADE VISUAL) */
 .hero-cinematic {
   position: relative;
   width: 100%;
   min-height: 100svh;
+  min-height: 100dvh;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -17,9 +18,10 @@
   background-color: #111B16;
   color: #FAF9F6;
   z-index: 2;
+  contain: layout paint style;
 }
 
-/* 2. MÍDIA DE FUNDO: VÍDEO CONTÍNUO & POSTER DE ALTA PERFORMANCE */
+/* 2. MÍDIA DE FUNDO: VÍDEO CONVENCIONAL COM POSTER INSTANTÂNEO */
 .hero-media-wrapper {
   position: absolute;
   inset: 0;
@@ -39,7 +41,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center 46%;
-  opacity: 0.82;
+  opacity: 0.80;
   transform: translate3d(0, 0, 0);
   background-image: url('../poster-respiro.webp');
   background-size: cover;
@@ -49,188 +51,210 @@
 }
 
 [data-theme="dark"] .hero-media-video {
-  opacity: 0.72;
+  opacity: 0.70;
 }
 
-/* 3. VINHETA CINEMÁTICA ATMOSFÉRICA
-   Equilíbrio sutil de contraste: fundo presente e nítido sem ofuscar o texto */
+/* 3. OVERLAY ATMOSFÉRICO DE ALTO CONTRASTE
+   Garante legibilidade tipográfica impecável sem transformar o fundo em bloco preto */
 .hero-cinematic-overlay {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
   background: 
-    radial-gradient(ellipse at center, rgba(14, 24, 19, 0.38) 0%, rgba(14, 24, 19, 0.64) 62%, rgba(14, 24, 19, 0.88) 100%),
-    linear-gradient(to bottom, rgba(14, 24, 19, 0.62) 0%, rgba(14, 24, 19, 0.16) 24%, rgba(14, 24, 19, 0.42) 70%, var(--color-background, #121D18) 100%);
+    radial-gradient(ellipse at center, rgba(14, 24, 19, 0.35) 0%, rgba(14, 24, 19, 0.65) 58%, rgba(14, 24, 19, 0.90) 100%),
+    linear-gradient(to bottom, rgba(14, 24, 19, 0.72) 0%, rgba(14, 24, 19, 0.20) 28%, rgba(14, 24, 19, 0.42) 72%, var(--color-background, #121D18) 100%);
   transform: translateZ(0);
 }
 
 [data-theme="dark"] .hero-cinematic-overlay {
   background: 
-    radial-gradient(ellipse at center, rgba(10, 16, 13, 0.42) 0%, rgba(10, 16, 13, 0.70) 62%, rgba(10, 16, 13, 0.92) 100%),
-    linear-gradient(to bottom, rgba(10, 16, 13, 0.70) 0%, rgba(10, 16, 13, 0.20) 24%, rgba(10, 16, 13, 0.50) 70%, var(--color-background, #0F1713) 100%);
+    radial-gradient(ellipse at center, rgba(10, 16, 13, 0.40) 0%, rgba(10, 16, 13, 0.70) 58%, rgba(10, 16, 13, 0.94) 100%),
+    linear-gradient(to bottom, rgba(10, 16, 13, 0.80) 0%, rgba(10, 16, 13, 0.24) 28%, rgba(10, 16, 13, 0.52) 72%, var(--color-background, #0F1713) 100%);
 }
 
-/* 4. PALCO EDITORIAL: HIERARQUIA PURA E ESPAÇO NEGATIVO */
+/* 4. PALCO EDITORIAL: ESPAÇO NEGATIVO & HIERARQUIA VISUAL */
 .hero-stage {
   position: relative;
   z-index: 5;
   width: 100%;
   min-height: 100svh;
+  min-height: 100dvh;
   min-height: 100vh;
-  padding: calc(var(--header-height, 74px) + 2rem) 1.5rem 2.8rem;
+  padding: calc(var(--header-height, 74px) + 2rem) 1.5rem 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .hero-container {
-  max-width: 840px;
+  width: 100%;
+  max-width: min(860px, 92vw);
   margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  animation: heroEntrance 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Título Principal — Presença Nobre sem Dominar Desproporcionalmente */
+@keyframes heroEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 5. IDENTIFICADOR SUPERIOR (PRIORIDADE VISUAL 6) */
+.hero-brand-kicker {
+  display: inline-block;
+  font-size: clamp(0.70rem, 1.1vw, 0.78rem);
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold-light, #E3D5C0);
+  margin-bottom: clamp(1.2rem, 2.5vh, 1.8rem);
+  opacity: 0.88;
+  line-height: 1.4;
+}
+
+/* 6. TÍTULO PRINCIPAL (ELEMENTO DOMINANTE - PRIORIDADE VISUAL 1) */
 .hero-headline {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(2.15rem, 4vw, 3.35rem);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
   font-weight: 600;
-  line-height: 1.22;
-  letter-spacing: -0.028em;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
   color: #FAF9F6;
-  margin: 0 auto 1.35rem;
-  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.70);
+  margin: 0 auto clamp(1rem, 2.2vh, 1.5rem);
+  max-width: min(840px, 100%);
   text-wrap: balance;
-  max-width: 780px;
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.70);
 }
 
-/* Mensagem Curta e Acolhedora */
+/* 7. DESCRIÇÃO (PRIORIDADE VISUAL 3) */
 .hero-subtitle {
   font-family: 'Inter', sans-serif;
-  font-size: clamp(1.02rem, 1.35vw, 1.16rem);
+  font-size: clamp(1.02rem, 1.6vw, 1.22rem);
   font-weight: 400;
   line-height: 1.65;
   color: #D3DFD8;
-  max-width: 560px;
-  margin: 0 auto 2.5rem;
+  max-width: min(620px, 100%);
+  margin: 0 auto clamp(1.8rem, 3.8vh, 2.6rem);
   text-wrap: balance;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.60);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
 }
 
-/* 5. AÇÕES COM CLARA DIFERENCIAÇÃO HIERÁRQUICA */
+/* 8. GRUPO DE AÇÕES COM HIERARQUIA VISUAL CLARA */
 .hero-actions {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.25rem;
+  gap: 1.2rem;
   flex-wrap: wrap;
-  margin-bottom: 2.2rem;
+  width: 100%;
+  margin-bottom: clamp(1.4rem, 3vh, 2.4rem);
 }
 
-/* CTA Principal — Destaque Prioritário */
-.hero-btn-cta {
+/* CTA Principal (Prioridade Visual 2 — Destaque Evidente) */
+.hero-btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.92rem 2.25rem;
-  font-size: 0.98rem;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.95rem 2.4rem;
+  font-size: 1rem;
   font-weight: 600;
   border-radius: var(--radius-pill, 9999px);
   background: linear-gradient(135deg, #C5A880 0%, #A3845B 100%);
   color: #121D18 !important;
-  border: 1px solid rgba(255, 245, 225, 0.45);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32), 0 0 16px rgba(197, 168, 128, 0.20);
+  border: 1px solid rgba(255, 245, 225, 0.55);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 0 18px rgba(197, 168, 128, 0.28);
   text-decoration: none;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  cursor: pointer;
 }
 
-.hero-btn-cta:hover {
+.hero-btn-primary:hover {
   transform: translateY(-2px);
   background: linear-gradient(135deg, #E3D5C0 0%, #C5A880 100%);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.42), 0 0 22px rgba(197, 168, 128, 0.32);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), 0 0 24px rgba(197, 168, 128, 0.38);
   color: #0E1813 !important;
 }
 
-.hero-btn-arrow {
-  display: inline-block;
-  font-size: 1.15rem;
-  line-height: 1;
-  transition: transform 0.2s ease;
-}
-
-.hero-btn-cta:hover .hero-btn-arrow {
-  transform: translateX(3px);
-}
-
-/* CTA Secundário — Estilo Ghost/Outline Discreto sem Competir com o Principal */
+/* CTA Secundário (Prioridade Visual 4 — Menor Peso Visual) */
 .hero-btn-secondary {
   display: inline-flex;
   align-items: center;
-  padding: 0.92rem 1.85rem;
-  font-size: 0.95rem;
-  font-weight: 450;
+  justify-content: center;
+  padding: 0.95rem 2rem;
+  font-size: 0.98rem;
+  font-weight: 500;
   border-radius: var(--radius-pill, 9999px);
-  background: transparent;
-  color: rgba(250, 249, 246, 0.85) !important;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.06);
+  color: #FAF9F6 !important;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   text-decoration: none;
-  transition: all 0.25s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
 }
 
 .hero-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.10);
-  border-color: rgba(255, 255, 255, 0.38);
-  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.35);
   transform: translateY(-2px);
+  color: #FFFFFF !important;
 }
 
-/* 6. INDICADOR DE ROLAGEM VISUAL DISCRETO E ELEGANTE */
+/* 9. INDICADOR DE ROLAGEM DISCRETO (APENAS VISUAL, SEM TEXTO) */
 .hero-scroll-cue {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: rgba(162, 181, 172, 0.65);
+  color: rgba(209, 220, 214, 0.65);
   text-decoration: none;
-  margin-top: 1.25rem;
-  transition: color 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
-  opacity: 0.80;
+  margin-top: clamp(0.5rem, 1.8vh, 1.5rem);
+  transition: color 0.2s ease, opacity 0.2s ease;
+  opacity: 0.75;
+  cursor: pointer;
 }
 
 .hero-scroll-cue:hover {
   color: var(--gold-light, #FAF9F6);
   opacity: 1;
-  transform: translateY(3px);
 }
 
 .hero-scroll-cue-mouse {
-  width: 22px;
-  height: 34px;
-  border: 2px solid rgba(197, 168, 128, 0.45);
-  border-radius: 12px;
+  width: 20px;
+  height: 32px;
+  border: 1.5px solid rgba(197, 168, 128, 0.45);
+  border-radius: 10px;
   position: relative;
 }
 
 .hero-scroll-cue-wheel {
-  width: 3px;
-  height: 6px;
+  width: 2px;
+  height: 5px;
   background: var(--gold-light, #FAF9F6);
-  border-radius: 2px;
+  border-radius: 1px;
   position: absolute;
-  top: 6px;
+  top: 5px;
   left: 50%;
   transform: translateX(-50%);
-  animation: mouseWheelDrop 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  animation: mouseScroll 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
-@keyframes mouseWheelDrop {
+@keyframes mouseScroll {
   0% {
     opacity: 0;
     transform: translate(-50%, 0);
@@ -238,31 +262,31 @@
   25% {
     opacity: 1;
   }
-  75% {
+  70% {
     opacity: 1;
-    transform: translate(-50%, 12px);
+    transform: translate(-50%, 10px);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, 16px);
+    transform: translate(-50%, 14px);
   }
 }
 
-/* 8. ADAPTAÇÃO RESPONSIVA IMPECÁVEL */
+/* 10. RESPONSIVIDADE PRECISA (MOBILE, TABLET, DESKTOP, 4K, ULTRAWIDE) */
 @media (max-width: 768px) {
   .hero-stage {
-    padding: calc(var(--header-height, 68px) + 1.8rem) 1.25rem 2.5rem;
+    padding: calc(var(--header-height, 68px) + 1.2rem) 1.2rem 2rem;
   }
 
   .hero-headline {
-    font-size: clamp(1.9rem, 7.6vw, 2.7rem);
+    font-size: clamp(1.85rem, 7.4vw, 2.45rem);
     line-height: 1.22;
     margin-bottom: 1.1rem;
   }
 
   .hero-subtitle {
-    font-size: 1.02rem;
-    line-height: 1.62;
+    font-size: 0.98rem;
+    line-height: 1.58;
     margin-bottom: 2rem;
   }
 
@@ -270,43 +294,14 @@
     flex-direction: column;
     width: 100%;
     max-width: 320px;
-    gap: 0.9rem;
-    margin-bottom: 2rem;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
   }
 
-  .hero-btn-cta,
+  .hero-btn-primary,
   .hero-btn-secondary {
     width: 100%;
-    justify-content: center;
-    padding: 0.9rem 1.6rem;
-  }
-
-  .hero-scroll-cue {
-    display: none; /* Em telas compactas, economiza altura para manter foco imediato nas ações */
-  }
-}
-
-@media (max-width: 900px) and (orientation: landscape) {
-  .hero-cinematic {
-    min-height: 100svh;
-  }
-
-  .hero-stage {
-    padding: 4.5rem 1.5rem 2rem;
-  }
-
-  .hero-headline {
-    font-size: 1.8rem;
-    margin-bottom: 0.8rem;
-  }
-
-  .hero-subtitle {
-    font-size: 0.95rem;
-    margin-bottom: 1.2rem;
-  }
-
-  .hero-actions {
-    margin-bottom: 1.2rem;
+    padding: 0.88rem 1.4rem;
   }
 
   .hero-scroll-cue {
@@ -314,13 +309,82 @@
   }
 }
 
-/* 9. ACESSIBILIDADE & PREFERÊNCIA POR REDUÇÃO DE MOVIMENTO */
+/* Smartphones compactos (360px - 380px) */
+@media (max-width: 380px) {
+  .hero-stage {
+    padding: calc(var(--header-height, 64px) + 0.8rem) 1rem 1.5rem;
+  }
+
+  .hero-headline {
+    font-size: 1.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.92rem;
+  }
+}
+
+/* Dispositivos móveis em orientação horizontal (Landscape) */
+@media (max-width: 900px) and (orientation: landscape) {
+  .hero-cinematic {
+    min-height: 100svh;
+  }
+
+  .hero-stage {
+    padding: 4.2rem 1.5rem 1.8rem;
+  }
+
+  .hero-headline {
+    font-size: 1.8rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.92rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .hero-actions {
+    margin-bottom: 0.8rem;
+  }
+
+  .hero-scroll-cue {
+    display: none;
+  }
+}
+
+/* Monitores Ultrawide e 4K (Contenção de largura e equilíbrio espacial) */
+@media (min-width: 2560px) {
+  .hero-container {
+    max-width: 960px;
+  }
+
+  .hero-headline {
+    font-size: 4rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+  }
+}
+
+/* 11. ACESSIBILIDADE & PREFERÊNCIA POR REDUÇÃO DE MOVIMENTO */
 @media (prefers-reduced-motion: reduce) {
+  .hero-container {
+    animation: none !important;
+    transform: none !important;
+  }
+
   .hero-media-video {
     transition: none !important;
   }
 
   .hero-scroll-cue-wheel {
     animation: none !important;
+  }
+
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    transition: none !important;
   }
 }

@@ -296,12 +296,12 @@
 
   <main>
     <!-- ========================================================================
-         2. HERO CINEMATOGRÁFICO CONTEMPLATIVO
-         Composição cinematográfica em vídeo contínuo de alta performance, 
-         camada atmosférica em CSS puro e JavaScript mínimo.
+         2. HERO CINEMATOGRÁFICO MINIMALISTA (ESTÁVEL E SEM SCROLL HIJACKING)
+         Composição estável com vídeo em background convencional, CSS puro,
+         máxima legibilidade e responsividade em todas as proporções de tela.
          ======================================================================== -->
     <section class="hero-cinematic" id="hero" aria-label="Apresentação do Portal da Psicologia">
-      <!-- Mídia de Fundo: Vídeo Otimizado com Poster Instantâneo -->
+      <!-- Mídia de Fundo: Vídeo Otimizado Convencional com Poster Instantâneo -->
       <div class="hero-media-wrapper" aria-hidden="true">
         <video 
           id="hero-video" 
@@ -318,43 +318,47 @@
           disableremoteplayback>
           <source src="public/video/clinica.mp4" type="video/mp4">
         </video>
-        <!-- Overlay e Vinheta Cinemática em Gradiente Duplo (Contraste sem lavar a imagem) -->
+        <!-- Overlay Atmosférico: Contraste para Tipografia sem Transformar em Bloco Preto -->
         <div class="hero-cinematic-overlay"></div>
       </div>
 
-      <!-- Palco Editorial: Tipografia Nobre, Acolhimento e Ação -->
+      <!-- Palco Editorial: Tipografia Nobre, Espaço Negativo e Hierarquia Visual -->
       <div class="hero-stage">
         <div class="container hero-container">
+          
+          <!-- Identificador Superior Discreto -->
+          <span class="hero-brand-kicker">
+            PORTAL DA PSICOLOGIA • ATENDIMENTO ON-LINE
+          </span>
 
-          <!-- Título Principal com Presença de Viewport e Balanço Visual -->
+          <!-- Título Principal: Elemento Dominante com Escala Fluida e Limite de Largura -->
           <h1 class="hero-headline">
             Compreender a si mesmo é o início de toda transformação.
           </h1>
 
-          <!-- Descrição Editorial / Respiro Humano -->
+          <!-- Descrição Acolhedora e Concisa -->
           <p class="hero-subtitle">
             Um espaço seguro para acolher sua história, com rigor ético e sigilo profissional.
           </p>
 
-          <!-- Grupo de Ações Primária e Secundária -->
+          <!-- Ações Claras com Hierarquia Visual Evidente -->
           <div class="hero-actions">
-            <a href="#contato" class="btn btn-primary hero-btn-cta">
-              <span>Agendar consulta</span>
-              <span class="hero-btn-arrow" aria-hidden="true">→</span>
+            <a href="#contato" class="btn btn-primary hero-btn-primary">
+              <span>Agendar consulta →</span>
             </a>
             <a href="#sobre" class="btn btn-secondary hero-btn-secondary">
               <span>Conhecer a clínica</span>
             </a>
           </div>
 
-        </div>
+          <!-- Indicador de Rolagem Discreto (Apenas Visual, Sem Texto) -->
+          <a href="#sobre" class="hero-scroll-cue" aria-label="Rolar para a próxima seção">
+            <div class="hero-scroll-cue-mouse" aria-hidden="true">
+              <span class="hero-scroll-cue-wheel"></span>
+            </div>
+          </a>
 
-        <!-- Indicador de Rolagem Fluida (Scroll Cue Discreto) -->
-        <a href="#transicao-transformacao" class="hero-scroll-cue" aria-label="Rolar para a próxima seção">
-          <div class="hero-scroll-cue-mouse" aria-hidden="true">
-            <span class="hero-scroll-cue-wheel"></span>
-          </div>
-        </a>
+        </div>
       </div>
     </section>
 
