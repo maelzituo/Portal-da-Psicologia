@@ -38,10 +38,8 @@
   <!-- Favicon Sutil -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='%232C4A3E' stroke='%23C5A880' stroke-width='4'/><circle cx='50' cy='50' r='12' fill='%23C5A880'/></svg>">
 
-  <!-- Preload Crítico dos Primeiros Frames WebP (Canvas Scrub Ultra-Fluido e Instantâneo no Desktop) -->
-  <link rel="preload" href="public/frames-webp/f_0001.webp" as="image" type="image/webp">
-  <link rel="preload" href="public/frames-webp/f_0002.webp" as="image" type="image/webp">
-  <link rel="preload" href="public/frames-webp/f_0003.webp" as="image" type="image/webp">
+  <!-- Preload do Poster Cinemático do Vídeo -->
+  <link rel="preload" href="poster-respiro.webp" as="image" type="image/webp">
 
   <!-- Estilos Críticos -->
   <link rel="stylesheet" href="css/style.css?v=3.2">
@@ -298,89 +296,65 @@
 
   <main>
     <!-- ========================================================================
-         2. HERO CINEMÁTICO CONTROLADO POR SCROLL (GSAP PINNED)
-         Narrativa: ENTRADA → INTRODUÇÃO → IDENTIDADE → VÍDEO NO SCROLL → ÚLTIMO FRAME → CTA
+         2. HERO CINEMATOGRÁFICO CONTEMPLATIVO
+         Composição cinematográfica em vídeo contínuo de alta performance, 
+         camada atmosférica em CSS puro e JavaScript mínimo.
          ======================================================================== -->
-    <section class="hero-scroll-section" id="hero-scroll-section" aria-label="Apresentação Cinematográfica da Clínica">
-      <div class="hero-sticky-viewport" id="hero-sticky-viewport">
-        
-        <!-- Elemento Visual Central: Canvas Ultra-Fluido para Desktop (Apple-style) & Vídeo Autoplay para Mobile -->
-        <div class="hero-video-wrapper">
-          <canvas 
-            id="hero-canvas" 
-            class="hero-canvas" 
-            width="1280" 
-            height="720"
-            aria-hidden="true"></canvas>
-          <video 
-            id="hero-video" 
-            class="hero-video" 
-            src="public/video/clinica.mp4"
-            poster="public/poster-respiro.webp"
-            autoplay
-            loop
-            muted 
-            playsinline 
-            webkit-playsinline 
-            preload="metadata" 
-            disablepictureinpicture 
-            disableremoteplayback
-            aria-hidden="true">
-            <source src="public/video/clinica.mp4" type="video/mp4">
-            Seu navegador não suporta a exibição deste vídeo.
-          </video>
-        </div>
-
-        <!-- Vinheta Sutil de Integração -->
-        <div class="hero-vignette"></div>
-
-        <!-- Indicador de Carregamento -->
-        <div class="video-loading-state" id="video-loading">
-          <div class="loading-spinner"></div>
-        </div>
-
-        <!-- CAMADAS NARRATIVAS CONTROLADAS PELO SCROLL / STORY SECTIONS -->
-        <div class="hero-narrative-stage">
-          
-          <!-- SEÇÃO 1: INTRODUÇÃO & ACOLHIMENTO (PROTAGONISMO DO VÍDEO) -->
-          <div class="phase-layer active" id="phase-1-text" data-story-step="1">
-            <span class="hero-brand-kicker">Portal da Psicologia</span>
-            <h1 class="phase-headline">Compreender a si mesmo é o início de toda transformação.</h1>
-          </div>
-
-          <!-- SEÇÃO 2: RESPIRO POÉTICO NO SCROLL -->
-          <div class="phase-layer" id="phase-2-text" data-story-step="2">
-            <h2 class="phase-headline phase-headline-poetic">Um espaço seguro preparado para acolher sua história.</h2>
-          </div>
-
-          <!-- SEÇÃO 3 / CTA FINAL DO HERO -->
-          <div class="hero-cta-stage" id="hero-cta-stage" data-story-step="3">
-            <span class="phase-tag">Psicoterapia On-line</span>
-            <h2 class="hero-cta-title">Sua jornada começa aqui.</h2>
-            <p class="hero-cta-desc">
-              Atendimento com rigor ético, sigilo profissional e flexibilidade de horários.
-            </p>
-            <div class="hero-cta-buttons">
-              <a href="#contato" class="btn btn-primary">Agendar consulta</a>
-              <a href="#sobre" class="btn btn-secondary">Conhecer a clínica</a>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Indicador de Scroll -->
-        <div class="scroll-indicator" id="scroll-indicator">
-          <span class="scroll-indicator-text">Role para avançar</span>
-          <div class="scroll-indicator-line"></div>
-        </div>
-
+    <section class="hero-cinematic" id="hero" aria-label="Apresentação do Portal da Psicologia">
+      <!-- Mídia de Fundo: Vídeo Otimizado com Poster Instantâneo -->
+      <div class="hero-media-wrapper" aria-hidden="true">
+        <video 
+          id="hero-video" 
+          class="hero-media-video" 
+          src="public/video/clinica.mp4" 
+          poster="poster-respiro.webp" 
+          autoplay 
+          loop 
+          muted 
+          playsinline 
+          webkit-playsinline 
+          preload="auto" 
+          disablepictureinpicture 
+          disableremoteplayback>
+          <source src="public/video/clinica.mp4" type="video/mp4">
+        </video>
+        <!-- Overlay e Vinheta Cinemática em Gradiente Duplo (Contraste sem lavar a imagem) -->
+        <div class="hero-cinematic-overlay"></div>
       </div>
 
-      <!-- TRACK DE STORY SECTIONS PARA MOBILE (PROGRESSIVE SCROLL) -->
-      <div class="mobile-story-track" id="mobile-story-track" aria-hidden="true">
-        <div class="story-trigger" data-story-index="1" id="story-trigger-1"></div>
-        <div class="story-trigger" data-story-index="2" id="story-trigger-2"></div>
-        <div class="story-trigger" data-story-index="3" id="story-trigger-3"></div>
+      <!-- Palco Editorial: Tipografia Nobre, Acolhimento e Ação -->
+      <div class="hero-stage">
+        <div class="container hero-container">
+
+          <!-- Título Principal com Presença de Viewport e Balanço Visual -->
+          <h1 class="hero-headline">
+            Compreender a si mesmo é o início de toda transformação.
+          </h1>
+
+          <!-- Descrição Editorial / Respiro Humano -->
+          <p class="hero-subtitle">
+            Um espaço seguro para acolher sua história, com rigor ético e sigilo profissional.
+          </p>
+
+          <!-- Grupo de Ações Primária e Secundária -->
+          <div class="hero-actions">
+            <a href="#contato" class="btn btn-primary hero-btn-cta">
+              <span>Agendar consulta</span>
+              <span class="hero-btn-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="#sobre" class="btn btn-secondary hero-btn-secondary">
+              <span>Conhecer a clínica</span>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Indicador de Rolagem Fluida (Scroll Cue Discreto) -->
+        <a href="#transicao-transformacao" class="hero-scroll-cue" aria-label="Rolar para a próxima seção">
+          <div class="hero-scroll-cue-mouse" aria-hidden="true">
+            <span class="hero-scroll-cue-wheel"></span>
+          </div>
+        </a>
       </div>
     </section>
 
@@ -1452,12 +1426,8 @@
     <span class="whatsapp-btn-tooltip">Atendimento On-line</span>
   </a>
 
-  <!-- GSAP & ScrollTrigger (Desktop) -->
-  <script src="js/gsap.min.js" defer></script>
-  <script src="js/ScrollTrigger.min.js" defer></script>
-
-  <!-- Motor Híbrido Unificado de Vídeo & Canvas -->
-  <script src="js/scroll-video.js?v=5.0" defer></script>
+  <!-- Hero Cinematográfico (Vídeo Contínuo e IntersectionObserver de Alto Desempenho) -->
+  <script src="js/hero-video.js?v=1.0" defer></script>
 
   <!-- Módulo de FAQ (Accordion e Categorias) -->
   <script src="js/faq.js?v=1.0" defer></script>

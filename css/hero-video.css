@@ -1,384 +1,326 @@
 /* ==========================================================================
-   HERO VIDEO CINEMÁTICO - GSAP SCROLLTRIGGER ENGINE
-   Pinning Nativo via GSAP + Scrubbing Fluido de Canvas WebP (Desktop)
-   Loop Fluido de Vídeo 60 FPS com Poster Fallback Imediato (Mobile)
+   PORTAL DA PSICOLOGIA — HERO CINEMATOGRÁFICO
+   Composição imersiva em vídeo otimizado, CSS puro e JavaScript mínimo.
+   Identidade: Verde Floresta Profundo, Dourado Nobre e Acolhimento Humano.
    ========================================================================== */
 
-/* Seção Principal do Hero (Pinada pelo GSAP no Desktop) */
-.hero-scroll-section {
+/* 1. SEÇÃO PRINCIPAL (VIEWPORT COMPLETA) */
+.hero-cinematic {
   position: relative;
   width: 100%;
   min-height: 100svh;
-  height: auto;
-  overflow: hidden;
-  background-color: #17241E;
-  z-index: 10;
-}
-
-/* Viewport Interna */
-.hero-sticky-viewport {
-  position: relative;
-  width: 100%;
-  min-height: 100svh;
-  overflow: hidden;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* Wrapper do Vídeo com isolamento de camada e aceleração por hardware */
-.hero-video-wrapper {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
+  background-color: #111B16;
+  color: #FAF9F6;
+  z-index: 2;
+}
+
+/* 2. MÍDIA DE FUNDO: VÍDEO CONTÍNUO & POSTER DE ALTA PERFORMANCE */
+.hero-media-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1;
-  contain: strict;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-.hero-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 46%;
+  overflow: hidden;
   pointer-events: none;
-  opacity: 0.80;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  display: block;
-  transition: opacity 0.5s ease-out;
-}
-
-.hero-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 46%;
-  pointer-events: none;
-  opacity: 0.80;
-  transform: translate3d(0, 0, 0);
   background-color: #0E1813;
-  background-image: url('../public/poster-respiro.webp');
+  transform: translateZ(0);
+}
+
+.hero-media-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 46%;
+  opacity: 0.82;
+  transform: translate3d(0, 0, 0);
+  background-image: url('../poster-respiro.webp');
   background-size: cover;
   background-position: center 46%;
   background-repeat: no-repeat;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform-origin: center center;
-  display: none; /* No desktop o Canvas 2D / WebP Sequence assume com zero jank */
-  transition: opacity 0.5s ease-out;
+  transition: opacity 0.8s ease-out;
 }
 
-@media (max-width: 767px) {
-  .hero-canvas {
-    display: none !important;
-  }
-  .hero-video {
-    display: block !important;
-  }
+[data-theme="dark"] .hero-media-video {
+  opacity: 0.72;
 }
 
-/* Vinheta Cinemática Suave: Garante Contraste na Tipografia sem Lavar a Imagem */
-.hero-vignette {
+/* 3. VINHETA CINEMÁTICA ATMOSFÉRICA
+   Equilíbrio sutil de contraste: fundo presente e nítido sem ofuscar o texto */
+.hero-cinematic-overlay {
   position: absolute;
   inset: 0;
-  background: 
-    radial-gradient(ellipse at center, rgba(18, 28, 23, 0.25) 0%, rgba(18, 28, 23, 0.55) 60%, rgba(18, 28, 23, 0.90) 100%),
-    linear-gradient(to bottom, rgba(18, 28, 23, 0.65) 0%, transparent 25%, transparent 70%, var(--color-background) 100%);
-  pointer-events: none;
   z-index: 2;
+  pointer-events: none;
+  background: 
+    radial-gradient(ellipse at center, rgba(14, 24, 19, 0.38) 0%, rgba(14, 24, 19, 0.64) 62%, rgba(14, 24, 19, 0.88) 100%),
+    linear-gradient(to bottom, rgba(14, 24, 19, 0.62) 0%, rgba(14, 24, 19, 0.16) 24%, rgba(14, 24, 19, 0.42) 70%, var(--color-background, #121D18) 100%);
   transform: translateZ(0);
-  backface-visibility: hidden;
 }
 
-/* Camadas Narrativas com Alto Respiro */
-.hero-narrative-stage {
-  position: absolute;
-  inset: 0;
+[data-theme="dark"] .hero-cinematic-overlay {
+  background: 
+    radial-gradient(ellipse at center, rgba(10, 16, 13, 0.42) 0%, rgba(10, 16, 13, 0.70) 62%, rgba(10, 16, 13, 0.92) 100%),
+    linear-gradient(to bottom, rgba(10, 16, 13, 0.70) 0%, rgba(10, 16, 13, 0.20) 24%, rgba(10, 16, 13, 0.50) 70%, var(--color-background, #0F1713) 100%);
+}
+
+/* 4. PALCO EDITORIAL: HIERARQUIA PURA E ESPAÇO NEGATIVO */
+.hero-stage {
+  position: relative;
   z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  padding: 2.5rem;
-}
-
-/* Kicker Editorial do Hero */
-.hero-brand-kicker {
-  display: inline-block;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--gold-light);
-  margin-bottom: 1.8rem;
-  opacity: 0.92;
-}
-
-/* Fases Tipográficas com Animação de Entrada Poética */
-.phase-layer {
-  position: absolute;
   width: 100%;
-  max-width: 900px;
-  text-align: center;
-  padding: 0 1.5rem;
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-              visibility 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  transform: translate3d(0, 12px, 0);
-  backface-visibility: hidden;
-}
-
-.phase-layer.active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translate3d(0, 0, 0);
-}
-
-.phase-tag {
-  display: inline-block;
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.26em;
-  color: var(--gold-light);
-  margin-bottom: 1.4rem;
-  font-weight: 600;
-  opacity: 0.95;
-}
-
-.phase-headline {
-  font-size: clamp(2.2rem, 4.5vw, 4rem);
-  font-weight: 400;
-  line-height: 1.24;
-  color: #FAF9F6;
-  letter-spacing: -0.025em;
-  text-shadow: 0 3px 24px rgba(0, 0, 0, 0.75);
-  text-wrap: balance;
-  margin-bottom: 2rem;
-}
-
-.phase-headline-poetic {
-  font-size: clamp(2rem, 3.8vw, 3.4rem);
-  font-style: italic;
-  font-weight: 300;
-  color: #F0EDE6;
-  max-width: 760px;
-  margin: 0 auto;
-}
-
-/* CTA Final do Hero: Espaçoso, Editorial e Não Encaixotado */
-.hero-cta-stage {
-  position: absolute;
-  width: 100%;
-  max-width: 800px;
-  text-align: center;
-  padding: clamp(1.8rem, 3.5vh, 2.8rem) clamp(1.2rem, 2.5vw, 2rem);
-  opacity: 0;
-  visibility: hidden;
-  transform: translate3d(0, 16px, 0);
-  transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
-              transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
-              visibility 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-  pointer-events: none;
-  z-index: 8;
-  backface-visibility: hidden;
-}
-
-.hero-cta-stage.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translate3d(0, 0, 0);
-  pointer-events: auto;
-}
-
-.hero-cta-title {
-  font-size: clamp(2.4rem, 4.4vw, 3.8rem);
-  font-weight: 400;
-  color: #FAF9F6;
-  margin-bottom: 1.2rem;
-  letter-spacing: -0.025em;
-  text-wrap: balance;
-  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
-}
-
-.hero-cta-desc {
-  font-size: 1.15rem;
-  color: #D1DCD6;
-  max-width: 580px;
-  margin: 0 auto clamp(1.2rem, 2.5vh, 2.5rem);
-  line-height: 1.65;
-  text-wrap: balance;
-}
-
-.hero-cta-buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.4rem;
-  flex-wrap: wrap;
-}
-
-.hero-cta-buttons .btn-primary {
-  background: linear-gradient(135deg, #C5A880 0%, #8F7249 100%);
-  color: #17241E;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-
-.hero-cta-buttons .btn-primary:hover {
-  background: linear-gradient(135deg, #FAF9F6 0%, #C5A880 100%);
-  color: #121D18;
-}
-
-.hero-cta-buttons .btn-secondary {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #FAF9F6;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.hero-cta-buttons .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.22);
-  color: #FFFFFF;
-}
-
-/* Indicador de Scroll */
-.scroll-indicator {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
+  min-height: 100svh;
+  min-height: 100vh;
+  padding: calc(var(--header-height, 74px) + 2rem) 1.5rem 2.8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
-  pointer-events: none;
-  opacity: 1;
-  transition: opacity 0.4s ease-out;
+  justify-content: center;
+  text-align: center;
 }
 
-.scroll-indicator.hidden {
-  opacity: 0;
+.hero-container {
+  max-width: 840px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.scroll-indicator-text {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  color: #A2B5AC;
-  font-weight: 500;
+/* Título Principal — Presença Nobre sem Dominar Desproporcionalmente */
+.hero-headline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(2.15rem, 4vw, 3.35rem);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.028em;
+  color: #FAF9F6;
+  margin: 0 auto 1.35rem;
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.70);
+  text-wrap: balance;
+  max-width: 780px;
 }
 
-.scroll-indicator-line {
-  width: 1px;
-  height: 32px;
-  background: linear-gradient(to bottom, var(--gold-primary), transparent);
-  position: relative;
-  overflow: hidden;
+/* Mensagem Curta e Acolhedora */
+.hero-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.02rem, 1.35vw, 1.16rem);
+  font-weight: 400;
+  line-height: 1.65;
+  color: #D3DFD8;
+  max-width: 560px;
+  margin: 0 auto 2.5rem;
+  text-wrap: balance;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.60);
 }
 
-.scroll-indicator-line::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #FAF9F6;
-  animation: scrollDrop 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-}
-
-@keyframes scrollDrop {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
-}
-
-/* Loading Spinner */
-.video-loading-state {
-  position: absolute;
-  inset: 0;
+/* 5. AÇÕES COM CLARA DIFERENCIAÇÃO HIERÁRQUICA */
+.hero-actions {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #17241E;
-  z-index: 3;
-  transition: opacity 0.4s ease-out;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.2rem;
 }
 
-.video-loading-state.loaded {
-  opacity: 0;
-  pointer-events: none;
+/* CTA Principal — Destaque Prioritário */
+.hero-btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.92rem 2.25rem;
+  font-size: 0.98rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill, 9999px);
+  background: linear-gradient(135deg, #C5A880 0%, #A3845B 100%);
+  color: #121D18 !important;
+  border: 1px solid rgba(255, 245, 225, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32), 0 0 16px rgba(197, 168, 128, 0.20);
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
-.loading-spinner {
-  width: 32px;
-  height: 32px;
-  border: 2px solid rgba(181, 149, 103, 0.25);
-  border-top-color: var(--gold-primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.hero-btn-cta:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #E3D5C0 0%, #C5A880 100%);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.42), 0 0 22px rgba(197, 168, 128, 0.32);
+  color: #0E1813 !important;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.hero-btn-arrow {
+  display: inline-block;
+  font-size: 1.15rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
 }
 
-/* Story Sections Mobile Track (Oculto no Desktop) */
-.mobile-story-track {
-  display: none;
+.hero-btn-cta:hover .hero-btn-arrow {
+  transform: translateX(3px);
 }
 
+/* CTA Secundário — Estilo Ghost/Outline Discreto sem Competir com o Principal */
+.hero-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.92rem 1.85rem;
+  font-size: 0.95rem;
+  font-weight: 450;
+  border-radius: var(--radius-pill, 9999px);
+  background: transparent;
+  color: rgba(250, 249, 246, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.hero-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.38);
+  color: #FFFFFF !important;
+  transform: translateY(-2px);
+}
+
+/* 6. INDICADOR DE ROLAGEM VISUAL DISCRETO E ELEGANTE */
+.hero-scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(162, 181, 172, 0.65);
+  text-decoration: none;
+  margin-top: 1.25rem;
+  transition: color 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
+  opacity: 0.80;
+}
+
+.hero-scroll-cue:hover {
+  color: var(--gold-light, #FAF9F6);
+  opacity: 1;
+  transform: translateY(3px);
+}
+
+.hero-scroll-cue-mouse {
+  width: 22px;
+  height: 34px;
+  border: 2px solid rgba(197, 168, 128, 0.45);
+  border-radius: 12px;
+  position: relative;
+}
+
+.hero-scroll-cue-wheel {
+  width: 3px;
+  height: 6px;
+  background: var(--gold-light, #FAF9F6);
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: mouseWheelDrop 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes mouseWheelDrop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+    transform: translate(-50%, 12px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 16px);
+  }
+}
+
+/* 8. ADAPTAÇÃO RESPONSIVA IMPECÁVEL */
 @media (max-width: 768px) {
-  .hero-video {
-    object-position: center 48%;
+  .hero-stage {
+    padding: calc(var(--header-height, 68px) + 1.8rem) 1.25rem 2.5rem;
   }
 
-  .hero-cta-stage {
-    padding: 2.2rem 1.4rem;
-    width: 92%;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: rgba(23, 36, 30, 0.98);
+  .hero-headline {
+    font-size: clamp(1.9rem, 7.6vw, 2.7rem);
+    line-height: 1.22;
+    margin-bottom: 1.1rem;
   }
 
-  .hero-cta-buttons {
+  .hero-subtitle {
+    font-size: 1.02rem;
+    line-height: 1.62;
+    margin-bottom: 2rem;
+  }
+
+  .hero-actions {
     flex-direction: column;
     width: 100%;
+    max-width: 320px;
+    gap: 0.9rem;
+    margin-bottom: 2rem;
   }
 
-  .hero-cta-buttons .btn {
+  .hero-btn-cta,
+  .hero-btn-secondary {
     width: 100%;
+    justify-content: center;
+    padding: 0.9rem 1.6rem;
   }
 
-  .phase-headline {
-    text-shadow: none;
+  .hero-scroll-cue {
+    display: none; /* Em telas compactas, economiza altura para manter foco imediato nas ações */
   }
 }
 
-/* Suporte a Redução de Movimento */
+@media (max-width: 900px) and (orientation: landscape) {
+  .hero-cinematic {
+    min-height: 100svh;
+  }
+
+  .hero-stage {
+    padding: 4.5rem 1.5rem 2rem;
+  }
+
+  .hero-headline {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .hero-actions {
+    margin-bottom: 1.2rem;
+  }
+
+  .hero-scroll-cue {
+    display: none;
+  }
+}
+
+/* 9. ACESSIBILIDADE & PREFERÊNCIA POR REDUÇÃO DE MOVIMENTO */
 @media (prefers-reduced-motion: reduce) {
-  .hero-canvas,
-  .hero-video,
-  .phase-layer,
-  .hero-cta-stage,
-  .scroll-indicator-line::after,
-  .loading-spinner {
-    animation: none !important;
+  .hero-media-video {
     transition: none !important;
+  }
+
+  .hero-scroll-cue-wheel {
+    animation: none !important;
   }
 }

@@ -31,8 +31,9 @@ app.get('/sitemap.xml', (req, res) => {
 // Serve static assets from root directory with no-cache headers for instant preview updates
 app.use(express.static(path.join(__dirname), {
   setHeaders: (res, filePath) => {
-    if (filePath.endsWith('.mp4')) {
+    if (filePath.endsWith('.mp4') || filePath.endsWith('.webm')) {
       res.setHeader('Accept-Ranges', 'bytes');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
     } else {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       res.setHeader('Pragma', 'no-cache');
