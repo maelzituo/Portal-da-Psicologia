@@ -155,6 +155,16 @@
       contactWaLink.href = clinic.getWhatsAppUrl('general');
       contactWaLink.textContent = clinic.whatsappDisplay;
     }
+
+    // Atualiza links de e-mail institucionais
+    if (clinic.email) {
+      document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+        link.href = `mailto:${clinic.email}`;
+        if (link.textContent.includes('@')) {
+          link.textContent = clinic.emailDisplay || clinic.email;
+        }
+      });
+    }
   }
 
   if (document.readyState === 'loading') {

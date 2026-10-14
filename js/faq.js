@@ -13,14 +13,14 @@
     {
       id: 1,
       category: 'atendimento',
-      question: 'Como funciona o atendimento psicológico online?',
+      question: 'Como funciona o atendimento psicológico on-line?',
       answer: 'O atendimento é realizado por videochamada, em um ambiente virtual reservado e com horário previamente agendado. O paciente pode realizar a sessão de onde estiver, desde que esteja em um local tranquilo e com privacidade.'
     },
     {
       id: 2,
       category: 'atendimento',
-      question: 'Quem pode fazer terapia online?',
-      answer: 'O atendimento psicológico online pode ser realizado por pessoas que desejam cuidar da saúde emocional, compreender melhor suas dificuldades, desenvolver estratégias para lidar com situações da vida ou simplesmente buscar maior qualidade de vida.'
+      question: 'Quem pode fazer terapia on-line?',
+      answer: 'O atendimento psicológico on-line pode ser realizado por pessoas que desejam cuidar da saúde emocional, compreender melhor suas dificuldades, desenvolver estratégias para lidar com situações da vida ou simplesmente buscar maior qualidade de vida.'
     },
     {
       id: 3,
@@ -32,13 +32,13 @@
       id: 4,
       category: 'atendimento',
       question: 'Quanto tempo dura cada sessão?',
-      answer: 'As sessões têm duração de 45 minutos.'
+      answer: 'As sessões têm duração de 40 minutos por sessão.'
     },
     {
       id: 5,
       category: 'atendimento',
       question: 'Com que frequência devo fazer terapia?',
-      answer: 'A frequência é definida em conjunto com o profissional, considerando as necessidades e o momento de cada pessoa. Em muitos processos, encontros semanais podem favorecer a continuidade e o aprofundamento do acompanhamento.'
+      answer: 'A frequência semanal é a mais indicada para o acompanhamento psicológico, pois favorece a continuidade do processo, a construção de vínculo terapêutico e o aprofundamento das questões trabalhadas em sessão. Para que a terapia produza resultados consistentes, é fundamental o engajamento genuíno do paciente, com disponibilidade para refletir sobre suas experiências e participar ativamente do próprio processo de desenvolvimento.'
     },
     {
       id: 6,
@@ -79,7 +79,7 @@
       answer: 'A relação entre paciente e profissional é muito importante para o processo terapêutico. Caso você sinta que o profissional ou a abordagem não estão adequados às suas necessidades, converse com a clínica para avaliar as possibilidades de encaminhamento.'
     },
 
-    // --- Grupo 3: Sobre o Atendimento Online (12 a 14) ---
+    // --- Grupo 3: Sobre o Atendimento On-line (12 a 14) ---
     {
       id: 12,
       category: 'online',

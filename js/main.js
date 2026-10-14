@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (typeof ClinicData !== 'undefined' && ClinicData.clinic) {
         whatsappUrl = ClinicData.clinic.getWhatsAppUrl('form', { name, phone, demand, shift });
       } else {
-        const message = `*Solicitação de Agendamento - Portal da Psicologia*\n\nOlá! Gostaria de agendar uma consulta psicológica online.\n\n- *Nome:* ${name}\n- *WhatsApp:* ${phone}\n- *Motivo / Objetivo:* ${demand}\n- *Período Preferencial:* ${shift}\n- *Modalidade:* Atendimento 100% Online\n\nAguardo informações sobre horários disponíveis. Obrigado(a)!`;
+        const message = `*Solicitação de Agendamento — Portal da Psicologia*\n\nOlá! Gostaria de agendar uma consulta psicológica on-line.\n\n• *Nome:* ${name}\n• *WhatsApp:* ${phone}\n• *Motivo / Objetivo:* ${demand}\n• *Melhor Período:* ${shift}\n• *Modalidade:* Atendimentos exclusivamente on-line, para todo o Brasil.\n\nAguardo informações sobre horários disponíveis. Obrigado(a)!`;
         whatsappUrl = `https://wa.me/5551992509187?text=${encodeURIComponent(message)}`;
       }
 

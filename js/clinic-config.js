@@ -27,25 +27,25 @@
   const CLINIC_CONFIG = {
     // Identidade
     name: "Portal da Psicologia",
-    legalName: "Portal da Psicologia",
+    legalName: "Portal da Psicologia Serviços Psicológicos Ltda.",
     cnpj: "67.751.242/0001-98",
     tagline: "Centro de atendimento psicológico, psicoterapia e desenvolvimento humano.",
-    description: "Atendimento psicológico online para todo o Brasil, pautado pelo sigilo ético, escuta qualificada e acolhimento singular.",
+    description: "Atendimento psicológico on-line para todo o Brasil, pautado pelo sigilo ético, escuta qualificada e acolhimento singular.",
     
     // Contato Oficial (Centralizado — Altere aqui para atualizar todos os links do site)
     whatsappNumber: "5551992509187", // Apenas dígitos com código do país (5551992509187)
     whatsappDisplay: "(51) 99250-9187",
-    email: "contato@portaldapsicologia.com.br",
-    emailDisplay: "contato@portaldapsicologia.com.br",
+    email: "contato@portaldapsicoclinica.com.br",
+    emailDisplay: "contato@portaldapsicoclinica.com.br",
     instagram: "https://instagram.com",
     instagramUrl: "https://instagram.com",
     
     // Localização & Modalidade
     city: "Porto Alegre",
     state: "RS",
-    address: "Atendimento Exclusivamente Online",
-    modality: "Atendimento Exclusivamente Online (Todo o Brasil)",
-    serviceHours: "Segunda a Sexta-feira, horários sob agendamento",
+    address: "Avenida Carlos Gomes, nº 700, Boa Vista, Porto Alegre, RS.",
+    modality: "Atendimentos exclusivamente on-line, para todo o Brasil.",
+    serviceHours: "Segunda-feira a sexta-feira, das 08h às 19h.",
     appointmentPlatform: "Videochamada privativa através de link enviado previamente (sem necessidade de instalação de aplicativos)",
     
     // Mensagem de Boas-Vindas Oficial do WhatsApp Business
@@ -53,19 +53,19 @@
 
     // Mensagens Pré-formatadas e Contextuais para o WhatsApp
     messages: {
-      scheduling: "Olá! Gostaria de informações sobre horários disponíveis para agendamento de consulta psicológica online.",
-      questions: "Olá! Gostaria de esclarecer uma dúvida sobre o atendimento psicológico online no Portal da Psicologia.",
+      scheduling: "Olá! Gostaria de informações sobre horários disponíveis para agendamento de consulta psicológica on-line.",
+      questions: "Olá! Gostaria de esclarecer uma dúvida sobre o atendimento psicológico on-line no Portal da Psicologia.",
       general: "Olá! Gostaria de mais informações sobre os atendimentos da clínica.",
       privacy: "Olá! Gostaria de esclarecer uma dúvida sobre privacidade e tratamento de dados no Portal da Psicologia.",
       teamContact: (profName) => `Olá! Gostaria de verificar a disponibilidade de atendimento com o profissional ${profName}.`,
       formSubmission: (data) => {
         return `*Solicitação de Agendamento — Portal da Psicologia*\n\n` +
-               `Olá! Gostaria de agendar uma consulta psicológica online.\n\n` +
+               `Olá! Gostaria de agendar uma consulta psicológica on-line.\n\n` +
                `• *Nome:* ${data.name || '[Não informado]'}\n` +
                `• *WhatsApp:* ${data.phone || '[Não informado]'}\n` +
                `• *Motivo / Objetivo:* ${data.demand || 'Psicoterapia Individual'}\n` +
                `• *Melhor Período:* ${data.shift || 'Horário Flexível'}\n` +
-               `• *Modalidade:* Atendimento 100% Online\n\n` +
+               `• *Modalidade:* Atendimentos exclusivamente on-line, para todo o Brasil.\n\n` +
                `Aguardo orientações sobre disponibilidade de horários. Obrigado(a)!`;
       }
     },
