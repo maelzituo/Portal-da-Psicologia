@@ -78,7 +78,17 @@
         "@type": "Person",
         "name": "Filipi Morais",
         "jobTitle": "Psicólogo Clínico",
-        "description": "Psicólogo clínico (CRP 07/43751) especialista em Psicologia e Saúde Mental, Avaliação Psicológica e Sexologia Clínica com abordagem psicanalítica."
+        "description": "Psicólogo clínico (CRP 07/43751) especialista em Psicologia e Saúde Mental, Avaliação psicológica e Sexologia Clínica com abordagem em Psicanálise."
+      },
+      {
+        "@type": "Person",
+        "name": "Carolina Poliane Schirmer Ferreira",
+        "description": "Psicóloga (CRP 08/45487) com abordagem em Terapia Cognitivo-Comportamental (TCC) e foco em Psicodiagnóstico."
+      },
+      {
+        "@type": "Person",
+        "name": "Thaiana Veronese Allonso",
+        "description": "Psicóloga (CRP 07/43554) com abordagem em Terapia Cognitivo-Comportamental (TCC) e Psicologia Social."
       }
     ]
   }
@@ -878,11 +888,28 @@
           </p>
         </div>
 
-        <div class="team-grid" id="team-grid">
+        <div class="team-grid team-multi" id="team-grid" data-count="3">
           
-          <article class="team-card" data-prof-id="1">
-            <div class="team-photo-wrap">
-              <img src="public/foto-filipi.jpeg" alt="Filipi Morais — Psicólogo Clínico" class="team-photo-img" loading="lazy" width="640" height="640">
+          <!-- PROFISSIONAL 1 — FILIPI MORAIS -->
+          <article class="team-card" data-prof-id="filipi-morais">
+            <div class="team-photo-wrap" data-reserved-photo="public/foto-filipi.jpeg">
+              <img src="public/foto-filipi.jpeg" 
+                   alt="Filipi Morais — Psicólogo Clínico" 
+                   class="team-photo-img" 
+                   loading="lazy" 
+                   width="640" 
+                   height="640"
+                   onload="this.classList.add('is-loaded');"
+                   onerror="this.style.display='none';">
+              <div class="team-photo-placeholder" role="img" aria-label="Espaço reservado para fotografia de Filipi Morais">
+                <div class="team-placeholder-inner">
+                  <div class="team-placeholder-avatar">
+                    <span class="team-monogram">FM</span>
+                  </div>
+                  <span class="team-placeholder-label">Espaço Reservado para Fotografia</span>
+                  <span class="team-placeholder-target"><code>public/foto-filipi.jpeg</code></span>
+                </div>
+              </div>
             </div>
             <div class="team-info">
               <h3 class="team-name">Filipi Morais</h3>
@@ -906,7 +933,7 @@
                 <h4 class="team-editorial-title">Especializações</h4>
                 <ul class="team-specializations-list">
                   <li>Psicologia e Saúde Mental</li>
-                  <li>Avaliação Psicológica</li>
+                  <li>Avaliação psicológica</li>
                   <li>Sexologia Clínica</li>
                 </ul>
               </div>
@@ -915,9 +942,131 @@
                 <a href="https://wa.me/5551992509187?text=Ol%C3%A1!%20Gostaria%20de%20verificar%20a%20disponibilidade%20de%20atendimento%20com%20o%20profissional%20Filipi%20Morais." 
                    class="btn btn-secondary team-contact-btn" 
                    data-wa-context="team"
+                   data-wa-prof="Filipi Morais"
                    target="_blank" 
                    rel="noopener noreferrer" 
                    aria-label="Consultar disponibilidade com Filipi Morais">
+                  <span>Consultar Disponibilidade</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROFISSIONAL 2 — CAROLINA POLIANE SCHIRMER FERREIRA -->
+          <article class="team-card" data-prof-id="carolina-poliane">
+            <div class="team-photo-wrap" data-reserved-photo="public/foto-carolina.jpeg">
+              <!-- Espaço reservado: adicione a foto em public/foto-carolina.jpeg para exibir automaticamente -->
+              <img src="public/foto-carolina.jpeg" 
+                   alt="Carolina Poliane Schirmer Ferreira" 
+                   class="team-photo-img" 
+                   loading="lazy" 
+                   width="640" 
+                   height="640"
+                   onload="this.classList.add('is-loaded');"
+                   onerror="this.style.display='none';">
+              <div class="team-photo-placeholder" role="img" aria-label="Espaço reservado para fotografia de Carolina Poliane Schirmer Ferreira">
+                <div class="team-placeholder-inner">
+                  <div class="team-placeholder-avatar">
+                    <span class="team-monogram">CP</span>
+                  </div>
+                  <span class="team-placeholder-label">Espaço Reservado para Fotografia</span>
+                  <span class="team-placeholder-target"><code>public/foto-carolina.jpeg</code></span>
+                </div>
+              </div>
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">Carolina Poliane Schirmer Ferreira</h3>
+              
+              <div class="team-identification">
+                <span class="team-crp-text"><strong>CRP:</strong> 08/45487</span>
+              </div>
+
+              <div class="team-approach">
+                <strong>Abordagem:</strong> Terapia Cognitivo-Comportamental (TCC)
+              </div>
+
+              <div class="team-editorial-block">
+                <h4 class="team-editorial-title">Sobre mim</h4>
+                <p class="team-about-text">Psicóloga formada desde o ano de 2016. Atuo na área da saúde mental/clínica com o foco em Psicodiagnóstico. Acredito que todo sofrimento pode ser escutado, trabalhado e com o tempo podemos modificá-lo juntos. Meu trabalho é baseado na escuta humanizada, buscando ter um vínculo terapêutico sólido e de muita confiança, embasado no sigilo e na ética profissional.</p>
+              </div>
+
+              <div class="team-editorial-block">
+                <h4 class="team-editorial-title">Especialização</h4>
+                <ul class="team-specializations-list">
+                  <li>Terapia Cognitivo-Comportamental (TCC)</li>
+                </ul>
+              </div>
+
+              <div class="team-card-actions">
+                <a href="https://wa.me/5551992509187?text=Ol%C3%A1!%20Gostaria%20de%20verificar%20a%20disponibilidade%20de%20atendimento%20com%20o%20profissional%20Carolina%20Poliane%20Schirmer%20Ferreira." 
+                   class="btn btn-secondary team-contact-btn" 
+                   data-wa-context="team"
+                   data-wa-prof="Carolina Poliane Schirmer Ferreira"
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   aria-label="Consultar disponibilidade com Carolina Poliane Schirmer Ferreira">
+                  <span>Consultar Disponibilidade</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROFISSIONAL 3 — THAIANA VERONESE ALLONSO -->
+          <article class="team-card" data-prof-id="thaiana-veronese">
+            <div class="team-photo-wrap" data-reserved-photo="public/foto-thaiana.jpeg">
+              <!-- Espaço reservado: adicione a foto em public/foto-thaiana.jpeg para exibir automaticamente -->
+              <img src="public/foto-thaiana.jpeg" 
+                   alt="Thaiana Veronese Allonso" 
+                   class="team-photo-img" 
+                   loading="lazy" 
+                   width="640" 
+                   height="640"
+                   onload="this.classList.add('is-loaded');"
+                   onerror="this.style.display='none';">
+              <div class="team-photo-placeholder" role="img" aria-label="Espaço reservado para fotografia de Thaiana Veronese Allonso">
+                <div class="team-placeholder-inner">
+                  <div class="team-placeholder-avatar">
+                    <span class="team-monogram">TV</span>
+                  </div>
+                  <span class="team-placeholder-label">Espaço Reservado para Fotografia</span>
+                  <span class="team-placeholder-target"><code>public/foto-thaiana.jpeg</code></span>
+                </div>
+              </div>
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">Thaiana Veronese Allonso</h3>
+              
+              <div class="team-identification">
+                <span class="team-crp-text"><strong>CRP:</strong> 07/43554</span>
+              </div>
+
+              <div class="team-approach">
+                <strong>Abordagem:</strong> Terapia Cognitivo-Comportamental (TCC)
+              </div>
+
+              <div class="team-editorial-block">
+                <h4 class="team-editorial-title">Sobre mim</h4>
+                <p class="team-about-text">Minha prática é orientada pela Terapia Cognitivo-Comportamental (TCC) e atravessada pela Psicologia Social, integrando conhecimento científico, compreensão da história de vida e acolhimento. Acredito em uma psicologia que une técnica e afeto, respeitando a singularidade de cada pessoa e suas diferentes formas de existir e sentir.</p>
+              </div>
+
+              <div class="team-editorial-block">
+                <h4 class="team-editorial-title">Especializações</h4>
+                <ul class="team-specializations-list">
+                  <li>Psicologia de Grupos</li>
+                  <li>Psicologia Social</li>
+                  <li>Saúde da Mulher</li>
+                  <li>Orientação Parental</li>
+                </ul>
+              </div>
+
+              <div class="team-card-actions">
+                <a href="https://wa.me/5551992509187?text=Ol%C3%A1!%20Gostaria%20de%20verificar%20a%20disponibilidade%20de%20atendimento%20com%20o%20profissional%20Thaiana%20Veronese%20Allonso." 
+                   class="btn btn-secondary team-contact-btn" 
+                   data-wa-context="team"
+                   data-wa-prof="Thaiana Veronese Allonso"
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   aria-label="Consultar disponibilidade com Thaiana Veronese Allonso">
                   <span>Consultar Disponibilidade</span>
                 </a>
               </div>

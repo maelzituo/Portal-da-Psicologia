@@ -46,36 +46,74 @@
     }
 
     teamGrid.innerHTML = professionals.map((prof, index) => {
-      const hasPhoto = prof.photo && typeof prof.photo === 'string' && prof.photo.trim() !== '';
+      const hasPhoto = Boolean(prof.photo && typeof prof.photo === 'string' && prof.photo.trim() !== '');
+      const photoSrc = hasPhoto ? sanitize(prof.photo) : '';
       const name = sanitize(prof.name);
       const crp = sanitize(prof.crp);
-      const profession = sanitize(prof.profession || prof.professionalTitle || 'Psicólogo Clínico');
+      const hasProfession = Boolean(prof.profession || prof.professionalTitle);
+      const profession = hasProfession ? sanitize(prof.profession || prof.professionalTitle) : '';
       const approach = sanitize(prof.approach || '');
       const aboutTitle = sanitize(prof.aboutTitle || 'Sobre mim');
       const about = sanitize(prof.about || prof.bio || '');
-      const specializationsTitle = sanitize(prof.specializationsTitle || 'Especializações');
       const specializations = Array.isArray(prof.specializations) 
         ? prof.specializations 
         : (Array.isArray(prof.specialties) ? prof.specialties : []);
-      
-      const photoSrc = hasPhoto ? sanitize(prof.photo) : '';
+      const specializationsTitle = sanitize(
+        prof.specializationsTitle || (specializations.length === 1 ? 'Especialização' : 'Especializações')
+      );
 
-      // Avatar com monograma editorial nobre se a foto não estiver definida
+      // Iniciais para monograma editorial do espaço reservado
       const initials = name.split(' ').filter(Boolean).map(n => n[0]).slice(0, 2).join('').toUpperCase();
-      const photoHtml = hasPhoto
-        ? `<img src="${photoSrc}" alt="${name} — ${profession}" class="team-photo-img" loading="lazy" width="640" height="640">`
+      const photoAlt = hasProfession ? `${name} — ${profession}` : name;
+
+      // 1. Fotografia ou espaço reservado estruturado
+      const photoHtml = `
+        <div class="team-photo-wrap" data-reserved-photo="${photoSrc}">
+          ${photoSrc ? `
+            <img src="${photoSrc}" 
+                 alt="${photoAlt}" 
+                 class="team-photo-img" 
+                 loading="lazy" 
+                 width="640" 
+                 height="640"
+                 onload="this.classList.add('is-loaded');"
+                 onerror="this.style.display='none';">
+          ` : ''}
+          <div class="team-photo-placeholder" role="img" aria-label="Espaço reservado para fotografia de ${name}">
+            <div class="team-placeholder-inner">
+              <div class="team-placeholder-avatar">
+                <span class="team-monogram">${initials}</span>
+              </div>
+              <span class="team-placeholder-label">Espaço Reservado para Fotografia</span>
+              <span class="team-placeholder-target"><code>${photoSrc || 'public/foto.jpeg'}</code></span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // 3. CRP e título profissional, estritamente quando informado
+      const identificationHtml = hasProfession
+        ? `
+          <div class="team-identification">
+            <span class="team-crp-text"><strong>CRP:</strong> ${crp}</span>
+            <span class="team-id-separator" aria-hidden="true">·</span>
+            <span class="team-profession-text"><strong>${profession}</strong></span>
+          </div>
+        `
         : `
-          <div class="team-avatar-placeholder" aria-label="${name}">
-            <span class="team-monogram">${initials || 'PP'}</span>
+          <div class="team-identification">
+            <span class="team-crp-text"><strong>CRP:</strong> ${crp}</span>
           </div>
         `;
 
+      // 4. Abordagem terapêutica
       const approachHtml = approach ? `
         <div class="team-approach">
           <strong>Abordagem:</strong> ${approach}
         </div>
       ` : '';
 
+      // 5. Seção Sobre mim (integral e sem truncamento)
       const aboutHtml = about ? `
         <div class="team-editorial-block">
           <h4 class="team-editorial-title">${aboutTitle}</h4>
@@ -83,6 +121,7 @@
         </div>
       ` : '';
 
+      // 6. Especializações, quando disponíveis
       const specializationsHtml = specializations.length > 0
         ? `
           <div class="team-editorial-block">
@@ -96,18 +135,10 @@
 
       return `
         <article class="team-card" data-prof-id="${prof.id || index + 1}">
-          <div class="team-photo-wrap">
-            ${photoHtml}
-          </div>
+          ${photoHtml}
           <div class="team-info">
             <h3 class="team-name">${name}</h3>
-            
-            <div class="team-identification">
-              <span class="team-crp-text"><strong>CRP:</strong> ${crp}</span>
-              <span class="team-id-separator" aria-hidden="true">·</span>
-              <span class="team-profession-text"><strong>${profession}</strong></span>
-            </div>
-
+            ${identificationHtml}
             ${approachHtml}
             ${aboutHtml}
             ${specializationsHtml}
@@ -115,6 +146,8 @@
             <div class="team-card-actions">
               <a href="${ClinicData.clinic.getWhatsAppUrl('team', { name: name })}" 
                  class="btn btn-secondary team-contact-btn" 
+                 data-wa-context="team"
+                 data-wa-prof="${name}"
                  target="_blank" 
                  rel="noopener noreferrer" 
                  aria-label="Consultar disponibilidade com ${name}">

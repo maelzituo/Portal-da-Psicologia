@@ -28,6 +28,17 @@ app.get('/sitemap.xml', (req, res) => {
   res.sendFile(path.join(__dirname, 'sitemap.xml'));
 });
 
+const fs = require('fs');
+
+// Smart resolution for team photos and public assets (serves from /public or root)
+app.get('/public/:filename', (req, res, next) => {
+  const inPublic = path.join(__dirname, 'public', req.params.filename);
+  if (fs.existsSync(inPublic)) return res.sendFile(inPublic);
+  const inRoot = path.join(__dirname, req.params.filename);
+  if (fs.existsSync(inRoot)) return res.sendFile(inRoot);
+  next();
+});
+
 // Serve static assets from root directory with no-cache headers for instant preview updates
 app.use(express.static(path.join(__dirname), {
   setHeaders: (res, filePath) => {

@@ -115,10 +115,46 @@
       specializationsTitle: "Especializações",
       specializations: [
         "Psicologia e Saúde Mental",
-        "Avaliação Psicológica",
+        "Avaliação psicológica",
         "Sexologia Clínica"
       ],
+      // Local do arquivo de foto: public/foto-filipi.jpeg (Foto presente no projeto)
       photo: "public/foto-filipi.jpeg",
+      active: true
+    },
+    {
+      id: "carolina-poliane",
+      name: "Carolina Poliane Schirmer Ferreira",
+      crp: "08/45487",
+      profession: "", // Sem título adicional além das informações confirmadas
+      approach: "Terapia Cognitivo-Comportamental (TCC)",
+      aboutTitle: "Sobre mim",
+      about: "Psicóloga formada desde o ano de 2016. Atuo na área da saúde mental/clínica com o foco em Psicodiagnóstico. Acredito que todo sofrimento pode ser escutado, trabalhado e com o tempo podemos modificá-lo juntos. Meu trabalho é baseado na escuta humanizada, buscando ter um vínculo terapêutico sólido e de muita confiança, embasado no sigilo e na ética profissional.",
+      specializationsTitle: "Especialização",
+      specializations: [
+        "Terapia Cognitivo-Comportamental (TCC)"
+      ],
+      // Local do arquivo de foto: public/foto-carolina.jpeg (Espaço reservado: adicione a foto neste caminho para exibir automaticamente)
+      photo: "public/foto-carolina.jpeg",
+      active: true
+    },
+    {
+      id: "thaiana-veronese",
+      name: "Thaiana Veronese Allonso",
+      crp: "07/43554",
+      profession: "", // Sem título adicional além das informações confirmadas
+      approach: "Terapia Cognitivo-Comportamental (TCC)",
+      aboutTitle: "Sobre mim",
+      about: "Minha prática é orientada pela Terapia Cognitivo-Comportamental (TCC) e atravessada pela Psicologia Social, integrando conhecimento científico, compreensão da história de vida e acolhimento. Acredito em uma psicologia que une técnica e afeto, respeitando a singularidade de cada pessoa e suas diferentes formas de existir e sentir.",
+      specializationsTitle: "Especializações",
+      specializations: [
+        "Psicologia de Grupos",
+        "Psicologia Social",
+        "Saúde da Mulher",
+        "Orientação Parental"
+      ],
+      // Local do arquivo de foto: public/foto-thaiana.jpeg (Espaço reservado: adicione a foto neste caminho para exibir automaticamente)
+      photo: "public/foto-thaiana.jpeg",
       active: true
     }
   ];
