@@ -108,7 +108,6 @@
       id: "filipi-morais",
       name: "Filipi Morais",
       crp: "07/43751",
-      profession: "Psicólogo Clínico",
       approach: "Psicanálise",
       aboutTitle: "Sobre mim",
       about: "Acredito que o processo psicoterapêutico deve ser construído a partir da singularidade de cada pessoa, respeitando sua história, seus sentimentos, seus limites e suas necessidades. Meu trabalho é pautado pela ética profissional, pela escuta qualificada e por uma abordagem humana e acolhedora.",
