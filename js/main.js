@@ -238,4 +238,44 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // --- 7. ESTRUTURA INSTITUCIONAL (RESOLUÇÃO DA FOTO DA SEDE FORNECIDA) ---
+  const sedeImg = document.getElementById('institutional-photo');
+  const sedePlaceholder = document.getElementById('institutional-placeholder');
+
+  if (sedeImg && sedePlaceholder) {
+    const alternateCandidates = [
+      'public/sede portal.jpeg',
+      'public/sede%20portal.jpeg',
+      'sede portal.jpeg',
+      'public/foto-sede.jpeg',
+      'public/foto-sede.jpg',
+      'foto-sede.jpeg',
+      'foto-sede.jpg',
+      'public/sede-portal.jpeg',
+      'sede-portal.jpeg'
+    ];
+    let candidateIndex = 0;
+
+    function testNextCandidate() {
+      if (candidateIndex >= alternateCandidates.length) {
+        sedeImg.style.display = 'none';
+        sedePlaceholder.classList.add('is-visible');
+        return;
+      }
+      const candidateSrc = alternateCandidates[candidateIndex++];
+      const probe = new Image();
+      probe.onload = () => {
+        sedeImg.src = candidateSrc;
+        sedeImg.style.display = 'block';
+        sedeImg.style.opacity = '1';
+        sedePlaceholder.classList.remove('is-visible');
+      };
+      probe.onerror = testNextCandidate;
+    }
+
+    sedeImg.addEventListener('error', () => {
+      testNextCandidate();
+    });
+  }
 });

@@ -1528,9 +1528,13 @@ section[id] {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 10%;
+  object-position: center 15%;
   display: block;
   transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.team-photo-img.is-loaded + .team-photo-placeholder {
+  display: none;
 }
 
 .team-photo-placeholder {
@@ -1609,6 +1613,265 @@ section[id] {
   width: 100%;
   font-size: 0.88rem;
   padding: 0.75rem 1.25rem;
+}
+
+/* ==========================================================================
+   NOVA SEÇÃO INSTITUCIONAL: UM ESPAÇO PARA CUIDAR (SEDE & ESTRUTURA)
+/* ==========================================================================
+   NOVA SEÇÃO INSTITUCIONAL: UM ESPAÇO PARA CUIDAR (SEDE & ESTRUTURA)
+   Composição Editorial: Texto à Esquerda • Fotografia Vertical à Direita
+   Preservação Integral: 100% da Fotografia Original Visível (object-fit: contain)
+   ========================================================================== */
+.institutional-section {
+  position: relative;
+  background-color: var(--color-background);
+  overflow: hidden;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+[data-theme="dark"] .institutional-section {
+  background-color: var(--color-background);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.institutional-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  width: 100%;
+}
+
+.institutional-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 540px;
+}
+
+.institutional-content .section-tag {
+  margin-bottom: 1rem;
+}
+
+.institutional-title {
+  margin-bottom: 1.35rem;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+
+.institutional-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-primary);
+}
+
+.institutional-desc {
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.institutional-notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 1.25rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
+}
+
+[data-theme="dark"] .institutional-notice {
+  background: rgba(167, 191, 174, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.institutional-notice .online-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  box-shadow: 0 0 10px var(--gold-glow);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.institutional-notice-text {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-primary);
+}
+
+.institutional-media {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.institutional-image-frame {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  aspect-ratio: 683 / 1024;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 18px 42px -10px rgba(0, 0, 0, 0.14), 0 0 0 1px var(--glass-border);
+  background: var(--color-background-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+[data-theme="dark"] .institutional-image-frame {
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  background: #151D18;
+}
+
+.institutional-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  border-radius: inherit;
+  transition: transform 0.6s var(--ease-standard);
+}
+
+.institutional-image-frame:hover .institutional-image {
+  transform: scale(1.02);
+}
+
+/* Espaço reservado / Fallback nobre exibido apenas se a imagem não carregar */
+.institutional-placeholder {
+  display: none;
+  position: absolute;
+  inset: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(145deg, var(--color-background-secondary) 0%, var(--color-card-hover) 100%);
+  color: var(--text-secondary);
+  z-index: 1;
+}
+
+.institutional-placeholder.is-visible {
+  display: flex;
+}
+
+[data-theme="dark"] .institutional-placeholder {
+  background: linear-gradient(145deg, #131A16 0%, #1A241F 100%);
+}
+
+.institutional-placeholder-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  border: 1.5px solid rgba(197, 168, 128, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  margin-bottom: 0.25rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.institutional-placeholder-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.institutional-placeholder-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  max-width: 360px;
+  line-height: 1.5;
+}
+
+.institutional-placeholder-path {
+  margin-top: 0.5rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  background: rgba(197, 168, 128, 0.08);
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  border: 1px dashed rgba(197, 168, 128, 0.35);
+  font-family: monospace;
+}
+
+/* Responsividade Mobile e Tablet (Exigência do Usuário: < 992px vira coluna única) */
+@media (max-width: 991px) {
+  .institutional-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+    width: 100%;
+  }
+
+  .institutional-media {
+    order: 1;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .institutional-content {
+    order: 2;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .institutional-image-frame {
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 683 / 1024;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .institutional-grid {
+    gap: 1.75rem;
+  }
+
+  .institutional-title {
+    font-size: 1.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .institutional-desc {
+    font-size: 1rem;
+    line-height: 1.68;
+    margin-bottom: 1.5rem;
+  }
+
+  .institutional-image-frame {
+    max-width: min(100%, 340px);
+    aspect-ratio: 683 / 1024;
+  }
+
+  .institutional-notice {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ==========================================================================
@@ -2011,6 +2274,153 @@ textarea:focus-visible {
 .form-note svg {
   flex-shrink: 0;
   margin-top: 2px;
+}
+
+/* ==========================================================================
+   BLOCO INSTITUCIONAL: INFORMAÇÕES IMPORTANTES & RESPONSÁVEL TÉCNICA
+   ========================================================================== */
+.institutional-info-block {
+  padding: 4.5rem 0 4rem;
+  background-color: var(--color-background-secondary);
+  border-top: 1px solid var(--color-border);
+}
+
+[data-theme="dark"] .institutional-info-block {
+  background-color: #111714;
+  border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.institutional-info-container {
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Área: Atendimento em Situações de Crise */
+.crisis-notice-wrapper {
+  margin-bottom: 2rem;
+}
+
+.crisis-notice-tag {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.crisis-notice-title {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--text-primary);
+  margin-bottom: 0.85rem;
+}
+
+.crisis-notice-desc {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin-bottom: 0;
+}
+
+.crisis-phone-link {
+  display: inline-block;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  transition: all var(--transition-fast);
+}
+
+.crisis-phone-link:hover, .crisis-phone-link:focus-visible {
+  color: var(--color-accent);
+  background-color: var(--color-primary-soft);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.crisis-web-link {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast);
+}
+
+.crisis-web-link:hover, .crisis-web-link:focus-visible {
+  color: var(--color-accent);
+}
+
+/* Divisor Sutil */
+.institutional-info-divider {
+  width: 100%;
+  max-width: 380px;
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 2.25rem auto;
+  opacity: 0.8;
+}
+
+[data-theme="dark"] .institutional-info-divider {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Área: Responsável Técnica */
+.technical-lead-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.technical-lead-label {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.technical-lead-name {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0.2rem 0;
+  letter-spacing: -0.01em;
+}
+
+.technical-lead-crp {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+  .institutional-info-block {
+    padding: 3.5rem 0 3rem;
+  }
+
+  .crisis-notice-title {
+    font-size: 1.1rem;
+  }
+
+  .crisis-notice-desc {
+    font-size: 0.9rem;
+  }
+
+  .technical-lead-name {
+    font-size: 1.2rem;
+  }
 }
 
 /* ==========================================================================

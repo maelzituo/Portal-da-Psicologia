@@ -31,11 +31,41 @@ app.get('/sitemap.xml', (req, res) => {
 const fs = require('fs');
 
 // Smart resolution for team photos and public assets (serves from /public or root)
-app.get('/public/:filename', (req, res, next) => {
-  const inPublic = path.join(__dirname, 'public', req.params.filename);
+app.get('/public/:filename(*)', (req, res, next) => {
+  const decoded = decodeURIComponent(req.params.filename);
+  const inPublic = path.join(__dirname, 'public', decoded);
   if (fs.existsSync(inPublic)) return res.sendFile(inPublic);
-  const inRoot = path.join(__dirname, req.params.filename);
+  const inRoot = path.join(__dirname, decoded);
   if (fs.existsSync(inRoot)) return res.sendFile(inRoot);
+
+  // If filename is foto-sede or sede portal without exact extension match, test other extensions
+  if (decoded.startsWith('foto-sede') || decoded.toLowerCase().includes('sede')) {
+    const exts = ['.jpeg', '.jpg', '.png', '.webp'];
+    const baseNames = ['sede portal', 'foto-sede', 'sede-portal', decoded.replace(/\.[^/.]+$/, '')];
+    for (const base of baseNames) {
+      for (const ext of exts) {
+        const p = path.join(__dirname, 'public', `${base}${ext}`);
+        if (fs.existsSync(p)) return res.sendFile(p);
+        const r = path.join(__dirname, `${base}${ext}`);
+        if (fs.existsSync(r)) return res.sendFile(r);
+      }
+    }
+  }
+  next();
+});
+
+// Direct route for /foto-sede, /sede portal, /sede-portal with smart extension lookup
+app.get(['/foto-sede', '/foto-sede.*', '/sede-portal', '/sede-portal.*', '/sede', '/sede.*', '/sede%20portal*', '/sede portal*'], (req, res, next) => {
+  const exts = ['.jpeg', '.jpg', '.png', '.webp'];
+  const baseNames = ['sede portal', 'foto-sede', 'sede-portal'];
+  for (const base of baseNames) {
+    for (const ext of exts) {
+      const pub = path.join(__dirname, 'public', `${base}${ext}`);
+      if (fs.existsSync(pub)) return res.sendFile(pub);
+      const root = path.join(__dirname, `${base}${ext}`);
+      if (fs.existsSync(root)) return res.sendFile(root);
+    }
+  }
   next();
 });
 

@@ -159,8 +159,33 @@
     }
   ];
 
+  // ============================================================================
+  // 3. ESTRUTURA INSTITUCIONAL (SEDE & SUPORTE CLÍNICO)
+  // ============================================================================
+  const INSTITUTIONAL_CONFIG = {
+    tag: "Estrutura Institucional",
+    title: "Um espaço para cuidar.",
+    description: "O Portal da Psicologia reúne profissionais comprometidos com uma prática ética, acolhedora e baseada em conhecimento científico. Nossa estrutura foi pensada para oferecer suporte aos profissionais e contribuir para uma experiência de atendimento de qualidade.",
+    notice: "Atendimentos exclusivamente on-line.",
+    // Caminho da fotografia da sede (carregamento automático em public/ ou raiz)
+    photo: "public/sede portal.jpeg",
+    alt: "Estrutura e sede institucional do Portal da Psicologia"
+  };
+
+  // ============================================================================
+  // 4. RESPONSÁVEL TÉCNICA (Referência direta à mesma profissional da equipe)
+  // ============================================================================
+  const thaiana = PROFESSIONALS_CONFIG.find(p => p.id === "thaiana-veronese") || PROFESSIONALS_CONFIG[2];
+  const TECHNICAL_LEAD_CONFIG = {
+    role: "Psicóloga Responsável Técnica",
+    name: thaiana.name,
+    crp: thaiana.crp
+  };
+
   return {
     clinic: CLINIC_CONFIG,
-    professionals: PROFESSIONALS_CONFIG
+    professionals: PROFESSIONALS_CONFIG,
+    institutional: INSTITUTIONAL_CONFIG,
+    technicalLead: TECHNICAL_LEAD_CONFIG
   };
 }));

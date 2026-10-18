@@ -595,6 +595,65 @@
 
 
     <!-- ========================================================================
+         3.1 ESTRUTURA INSTITUCIONAL ("UM ESPAÇO PARA CUIDAR")
+         Apresenta a sede institucional com rigor arquitetônico e sobriedade,
+         reforçando o suporte técnico ao corpo clínico e o modelo exclusivamente on-line.
+         Composição editorial: Texto institucional (45-50%) e Fotografia da Sede (50-55%).
+         ======================================================================== -->
+    <section class="section-padding institutional-section" id="institucional" aria-labelledby="institutional-heading">
+      <div class="container">
+        <div class="institutional-grid">
+          
+          <!-- Conteúdo Textual Institucional -->
+          <div class="institutional-content">
+            <span class="section-tag">Estrutura Institucional</span>
+            <h2 class="institutional-title" id="institutional-heading">Um espaço para <em>cuidar.</em></h2>
+            <p class="institutional-desc">
+              O Portal da Psicologia reúne profissionais comprometidos com uma prática ética, acolhedora e baseada em conhecimento científico. Nossa estrutura foi pensada para oferecer suporte aos profissionais e contribuir para uma experiência de atendimento de qualidade.
+            </p>
+            <div class="institutional-notice" role="status" aria-label="Modalidade de atendimento">
+              <span class="online-indicator-dot" aria-hidden="true"></span>
+              <span class="institutional-notice-text">Atendimentos exclusivamente on-line.</span>
+            </div>
+          </div>
+
+          <!-- Fotografia da Sede da Instituição -->
+          <div class="institutional-media">
+            <div class="institutional-image-frame" id="institutional-frame">
+              <!-- Fotografia da Sede (Proporção 4:3 equilibrada, entrada e fachada preservadas) -->
+              <img src="public/sede portal.jpeg" 
+                   alt="Fachada da sede do Portal da Psicologia" 
+                   class="institutional-image" 
+                   id="institutional-photo"
+                   loading="lazy" 
+                   decoding="async"
+                   onerror="this.style.display='none'; document.getElementById('institutional-placeholder').classList.add('is-visible');">
+
+              <!-- Espaço reservado estruturado caso a imagem esteja em carregamento -->
+              <div class="institutional-placeholder" id="institutional-placeholder" aria-hidden="true">
+                <div class="institutional-placeholder-icon">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 21h18"></path>
+                    <path d="M5 21V7l8-4v18"></path>
+                    <path d="M19 21V11l-6-4"></path>
+                    <path d="M9 9h1"></path>
+                    <path d="M9 13h1"></path>
+                    <path d="M9 17h1"></path>
+                  </svg>
+                </div>
+                <span class="institutional-placeholder-title">Estrutura Institucional</span>
+                <span class="institutional-placeholder-subtitle">Portal da Psicologia • Suporte Clínico e Qualidade</span>
+                <span class="institutional-placeholder-path"><code>public/sede portal.jpeg</code></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================================
          4. COMO FUNCIONA O ATENDIMENTO
          ======================================================================== -->
     <section class="section-padding" id="como-funciona" style="background-color: var(--bg-abyss);">
@@ -916,8 +975,6 @@
               
               <div class="team-identification">
                 <span class="team-crp-text"><strong>CRP:</strong> 07/43751</span>
-                <span class="team-id-separator" aria-hidden="true">·</span>
-                <span class="team-profession-text"><strong>Psicólogo Clínico</strong></span>
               </div>
 
               <div class="team-approach">
@@ -1076,6 +1133,7 @@
         </div>
       </div>
     </section>
+
 
 
     <!-- ========================================================================
@@ -1487,6 +1545,39 @@
             </div>
 
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         9.1 BLOCO INSTITUCIONAL: INFORMAÇÕES IMPORTANTES & RESPONSÁVEL TÉCNICA
+         Imediatamente acima do Footer existente.
+         ======================================================================== -->
+    <section class="institutional-info-block" id="informacoes-importantes" aria-label="Informações Importantes e Responsabilidade Técnica">
+      <div class="container">
+        <div class="institutional-info-container">
+
+          <!-- Aviso sobre Atendimento em Situações de Crise -->
+          <div class="crisis-notice-wrapper">
+            <span class="crisis-notice-tag">Importante</span>
+            <p class="crisis-notice-title">
+              O Portal da Psicologia não oferece atendimento emergencial para pessoas em situação de crise ou emergência psicológica.
+            </p>
+            <p class="crisis-notice-desc">
+              Em situações de urgência, procure imediatamente um serviço de emergência ou hospital próximo. Para apoio emocional, também é possível entrar em contato com o CVV pelo telefone <a href="tel:188" class="crisis-phone-link" aria-label="Ligar para o CVV no número 188">188</a> ou pelo <a href="https://www.cvv.org.br/" class="crisis-web-link" target="_blank" rel="noopener noreferrer">site oficial</a>.
+            </p>
+          </div>
+
+          <!-- Divisor Sutil -->
+          <div class="institutional-info-divider" role="separator" aria-hidden="true"></div>
+
+          <!-- Responsável Técnica -->
+          <div class="technical-lead-wrapper">
+            <span class="technical-lead-label">Psicóloga Responsável Técnica</span>
+            <h4 class="technical-lead-name">Thaiana Veronese Allonso</h4>
+            <span class="technical-lead-crp">CRP: 07/43554</span>
+          </div>
+
         </div>
       </div>
     </section>
